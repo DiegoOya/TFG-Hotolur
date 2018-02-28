@@ -9,8 +9,8 @@ public class ItemPickUp : Interactable {
     public override void Interact()
     {
         base.Interact();
-
-        PickUp();
+        if(Input.GetButtonDown("PickUp"))
+            PickUp();
     }
 
     void PickUp()

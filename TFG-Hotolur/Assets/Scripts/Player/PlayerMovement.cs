@@ -3,9 +3,16 @@
 public class PlayerMovement : MonoBehaviour
 {
     public float speedDampTime = 0.1f;
-    
+
+    private float h;
+
+    private bool jump = false;
+    private bool palmar = false;
+
     private Animator anim;
+
     private GameObject endGun;
+
     private HashIDs hash;
 
     private void Awake()
@@ -15,22 +22,23 @@ public class PlayerMovement : MonoBehaviour
         hash = GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<HashIDs>();
     }
 
-    private void FixedUpdate()
-    {
-        float h = Input.GetAxis("Horizontal");
-
-        bool jump = Input.GetButtonDown("Jump");
-
-        // Button aux for the dead animation
-        bool palmar = Input.GetButtonDown("Dead");
-        anim.SetBool(hash.deadBool, palmar);
-
-        MovementManagement(h, jump);
-    }
-
     private void Update()
     {
+        // Input in Update so there is no problems with the controls
+        h = Input.GetAxis("Horizontal");
+
+        jump = Input.GetButtonDown("Jump");
+
+        // Button aux for the dead animation
+        palmar = Input.GetButtonDown("Dead");
+        anim.SetBool(hash.deadBool, palmar);
+
         //AudioManagement();
+    }
+
+    private void FixedUpdate()
+    {
+        MovementManagement(h, jump);
     }
 
     void MovementManagement(float horizontal, bool jump)

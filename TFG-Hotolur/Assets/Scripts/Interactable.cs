@@ -3,9 +3,9 @@
 public class Interactable : MonoBehaviour {
 
     public float radius = 1f;
-    public Transform interactionTransform;
 
-    Transform player;
+    public Transform interactionTransform;
+    protected Transform player;
 
     private void Awake()
     {
@@ -24,7 +24,7 @@ public class Interactable : MonoBehaviour {
             (player.position.x - interactionTransform.position.x) * (player.position.x - interactionTransform.position.x) +
             (player.position.y - interactionTransform.position.y) * (player.position.y - interactionTransform.position.y));
 
-        if (distance <= radius && Input.GetButtonDown("PickUp"))
+        if (distance <= radius)
         {
             Interact();
         }
