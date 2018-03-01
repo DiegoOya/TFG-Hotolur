@@ -33,10 +33,11 @@ public class SmallAttack : MonoBehaviour, IPooledObject {
         float t = (Mathf.Abs(dist.x) / range) * timeToTarget;
 
         // Calculate the velocity of x and y axis
-        float v0y = (dist.y + 1.5f) / t + 0.5f * Physics.gravity.magnitude * t;
+        float v0y = (dist.y + 1f) / t + 0.5f * Physics.gravity.magnitude * t;
         float v0x = dist.x / t;
+        float v0z = dist.z / t;
 
-        return new Vector3(v0x, v0y, 0f);
+        return new Vector3(v0x, v0y, v0z);
     }
 
     public void SetPlayer(Transform pj)

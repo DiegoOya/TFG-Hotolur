@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxDamage: 20
-  timeToTarget: 1
+  timeToTarget: 2.5
 --- !u!135 &135715035558999476
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -1091,7 +1091,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15eaf1f1051c38f4f87ad4194e32395c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyHand: {fileID: 468301632}
+  enemyHand: {fileID: 1101062417}
+  throwAnim: {fileID: 7400000, guid: e711f805e97068d4996736d183f07a2b, type: 3}
 --- !u!114 &733586735
 MonoBehaviour:
   m_ObjectHideFlags: 0
