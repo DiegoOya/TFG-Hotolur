@@ -12,14 +12,10 @@ public class PlayerMovement : MonoBehaviour
     private Animator anim;
 
     private GameObject endGun;
-
-    private HashIDs hash;
-
+    
     private void Awake()
     {
         anim = GetComponent<Animator>();
-        
-        hash = GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<HashIDs>();
     }
 
     private void Update()
@@ -31,7 +27,8 @@ public class PlayerMovement : MonoBehaviour
 
         // Button aux for the dead animation
         palmar = Input.GetButtonDown("Dead");
-        anim.SetBool(hash.deadBool, palmar);
+        if(palmar)
+            anim.SetBool(HashIDs.instance.deadBool, palmar);
 
         //AudioManagement();
     }
@@ -43,17 +40,17 @@ public class PlayerMovement : MonoBehaviour
 
     void MovementManagement(float horizontal, bool jump)
     {
-        anim.SetBool(hash.jumpBool, jump);
+        anim.SetBool(HashIDs.instance.jumpBool, jump);
 
         if (horizontal != 0f)
         {
             if (horizontal > 0) GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(0f, 90f, 0f));
             else if(horizontal < 0) GetComponent<Rigidbody>().MoveRotation(Quaternion.Euler(0f, -90f, 0f));
-            anim.SetFloat(hash.speedFloat, 5.5f, speedDampTime, Time.deltaTime);
+            anim.SetFloat(HashIDs.instance.speedFloat, 5.5f, speedDampTime, Time.deltaTime);
         }
         else
         {
-            anim.SetFloat(hash.speedFloat, 0f);
+            anim.SetFloat(HashIDs.instance.speedFloat, 0f);
         }
     }
     /*

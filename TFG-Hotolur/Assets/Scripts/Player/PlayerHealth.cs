@@ -3,19 +3,32 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour {
-    public float health = 100;
 
-    private float maxHealth = 100f;
-    private Slider sliderHealth;
+    #region Singleton
+
+    public static PlayerHealth instance;
 
     private void Awake()
     {
-        sliderHealth = GameObject.FindGameObjectWithTag(Tags.healthBar).GetComponent<Slider>();
+        instance = this;
     }
+
+    #endregion
+
+    public float health = 100;
+
+    private float maxHealth = 100f;
+
+    private Slider sliderHealth;
+
+    Animator anim;
 
     private void Start()
     {
+        sliderHealth = GameObject.FindGameObjectWithTag(Tags.healthBar).GetComponent<Slider>();
         SliderSize();
+
+        anim = GetComponent<Animator>();
     }
 
 
@@ -55,18 +68,16 @@ public class PlayerHealth : MonoBehaviour {
     void Die()
     {
         // Animacion Die de prueba
-        gameObject.GetComponentInParent<Animator>().
-            SetBool(GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<HashIDs>().deadBool, true);
-
+        anim.SetBool(HashIDs.instance.deadBool, true);
+        
         StartCoroutine(DeactivateCollider());
     }
 
     IEnumerator DeactivateCollider()
     {
         yield return new WaitForSeconds(0.1f);
-
-        gameObject.GetComponentInParent<Animator>().
-            SetBool(GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<HashIDs>().deadBool, false);
+        
+        anim.SetBool(HashIDs.instance.deadBool, false);
 
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<CapsuleCollider>().enabled = false;

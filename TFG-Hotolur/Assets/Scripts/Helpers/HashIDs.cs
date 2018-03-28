@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 
 public class HashIDs : MonoBehaviour {
+
+    public static HashIDs instance;
+
     public int dyingState;
     public int deadBool;
     public int jumpBool;
@@ -16,6 +19,8 @@ public class HashIDs : MonoBehaviour {
 
     private void Awake()
     {
+        instance = this;
+
         dyingState = Animator.StringToHash("Base Layer.Dying");
         deadBool = Animator.StringToHash("Dead");
         jumpBool = Animator.StringToHash("Jump");
