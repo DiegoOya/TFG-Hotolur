@@ -23,6 +23,7 @@ public class ItemPickUp : Interactable {
         if (useItemInstantly)
         {
             // What does the item do?
+            item.Use();
         }
         else
         {

@@ -53,6 +53,14 @@ public class PlayerHealth : MonoBehaviour {
         }
     }
 
+    public void HealPlayer(float percentageHealth)
+    {
+        health += maxHealth * percentageHealth / 100;
+        health = Mathf.Min(health, maxHealth);
+
+        SliderValue();
+    }
+
     void SliderSize()
     {
         RectTransform rectBar = sliderHealth.gameObject.GetComponent<RectTransform>();
@@ -73,6 +81,8 @@ public class PlayerHealth : MonoBehaviour {
         StartCoroutine(DeactivateCollider());
     }
 
+    // When the player dies deactivate the colliders of the GameObject so it doesn't
+    // collide with anything
     IEnumerator DeactivateCollider()
     {
         yield return new WaitForSeconds(0.1f);
@@ -82,4 +92,11 @@ public class PlayerHealth : MonoBehaviour {
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<CapsuleCollider>().enabled = false;
     }
+
+    void SetMaxHealth(float maxHP)
+    {
+        maxHealth = maxHP;
+        SliderSize();
+    }
+
 }

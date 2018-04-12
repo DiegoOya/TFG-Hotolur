@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
         // Input in Update so there is no problems with the controls
         h = Input.GetAxis("Horizontal");
 
-        jump = Input.GetButtonDown("Jump");
+        jump = Input.GetButton("Jump");
 
         // Button aux for the dead animation
         palmar = Input.GetButtonDown("Dead");
