@@ -12,12 +12,6 @@ public class Interactable : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag(Tags.player).transform;
     }
 
-    public virtual void Interact()
-    {
-        // This method is going to be overwritten 
-        Debug.Log("Interacting with " + transform.name);
-    }
-
     private void Update()
     {
         float distance = Mathf.Sqrt(
@@ -28,6 +22,12 @@ public class Interactable : MonoBehaviour {
         {
             Interact();
         }
+    }
+
+    public virtual void Interact()
+    {
+        // This method is going to be overwritten 
+        Debug.Log("Interacting with " + transform.name);
     }
 
     private void OnDrawGizmosSelected()

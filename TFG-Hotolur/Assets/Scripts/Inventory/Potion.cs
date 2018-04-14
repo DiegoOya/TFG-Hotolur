@@ -5,12 +5,16 @@ public class Potion : Item {
 
     public int percentageHealthToHeal;
 
+    private PlayerHealth playerHealth;
+
     public override void Use()
     {
         base.Use();
 
+        playerHealth = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<PlayerHealth>();
+
         // This will use the object and cure the player healthToHeal % of the player
-        PlayerHealth.instance.HealPlayer(percentageHealthToHeal);
+        playerHealth.HealPlayer(percentageHealthToHeal);
     }
 
 }

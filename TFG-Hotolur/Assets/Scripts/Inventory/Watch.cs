@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Time Item", menuName = "Inventory/Item/Potion")]
-public class TimeItem : Item {
+public class Watch : Item {
 
     public int timeExtra;
 

@@ -25,7 +25,6 @@ public class JumpController : StateMachineBehaviour {
     private Animator anim;
 
     private float jumpTimeCounter;
-    private HashIDs hash;
 
     private void Awake()
     {
@@ -34,8 +33,6 @@ public class JumpController : StateMachineBehaviour {
         anim = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Animator>();
 
         groundLayer = LayerMask.GetMask("Ground");
-
-        hash = GameObject.FindGameObjectWithTag(Tags.gameController).GetComponent<HashIDs>();
     }
 
     public override void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex)
@@ -48,14 +45,14 @@ public class JumpController : StateMachineBehaviour {
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove(). Code that processes and affects root motion should be implemented here
-    override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
+    public override void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex) {
         float h = Input.GetAxis("Horizontal");
         rb.velocity = new Vector3(h * movForce, rb.velocity.y, rb.velocity.z);
 
         //determines whether our bool, grounded, is true or false by seeing if our groundcheck overlaps something on the ground layer
         isGrounded = Physics.CheckSphere(player.position - new Vector3(0f, 0.5f, 0f), groundCheckRadius, groundLayer);
                 
-        anim.SetBool(hash.isGroundedBool, isGrounded);
+        anim.SetBool(HasIDs.instance.isGroundedBool, isGrounded);
         
         //if you keep holding down the mouse button...
         if ((Input.GetButton("Jump")) && !stoppedJumping)

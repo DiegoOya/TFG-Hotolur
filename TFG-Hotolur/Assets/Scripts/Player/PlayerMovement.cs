@@ -4,10 +4,10 @@ public class PlayerMovement : MonoBehaviour
 {
     public float speedDampTime = 0.1f;
 
-    private float h;
+    private float mov;
 
     private bool jump = false;
-    private bool palmar = false;
+    private bool palmar = false; // To test the Dead animation
 
     private Animator anim;
 
@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         // Input in Update so there is no problems with the controls
-        h = Input.GetAxis("Horizontal");
+        mov = Input.GetAxis("Horizontal");
 
         jump = Input.GetButton("Jump");
 
@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MovementManagement(h, jump);
+        MovementManagement(mov, jump);
     }
 
     void MovementManagement(float horizontal, bool jump)

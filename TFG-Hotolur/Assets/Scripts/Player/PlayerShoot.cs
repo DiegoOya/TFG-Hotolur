@@ -2,18 +2,7 @@
 using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour {
-
-    #region Singleton
-
-    public static PlayerShoot instance;
-
-    void Awake()
-    {
-        instance = this;
-    }
-
-    #endregion
-
+    
     public float maxDamage = 10f;
     public float range = 50f;
     public float fireRate = 5f;
@@ -22,7 +11,7 @@ public class PlayerShoot : MonoBehaviour {
     private float timeNextShot = 0f;
     private LineRenderer laserShot;
 
-    private void Start()
+    private void Awake()
     {
         laserShot = GetComponent<LineRenderer>();
     }

@@ -3,30 +3,22 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour {
-
-    #region Singleton
-
-    public static PlayerHealth instance;
-
-    private void Awake()
-    {
-        instance = this;
-    }
-
-    #endregion
-
-    public float health = 100;
-
+    
+    private float health = 100;
     private float maxHealth = 100f;
 
     private Slider sliderHealth;
 
     Animator anim;
 
-    private void Start()
+    private void Awake()
     {
         sliderHealth = GameObject.FindGameObjectWithTag(Tags.healthBar).GetComponent<Slider>();
+
+        health = maxHealth;
+
         SliderSize();
+        SliderValue();
 
         anim = GetComponent<Animator>();
     }

@@ -53,11 +53,11 @@ public class SmallAttack : MonoBehaviour, IPooledObject {
     {
         yield return new WaitForSeconds(timeToTarget + timeToTarget / 4f);
 
-        IsCollisions(true);
+        IsCollision(true);
         gameObject.SetActive(false);
     }
 
-    void IsCollisions(bool value)
+    void IsCollision(bool value)
     {
         GetComponent<Collider>().isTrigger = !value;
         rb.velocity = Vector3.zero;
@@ -78,7 +78,7 @@ public class SmallAttack : MonoBehaviour, IPooledObject {
 
         if(other.gameObject.layer == 8)
         {
-            IsCollisions(false);
+            IsCollision(false);
         }
     }
 
