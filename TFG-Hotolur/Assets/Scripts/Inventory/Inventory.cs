@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Script used to manage the inventory of the player
+/// </summary>
 public class Inventory : MonoBehaviour {
 
     #region Singleton
@@ -22,20 +25,28 @@ public class Inventory : MonoBehaviour {
     public delegate void OnItemChanged();
     public OnItemChanged OnItemChangedCallBack;
 
+    // Space of the inventory
     public int space = 20;
 
-    public List<Item> items = new List<Item>();
+    // List of the items kept in the inventory
+    [SerializeField]
+    private List<Item> items = new List<Item>();
 
+    // Called when an object is added to the inventory
     public bool Add (Item item)
     {
+        // *********THIS IS TEMPORAL
         if (!item.isDefaultItem)
         {
+            // If there are no more space
             if(items.Count >= space)
             {
+                // It writes a message to the console and do not add the item
                 Debug.Log("Not enough room");
                 return false;
             }
 
+            // Add the item to the list
             items.Add(item);
 
             if(OnItemChangedCallBack != null)
@@ -45,8 +56,10 @@ public class Inventory : MonoBehaviour {
         return true;
     }
 
+    // Called when the item in the inventory is used or removed
     public void Remove(Item item)
     {
+        // Remove the item in the list
         items.Remove(item);
 
         if (OnItemChangedCallBack != null)

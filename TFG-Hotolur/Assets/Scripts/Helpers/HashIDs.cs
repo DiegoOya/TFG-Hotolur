@@ -1,7 +1,12 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This script is used as a helper to not call the function StringToHash() 
+/// everytime it is needed some variable of the Animator 
+/// </summary>
 public class HashIDs : MonoBehaviour {
 
+    // Singleton of HashIDs
     public static HashIDs instance;
 
     public int dyingState;
@@ -16,7 +21,9 @@ public class HashIDs : MonoBehaviour {
     public int aimWeightFloat;
     public int angularSpeedFloat;
     public int openBool;
+    public int throwBool;
 
+    // Initialize all variables
     private void Awake()
     {
         instance = this;
@@ -33,5 +40,6 @@ public class HashIDs : MonoBehaviour {
         aimWeightFloat = Animator.StringToHash("AimWeight");
         angularSpeedFloat = Animator.StringToHash("AngularSpeed");
         openBool = Animator.StringToHash("Open");
+        throwBool = Animator.StringToHash("Throw Attack");
     }
 }

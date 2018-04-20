@@ -1914,7 +1914,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 821372a8030597844924a0e0ffe7c389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
 --- !u!1 &406941447
 GameObject:
   m_ObjectHideFlags: 0
@@ -5254,6 +5253,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 114826050684159592, guid: 18a0e68d5e65cab40b85749e52732890,
+        type: 2}
+      propertyPath: item
+      value: 
+      objectReference: {fileID: 11400000, guid: 3d11f29718c4b1d41a57ce5f9a1b05cf,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 18a0e68d5e65cab40b85749e52732890, type: 2}
   m_IsPrefabParent: 0
@@ -5430,6 +5435,7 @@ MonoBehaviour:
   aimWeightFloat: 0
   angularSpeedFloat: 0
   openBool: 0
+  throwBool: 0
 --- !u!4 &1647071168
 Transform:
   m_ObjectHideFlags: 0

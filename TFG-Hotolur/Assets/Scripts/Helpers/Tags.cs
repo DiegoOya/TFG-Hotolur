@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// This script is used as a helper to not write everytime the tags
+/// </summary>
 public class Tags : MonoBehaviour {
     public const string player = "Player";
     public const string gameController = "GameController";

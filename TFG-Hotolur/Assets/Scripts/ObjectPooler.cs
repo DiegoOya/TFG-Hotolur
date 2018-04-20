@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Script to manage the objects in the pool
+/// </summary>
 public class ObjectPooler : MonoBehaviour {
 
+    // Class to manage the parameters needed of an object in the pool
     [System.Serializable]
     public class Pool
     {
@@ -23,9 +27,11 @@ public class ObjectPooler : MonoBehaviour {
 
     #endregion
 
+    // List of pools and the dictionary
     public List<Pool> pools;
     public Dictionary<string, Queue<GameObject>> poolDictionary;
 
+    // Initialize variables
     private void Start()
     {
         // Create a dictionary which will store the pools

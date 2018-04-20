@@ -1,6 +1,8 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Script used to manage the interaction of the enemy with the player
+/// </summary>
 public class Enemy : Interactable {
 
     // Detect player, approach and attack
@@ -8,6 +10,7 @@ public class Enemy : Interactable {
     {
         base.Interact();
 
+        // Temporal code to test enemy attack
         if (Input.GetKeyDown(KeyCode.L)) 
         {
             // This search for the script that inherit from IEnemyAttack to attack

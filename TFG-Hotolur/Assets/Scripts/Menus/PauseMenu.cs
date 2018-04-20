@@ -1,14 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Script used to manage the pause menu
+/// </summary>
 public class PauseMenu : MonoBehaviour {
 
+    // Variable to control when the game is paused or not
     public static bool gameIsPaused = false;
 
+    // GameObject of the pause menu
     public GameObject pauseMenuUI;
 
     private void Update()
-    {
+    {   
+        // If the escape button is pressed and the game is active, then pause, and backwards
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (gameIsPaused)
@@ -18,6 +24,7 @@ public class PauseMenu : MonoBehaviour {
         }
     }
 
+    // When pushed the resume button or the escape button, then resume the game
     public void Resume()
     {
         pauseMenuUI.SetActive(false);
@@ -25,6 +32,7 @@ public class PauseMenu : MonoBehaviour {
         gameIsPaused = false;
     }
 
+    // Pause the game
     void Pause()
     {
         pauseMenuUI.SetActive(true);
@@ -32,12 +40,14 @@ public class PauseMenu : MonoBehaviour {
         gameIsPaused = true;
     }
 
+    // Load the main menu scene
     public void LoadMenu()
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(0);
     } 
 
+    // When the quit button is pushed then quit the game
     public void QuitGame()
     {
         Application.Quit();

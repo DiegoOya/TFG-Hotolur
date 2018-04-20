@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Interface to simplify the attack of different type of enemies
+/// </summary>
 public interface IEnemyAttack {
 
-    // Attack the player
+    // Used to attack the player
     void Attack(Transform player, Transform enemy, float range);
 
 }

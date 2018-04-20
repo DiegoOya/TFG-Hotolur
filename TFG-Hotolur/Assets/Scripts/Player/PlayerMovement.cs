@@ -1,17 +1,22 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Script to manage the player movement
+/// </summary>
 public class PlayerMovement : MonoBehaviour
 {
+    // Variable to specify the time until the movement speed reaches its maximum
     public float speedDampTime = 0.1f;
 
+    // Variables to control the movement and jump
     private float mov;
 
     private bool jump = false;
     private bool palmar = false; // To test the Dead animation
 
     private Animator anim;
-
-    private GameObject endGun;
+    
+    //private GameObject endGun;
     
     private void Awake()
     {
@@ -38,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
         MovementManagement(mov, jump);
     }
 
-    void MovementManagement(float horizontal, bool jump)
+    private void MovementManagement(float horizontal, bool jump)
     {
         anim.SetBool(HashIDs.instance.jumpBool, jump);
 
@@ -53,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
             anim.SetFloat(HashIDs.instance.speedFloat, 0f);
         }
     }
+
     /*
     void AudioManagement()
     {
