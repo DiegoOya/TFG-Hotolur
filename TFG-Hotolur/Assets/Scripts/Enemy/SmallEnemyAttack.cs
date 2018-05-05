@@ -46,7 +46,7 @@ public class SmallEnemyAttack : MonoBehaviour, IEnemyAttack {
     }
 
     // Coroutine of the enemy attack
-    IEnumerator DoAttack(Transform player, Transform enemy, float range)
+    private IEnumerator DoAttack(Transform player, Transform enemy, float range)
     {
         // Activate anim
         anim.SetBool(HashIDs.instance.throwBool, true);
@@ -58,7 +58,7 @@ public class SmallEnemyAttack : MonoBehaviour, IEnemyAttack {
 
         // Instantiate the attack and deactivate the animation
         objPooler.SpawnFromPool("Small Weapon", enemyHand.position, Quaternion.identity, player, enemy, range);
-        anim.SetBool(Animator.StringToHash("Throw Attack"), false);
+        anim.SetBool(HashIDs.instance.throwBool, false);
 
         // Reset attackCoolDown
         attackCoolDown = timeThrowAnim / anim.GetCurrentAnimatorStateInfo(0).speed;

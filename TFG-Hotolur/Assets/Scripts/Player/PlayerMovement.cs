@@ -11,7 +11,8 @@ public class PlayerMovement : MonoBehaviour
     // Variables to control the movement and jump
     private float mov;
 
-    private bool jump = false;
+    public bool jump = false;
+
     private bool palmar = false; // To test the Dead animation
 
     private Animator anim;

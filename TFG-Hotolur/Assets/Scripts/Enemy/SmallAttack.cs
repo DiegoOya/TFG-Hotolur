@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
 /// <summary>
 /// Script used to manage the object used as the weapon of the enemy when they trow it
 /// This script has to be attached to such weapon 
@@ -19,9 +18,11 @@ public class SmallAttack : MonoBehaviour, IPooledObject {
 
     private Rigidbody rb;
 
+    private Animator playerAnim;
+
     private void Awake()
     {
-        // Get the Rigidbody of the GameObject
+        // Initialize variables
         rb = GetComponent<Rigidbody>();
     }
 
@@ -83,10 +84,10 @@ public class SmallAttack : MonoBehaviour, IPooledObject {
             float damage = (Mathf.Sqrt(distance) / range) * maxDamage;
 
             // The player takes the damage
-            other.gameObject.GetComponent<PlayerHealth>().TakeDamage(damage);
+            player.GetComponent<PlayerHealth>().TakeDamage(damage);
             Debug.Log("The damage taken by " + other.gameObject.name + " is " + damage);
 
-            gameObject.SetActive(false);
+            StartCoroutine(HitReaction());
         }
 
         // If it touches the ground
@@ -97,10 +98,23 @@ public class SmallAttack : MonoBehaviour, IPooledObject {
         }
     }
 
-    // Set the player to pj
+    // Activate hit reaction animation
+    private IEnumerator HitReaction()
+    {
+        playerAnim.SetBool(HashIDs.instance.hitBool, true);
+
+        yield return new WaitForSeconds(0.001f);
+
+        playerAnim.SetBool(HashIDs.instance.hitBool, false);
+
+        gameObject.SetActive(false);
+    }
+
+    // Set the player to pj and its animator
     public void SetPlayer(Transform pj)
     {
         player = pj;
+        playerAnim = player.GetComponent<Animator>();
     }
 
     // Set the range to r

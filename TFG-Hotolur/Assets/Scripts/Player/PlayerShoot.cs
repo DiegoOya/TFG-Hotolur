@@ -14,29 +14,44 @@ public class PlayerShoot : MonoBehaviour {
     // Variables to determine the damage of the gun and the next time the gun shoots
     private float damage = 0f;
     private float timeNextShot = 0f;
+
     private LineRenderer laserShot;
+
+    private Animator anim;
+
+    private PlayerMovement playerMovement;
 
     // Initialize laserShot
     private void Awake()
     {
         laserShot = GetComponent<LineRenderer>();
+        anim = GetComponentInParent<Animator>();
+        playerMovement = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<PlayerMovement>();
     }
 
     private void Update()
     {
         // If Fire1 button is pressed and has passed timeNextShot, then shoot
-        if (Input.GetButton("Fire1") && Time.time >= timeNextShot)
+        if (Input.GetButton("Fire1") && Time.time >= timeNextShot &&
+            anim.GetNextAnimatorStateInfo(1).fullPathHash != HashIDs.instance.hitState &&
+            anim.GetNextAnimatorStateInfo(1).fullPathHash != HashIDs.instance.pickUpState)
         {
             // Update timeNextShot and shoot
             timeNextShot = Time.time + 1f / fireRate;
             Shoot();
         }
+
+        // If Fire1 is unpressed, then set shoot in the animator to false
+        if(Input.GetButtonUp("Fire1"))
+            anim.SetBool(HashIDs.instance.shootBool, false);
     }
 
     private void Shoot()
     {
         //*********No me gusta el LineRenderer, pero como forma de Debug no esta mal 
         StartCoroutine(ShotEffect());
+
+        anim.SetBool(HashIDs.instance.shootBool, true);
 
         laserShot.SetPosition(0, transform.position);
 
