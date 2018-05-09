@@ -90,12 +90,12 @@ public class SmallAttack : MonoBehaviour, IPooledObject {
             StartCoroutine(HitReaction());
         }
 
-        // If it touches the ground
-        if(other.gameObject.layer == 8)
-        {
-            // Changes the collider to trigger
-            IsCollision(false);
-        }
+        // // If it touches the ground
+        // if(other.gameObject.layer == 8)
+        // {
+        //     // Changes the collider to trigger
+        //     IsCollision(false);
+        // }
     }
 
     // Activate hit reaction animation

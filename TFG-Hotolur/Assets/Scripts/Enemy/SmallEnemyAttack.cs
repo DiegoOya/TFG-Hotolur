@@ -13,12 +13,14 @@ public class SmallEnemyAttack : MonoBehaviour, IEnemyAttack {
     [HideInInspector]
     public AnimationClip throwAnim;
 
-    ObjectPooler objPooler;
+    private bool isAttacking = false;
 
-    float attackCoolDown = 0f;
-    float timeThrowAnim;
+    private ObjectPooler objPooler;
 
-    Animator anim;
+    private float attackCoolDown = 0f;
+    private float timeThrowAnim;
+
+    private Animator anim;
 
     // Initialize variables
     private void Start()
@@ -32,16 +34,20 @@ public class SmallEnemyAttack : MonoBehaviour, IEnemyAttack {
     {
         // Decrease attackCoolDown
         attackCoolDown -= Time.deltaTime;
+
+        if (attackCoolDown <= 0f && !anim.GetBool(HashIDs.instance.throwBool))
+            isAttacking = false;
     }
 
-    // Here is the AI of the attack and the attack per se ******NOT IMPLEMENTED YET
+    // Here is the AI of the attack and the attack per se
     public void Attack(Transform player, Transform enemy, float range)
     {
         if(attackCoolDown <= 0f && !anim.GetBool(HashIDs.instance.throwBool))
         {
             StartCoroutine(DoAttack(player, enemy, range));
-            
-            
+
+            // Reset attackCoolDown
+            attackCoolDown = timeThrowAnim / anim.GetCurrentAnimatorStateInfo(0).speed;
         }
     }
 
@@ -50,6 +56,7 @@ public class SmallEnemyAttack : MonoBehaviour, IEnemyAttack {
     {
         // Activate anim
         anim.SetBool(HashIDs.instance.throwBool, true);
+        isAttacking = true;
 
         yield return new WaitForSeconds(0.001f);
 
@@ -59,9 +66,11 @@ public class SmallEnemyAttack : MonoBehaviour, IEnemyAttack {
         // Instantiate the attack and deactivate the animation
         objPooler.SpawnFromPool("Small Weapon", enemyHand.position, Quaternion.identity, player, enemy, range);
         anim.SetBool(HashIDs.instance.throwBool, false);
+    }
 
-        // Reset attackCoolDown
-        attackCoolDown = timeThrowAnim / anim.GetCurrentAnimatorStateInfo(0).speed;
+    public bool IsAttacking()
+    {
+        return isAttacking;
     }
 
 }

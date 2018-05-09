@@ -6,14 +6,14 @@
 public class JumpController : StateMachineBehaviour {
     // Force used to jump, the max time of the jump to be allowed to happen,
     // and a counter to track how long it has been jumping
-    public float jumpForce;
-    public float movForce;
-    public float jumpTime;
+    [SerializeField] private float jumpForce;
+    [SerializeField] private float movForce;
+    [SerializeField] private float jumpTime;
 
     // The public transform is how you will detect whether we are touching the ground.
     // Add an empty game object as a child of your player and position it at your feet, where you touch the ground.
     // the float groundCheckRadius allows you to set a radius for the groundCheck, to adjust the way you interact with the ground
-    public float groundCheckRadius;
+    [SerializeField] private float groundCheckRadius;
 
     private Transform player;
 
@@ -58,16 +58,20 @@ public class JumpController : StateMachineBehaviour {
     // and if it is not, then stops the Jump animation
     public override void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        // Get the horizontal input so the player could move sideways in midair
-        float h = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector3(h * movForce, rb.velocity.y, rb.velocity.z);
-
+        // If the time counter is greater than 0 or the player stopped jumping 
+        // then get the horizontal input so the player can move sideways in midair
+        if(jumpTimeCounter > 0 || !stoppedJumping)
+        {
+            float h = Input.GetAxis("Horizontal");
+            rb.velocity = new Vector3(h * movForce, rb.velocity.y, rb.velocity.z);
+        }
+        
         // Determines whether isGrounded is true or false by seeing if groundcheck overlaps with some object of the ground layer
         isGrounded = Physics.CheckSphere(player.position - new Vector3(0f, 0.5f, 0f), groundCheckRadius, groundLayer);
                 
         anim.SetBool(HashIDs.instance.isGroundedBool, isGrounded);
         
-        // If the Jump button is kept holding down
+        // If the Jump button is being kept holding down
         if ((Input.GetButton("Jump")) && !stoppedJumping)
         {
             // And jumpTimeCounter hasn't reached zero
@@ -76,6 +80,11 @@ public class JumpController : StateMachineBehaviour {
                 // Keep jumping and decrease jumpTimeCounter
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
                 jumpTimeCounter -= Time.deltaTime;
+                Debug.Log(jumpTimeCounter);
+            }
+            else
+            {
+                stoppedJumping = true;
             }
         }
 

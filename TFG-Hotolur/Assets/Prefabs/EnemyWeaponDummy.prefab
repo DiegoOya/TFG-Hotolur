@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 23483028111650008}
   - component: {fileID: 54021384294367702}
   - component: {fileID: 114320200948823024}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: EnemyWeaponDummy
   m_TagString: Untagged
   m_Icon: {fileID: 0}

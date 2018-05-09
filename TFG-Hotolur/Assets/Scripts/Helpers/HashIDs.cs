@@ -22,6 +22,7 @@ public class HashIDs : MonoBehaviour {
     public int angularSpeedFloat;
     public int openBool;
     public int throwBool;
+    public int meleeBool;
     public int shootBool;
     public int hitBool;
     public int pickUpBool;
@@ -46,6 +47,7 @@ public class HashIDs : MonoBehaviour {
         angularSpeedFloat = Animator.StringToHash("AngularSpeed");
         openBool = Animator.StringToHash("Open");
         throwBool = Animator.StringToHash("Throw Attack");
+        meleeBool = Animator.StringToHash("Melee Attack");
         shootBool = Animator.StringToHash("Shoot");
         hitBool = Animator.StringToHash("Hit");
         pickUpBool = Animator.StringToHash("PickUp");

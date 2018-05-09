@@ -11,6 +11,8 @@ public class Interactable : MonoBehaviour {
     // If you prefer you can assign another transform to calculate the radious
     public Transform interactionTransform;
 
+    protected float distance;
+
     // Transform of the player and protected so it can be extended to child classes
     protected Transform player;
 
@@ -23,7 +25,7 @@ public class Interactable : MonoBehaviour {
     private void Update()
     {
         // Calculate the distance between the player and the interactable
-        float distance = Mathf.Sqrt(
+        distance = Mathf.Sqrt(
             (player.position.x - interactionTransform.position.x) * (player.position.x - interactionTransform.position.x) +
             (player.position.y - interactionTransform.position.y) * (player.position.y - interactionTransform.position.y));
 

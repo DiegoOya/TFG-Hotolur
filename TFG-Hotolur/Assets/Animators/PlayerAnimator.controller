@@ -86,10 +86,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c3ba59f300ff204bb3fe147d1b0cef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpForce: 5
+  jumpForce: 6
   movForce: 4
   jumpTime: 0.3
-  groundCheckRadius: 0.3
+  groundCheckRadius: 0.1
 --- !u!206 &206476927538841260
 BlendTree:
   m_ObjectHideFlags: 1
