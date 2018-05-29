@@ -35,23 +35,19 @@ public class Inventory : MonoBehaviour {
     // Called when an object is added to the inventory
     public bool Add (Item item)
     {
-        // *********THIS IS TEMPORAL
-        if (!item.isDefaultItem)
+        // If there are no more space
+        if(items.Count >= space)
         {
-            // If there are no more space
-            if(items.Count >= space)
-            {
-                // It writes a message to the console and do not add the item
-                Debug.Log("Not enough room");
-                return false;
-            }
-
-            // Add the item to the list
-            items.Add(item);
-
-            if(OnItemChangedCallBack != null)
-                OnItemChangedCallBack.Invoke();
+            // It writes a message to the console and do not add the item
+            Debug.Log("Not enough room");
+            return false;
         }
+
+        // Add the item to the list
+        items.Add(item);
+
+        if(OnItemChangedCallBack != null)
+            OnItemChangedCallBack.Invoke();
 
         return true;
     }

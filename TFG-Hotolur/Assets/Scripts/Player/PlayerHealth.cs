@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Script to manage the player health and the death of the player
@@ -11,6 +12,12 @@ public class PlayerHealth : MonoBehaviour {
     public float maxHealth = 100f;
 
     private float health = 100;
+
+    // Booleans to check if the player took damage or died
+    [HideInInspector]
+    public bool isHurt = false;
+    [HideInInspector]
+    public bool isDead = false;
 
     // Slider that will tell the player health
     private Slider sliderHealth;
@@ -32,13 +39,15 @@ public class PlayerHealth : MonoBehaviour {
 
         anim = GetComponent<Animator>();
     }
-
-
-    //*****Update de prueba para comprobar que baja la vida de verdad
+    
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-            TakeDamage(10f);
+        // When the player falls down, the player dies
+        if (transform.position.y < -10f)
+        {
+            // And because the player is not seen then only restart the scene
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
 
@@ -49,12 +58,25 @@ public class PlayerHealth : MonoBehaviour {
         health -= damage;
 
         SliderValue();
-
+        StartCoroutine(HitReaction());
+        
         // If the player health is less than 0, then the player dies
         if (health <= 0f)
         {
             Die();
-        }
+        }   
+    }
+
+    // Activate hit reaction animation
+    private IEnumerator HitReaction()
+    {
+        anim.SetBool(HashIDs.instance.hitBool, true);
+
+        isHurt = true;
+
+        yield return new WaitForSeconds(0.001f);
+
+        anim.SetBool(HashIDs.instance.hitBool, false);
     }
 
     // Called when the player uses a potion
@@ -98,8 +120,15 @@ public class PlayerHealth : MonoBehaviour {
         
         anim.SetBool(HashIDs.instance.deadBool, false);
 
+        isDead = true;
+
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<CapsuleCollider>().enabled = false;
+
+        // Wait 5 seconds and restart the level
+        yield return new WaitForSeconds(5.0f);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     // Called to set maxHealth from other scripts 
@@ -108,5 +137,5 @@ public class PlayerHealth : MonoBehaviour {
         maxHealth = maxHP;
         SliderSize();
     }
-
+    
 }

@@ -18,6 +18,12 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
     [HideInInspector]
     public AnimationClip meleeAnim;
 
+    // References of the attack sounds
+    [HideInInspector]
+    public AudioClip audioThrow;
+    [HideInInspector]
+    public AudioClip audioMelee;
+
     private bool isAttacking = false;
 
     private ObjectPooler objPooler;
@@ -31,6 +37,8 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
 
     private Animator anim;
 
+    private AudioSource audioSource;
+
     // Initialize variables
     private void Start()
     {
@@ -39,6 +47,8 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
         anim = GetComponent<Animator>();
         timeThrowAnim = throwAnim.length;
         timeMeleeAnim = meleeAnim.length;
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -93,6 +103,9 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
         // Instantiate the attack and deactivate the animation
         objPooler.SpawnFromPool("Small Weapon", enemyHand.position, Quaternion.identity, player, enemy, range);
         anim.SetBool(HashIDs.instance.throwBool, false);
+
+        audioSource.clip = audioThrow;
+        audioSource.Play();
     }
 
     // Coroutine of the enemy short range attack
@@ -101,6 +114,9 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
         // Activate anim
         anim.SetBool(HashIDs.instance.meleeBool, true);
         isAttacking = true;
+
+        audioSource.clip = audioMelee;
+        audioSource.Play();
 
         yield return new WaitForSeconds(0.001f);
 

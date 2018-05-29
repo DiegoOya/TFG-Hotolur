@@ -5,12 +5,8 @@
 /// </summary>
 public class CameraController : MonoBehaviour
 {
-    // Variables para marcar el rango de movimiento de la cámara en el eje x y el objetivo de la cámara
-    //public GameObject ini;
-    //public GameObject fin;
-
-    [SerializeField]
-    private float smoothing = 1f;
+    [HideInInspector]
+    public float cameraVelX = 0f;
 
     // Reference of the player
     private GameObject player;
@@ -18,10 +14,13 @@ public class CameraController : MonoBehaviour
     // This will control the offset between the camera and the player
     private Vector3 offset;
 
+    private Rigidbody rb;
+
     // Initialize the variables
     void Awake()
     {
         player = GameObject.FindGameObjectWithTag(Tags.player);
+        rb = player.GetComponent<Rigidbody>();
         offset = transform.position - player.transform.position;
     }
 
@@ -31,6 +30,7 @@ public class CameraController : MonoBehaviour
         Vector3 newPos = new Vector3(player.transform.position.x + offset.x, transform.position.y, transform.position.z);
 
         transform.position = newPos;
-        //transform.position = new Vector3(Mathf.Clamp(transform.position.x, ini.transform.position.x + 26, fin.transform.position.x - 26), transform.position.y, transform.position.z);
+
+        cameraVelX = rb.velocity.x;
     }
 }

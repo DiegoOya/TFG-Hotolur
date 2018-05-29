@@ -23,10 +23,14 @@ public class ItemPickUp : Interactable {
 
     private Animator anim;
 
+    private AudioSource audioSource;
+
     private void Start()
     {
         timePickUpAnim = pickUpAnim.length;
         anim = player.GetComponent<Animator>();
+
+        audioSource = player.GetComponents<AudioSource>()[2];
     }
 
     // Called when the player can interact with the item
@@ -34,7 +38,7 @@ public class ItemPickUp : Interactable {
     {
         // If the PickUp button is pressed the pick up the item
         base.Interact();
-        if (Input.GetButtonDown("PickUp"))
+        if (Input.GetButtonDown("PickUp") && anim.GetCurrentAnimatorStateInfo(0).fullPathHash != HashIDs.instance.hitState)
             StartCoroutine(PickUpObject());
     }
 
@@ -50,10 +54,18 @@ public class ItemPickUp : Interactable {
         {
             // What does the item do?
             item.Use();
+
+            audioSource.clip = item.sound;
+            audioSource.Play();
+
+            Destroy(gameObject);
         }
         else
         {
             pickedUp = Inventory.instance.Add(item);
+
+            audioSource.clip = item.sound;
+            audioSource.Play();
         }
 
         // If the object was picked up then destroy the object

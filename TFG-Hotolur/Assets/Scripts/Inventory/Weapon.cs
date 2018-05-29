@@ -20,7 +20,7 @@ public class Weapon : Item {
         base.Use();
 
         // Initialize playerShoot
-        playerShoot = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<PlayerShoot>();
+        playerShoot = GameObject.FindGameObjectWithTag(Tags.player).GetComponentInChildren<PlayerShoot>();
 
         // This will equip the weapon and return the weapon the player has equipped
         // If there is a model of the gun replace it with the actual weapon of the player

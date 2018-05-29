@@ -11,14 +11,11 @@ public class SmallAttack : MonoBehaviour, IPooledObject {
     public float timeToTarget = 5f;
 
     private Transform player;
-    private Transform enemy;
 
     private float range;
     private float distance;
 
     private Rigidbody rb;
-
-    private Animator playerAnim;
 
     private void Awake()
     {
@@ -87,7 +84,7 @@ public class SmallAttack : MonoBehaviour, IPooledObject {
             player.GetComponent<PlayerHealth>().TakeDamage(damage);
             Debug.Log("The damage taken by " + other.gameObject.name + " is " + damage);
 
-            StartCoroutine(HitReaction());
+            gameObject.SetActive(false);
         }
 
         // // If it touches the ground
@@ -98,35 +95,16 @@ public class SmallAttack : MonoBehaviour, IPooledObject {
         // }
     }
 
-    // Activate hit reaction animation
-    private IEnumerator HitReaction()
-    {
-        playerAnim.SetBool(HashIDs.instance.hitBool, true);
-
-        yield return new WaitForSeconds(0.001f);
-
-        playerAnim.SetBool(HashIDs.instance.hitBool, false);
-
-        gameObject.SetActive(false);
-    }
-
     // Set the player to pj and its animator
     public void SetPlayer(Transform pj)
     {
         player = pj;
-        playerAnim = player.GetComponent<Animator>();
     }
 
     // Set the range to r
     public void SetRange(float r)
     {
         range = r;
-    }
-
-    // Set the enemy to en
-    public void SetEnemy(Transform en)
-    {
-        enemy = en;
     }
 
 }

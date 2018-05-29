@@ -689,6 +689,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4618389653281168}
+  - component: {fileID: 135557959602073014}
   - component: {fileID: 114119599245736500}
   m_Layer: 0
   m_Name: WeaponHolder
@@ -1577,7 +1578,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1321839739309156}
   m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 16.18, y: 0.5, z: 0}
+  m_LocalPosition: {x: 20.557318, y: -6.4399996, z: -16.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4067745910216254}
@@ -2266,7 +2267,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1228e00b978cd8b48b7f289f96ede22e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meleeRadius: 0.15
   meleeDamage: 25
 --- !u!114 &114342913515100160
 MonoBehaviour:
@@ -2279,9 +2279,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7591c7431704f04a99ac3b494f9f795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 8
+  radius: 10
   interactionTransform: {fileID: 4456575287732174}
-  attackRadius: 4
+  attackRadius: 5
   turnSmoothing: 5
 --- !u!114 &114439154889490562
 MonoBehaviour:
@@ -2310,6 +2310,8 @@ MonoBehaviour:
   enemyHand: {fileID: 4618389653281168}
   throwAnim: {fileID: 7400000, guid: e711f805e97068d4996736d183f07a2b, type: 3}
   meleeAnim: {fileID: 7400000, guid: 4e62c965b2ca2ce49b9cdb4090e16ac3, type: 3}
+  audioThrow: {fileID: 8300000, guid: b1c669d0586669a4b8a93262c37be692, type: 3}
+  audioMelee: {fileID: 8300000, guid: bbfb839001c871d4abc981c5616ab9b7, type: 3}
   shortRangeRadius: 2
 --- !u!114 &114596867623811858
 MonoBehaviour:
@@ -2329,6 +2331,18 @@ MonoBehaviour:
   m_MoveSpeedMultiplier: 1
   m_AnimSpeedMultiplier: 1
   m_GroundCheckDistance: 0.1
+--- !u!135 &135557959602073014
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1587075516638510}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Center: {x: -0, y: 0.1, z: 0}
 --- !u!136 &136398707754968922
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -7,39 +7,21 @@ public class JumpController : StateMachineBehaviour {
     // Force used to jump, the max time of the jump to be allowed to happen,
     // and a counter to track how long it has been jumping
     [SerializeField] private float jumpForce;
-    [SerializeField] private float movForce;
     [SerializeField] private float jumpTime;
+    private float jumpTimeCounter;
 
-    // The public transform is how you will detect whether we are touching the ground.
-    // Add an empty game object as a child of your player and position it at your feet, where you touch the ground.
-    // the float groundCheckRadius allows you to set a radius for the groundCheck, to adjust the way you interact with the ground
-    [SerializeField] private float groundCheckRadius;
-
-    private Transform player;
-
-    // This bool is to tell us whether you are on the ground or not
-    // the layermask lets you select a layer to be ground
-    // You will need to create a layer named ground(or whatever you like) and assign your
-    // ground objects to this layer.
     // The stoppedJumping bool lets us track when the player stops jumping.
-    private bool isGrounded;
     private bool stoppedJumping;
-
-    private LayerMask groundLayer;
     
     private Rigidbody rb;
 
-    private Animator anim;
-
-    private float jumpTimeCounter;
+    private AudioSource playerAudioSource;
 
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag(Tags.player).transform;
         rb = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Rigidbody>();
-        anim = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Animator>();
 
-        groundLayer = LayerMask.GetMask("Ground");
+        playerAudioSource = GameObject.FindGameObjectWithTag(Tags.player).GetComponents<AudioSource>()[1];
     }
 
     // Called when the animation starts
@@ -51,26 +33,15 @@ public class JumpController : StateMachineBehaviour {
         // Add the velocity in the Y axis so the player can jump and stoppedJumping initialized to false
         rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
         stoppedJumping = false;
+
+        playerAudioSource.Play();
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()
     // Check if the Player is still jumping, if it is, then keep the player on the air
     // and if it is not, then stops the Jump animation
     public override void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    {
-        // If the time counter is greater than 0 or the player stopped jumping 
-        // then get the horizontal input so the player can move sideways in midair
-        if(jumpTimeCounter > 0 || !stoppedJumping)
-        {
-            float h = Input.GetAxis("Horizontal");
-            rb.velocity = new Vector3(h * movForce, rb.velocity.y, rb.velocity.z);
-        }
-        
-        // Determines whether isGrounded is true or false by seeing if groundcheck overlaps with some object of the ground layer
-        isGrounded = Physics.CheckSphere(player.position - new Vector3(0f, 0.5f, 0f), groundCheckRadius, groundLayer);
-                
-        anim.SetBool(HashIDs.instance.isGroundedBool, isGrounded);
-        
+    {        
         // If the Jump button is being kept holding down
         if ((Input.GetButton("Jump")) && !stoppedJumping)
         {
@@ -80,7 +51,6 @@ public class JumpController : StateMachineBehaviour {
                 // Keep jumping and decrease jumpTimeCounter
                 rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
                 jumpTimeCounter -= Time.deltaTime;
-                Debug.Log(jumpTimeCounter);
             }
             else
             {

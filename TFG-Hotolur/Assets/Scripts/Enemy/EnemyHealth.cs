@@ -11,10 +11,14 @@ public class EnemyHealth : MonoBehaviour {
 
     private float health;
 
+    private Animator anim;
+
     private void Start()
     {
         // Initialize health
         health = maxHealth;
+
+        anim = gameObject.GetComponent<Animator>();
     }
 
     // Make the enemy lose health
@@ -33,7 +37,7 @@ public class EnemyHealth : MonoBehaviour {
     private void Die()
     {
         // Animacion Die de prueba
-        gameObject.GetComponentInParent<Animator>().SetBool(HashIDs.instance.deadBool, true);
+        anim.SetBool(HashIDs.instance.deadBool, true);
 
         StartCoroutine(DeactivateEnemy());
     }
@@ -44,7 +48,7 @@ public class EnemyHealth : MonoBehaviour {
         yield return new WaitForSeconds(0.1f);
 
         // Deactivate the Dead animation, the gravity and the collider of the enemy
-        gameObject.GetComponentInParent<Animator>().SetBool(HashIDs.instance.deadBool, false);
+        anim.SetBool(HashIDs.instance.deadBool, false);
 
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<CapsuleCollider>().enabled = false;

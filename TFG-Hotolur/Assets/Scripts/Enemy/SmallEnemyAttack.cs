@@ -22,12 +22,16 @@ public class SmallEnemyAttack : MonoBehaviour, IEnemyAttack {
 
     private Animator anim;
 
+    private AudioSource audioSource;
+
     // Initialize variables
     private void Start()
     {
         objPooler = ObjectPooler.instance;
         anim = GetComponent<Animator>();
         timeThrowAnim = throwAnim.length;
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -57,7 +61,7 @@ public class SmallEnemyAttack : MonoBehaviour, IEnemyAttack {
         // Activate anim
         anim.SetBool(HashIDs.instance.throwBool, true);
         isAttacking = true;
-
+        
         yield return new WaitForSeconds(0.001f);
 
         // Wait the time needed to throw the attack in the optimal gesture of the animation
@@ -66,6 +70,8 @@ public class SmallEnemyAttack : MonoBehaviour, IEnemyAttack {
         // Instantiate the attack and deactivate the animation
         objPooler.SpawnFromPool("Small Weapon", enemyHand.position, Quaternion.identity, player, enemy, range);
         anim.SetBool(HashIDs.instance.throwBool, false);
+
+        audioSource.Play();
     }
 
     public bool IsAttacking()

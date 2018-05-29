@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Script to manage the attack of the player
@@ -15,18 +14,16 @@ public class PlayerShoot : MonoBehaviour {
     private float damage = 0f;
     private float timeNextShot = 0f;
 
-    private LineRenderer laserShot;
+    private AudioSource audioSource;
 
     private Animator anim;
-
-    private PlayerMovement playerMovement;
 
     // Initialize laserShot
     private void Awake()
     {
-        laserShot = GetComponent<LineRenderer>();
         anim = GetComponentInParent<Animator>();
-        playerMovement = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<PlayerMovement>();
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -43,17 +40,21 @@ public class PlayerShoot : MonoBehaviour {
 
         // If Fire1 is unpressed, then set shoot in the animator to false
         if(Input.GetButtonUp("Fire1"))
+        {
             anim.SetBool(HashIDs.instance.shootBool, false);
+
+            // Stop the sound effect
+            audioSource.Stop();
+        }
     }
 
     private void Shoot()
     {
-        //*********No me gusta el LineRenderer, pero como forma de Debug no esta mal 
-        StartCoroutine(ShotEffect());
-
         anim.SetBool(HashIDs.instance.shootBool, true);
 
-        laserShot.SetPosition(0, transform.position);
+        // If audioSource is not playing then play the sound effect 
+        if(!audioSource.isPlaying)
+            audioSource.Play();
 
         // Apply a raycast and if it hit something, make sure it is the enemy and deal damage
         RaycastHit hit;
@@ -62,17 +63,11 @@ public class PlayerShoot : MonoBehaviour {
         {
             if (hit.transform.CompareTag(Tags.enemy))
             {
-                laserShot.SetPosition(1, hit.point);
-
                 //Calculates damage proportional by the distance
                 damage = CalculateDamage(hit);
-
+                Debug.Log("Enemy attacked: " + damage + " damage");
                 hit.transform.GetComponent<EnemyHealth>().TakeDamage(damage);
             }
-        }
-        else
-        {
-            laserShot.SetPosition(1, transform.forward * range);
         }
     }
     
@@ -86,13 +81,4 @@ public class PlayerShoot : MonoBehaviour {
         return dmg;
     }
 
-    // Called to control the time the line renderer is active
-    private IEnumerator ShotEffect()
-    {
-        laserShot.enabled = true;
-
-        yield return new WaitForSeconds(0.07f);
-
-        laserShot.enabled = false;
-    }
 }

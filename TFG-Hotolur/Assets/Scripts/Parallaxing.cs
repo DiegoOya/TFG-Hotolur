@@ -12,7 +12,6 @@ public class Parallaxing : MonoBehaviour {
     private float smoothing = 1f;
 
     // Array of all the back and foregrounds to be parallaxed
-    [SerializeField]
     private Transform[] backgrounds;
 
     private Transform cam;
@@ -20,25 +19,17 @@ public class Parallaxing : MonoBehaviour {
     // The position of the camera in the previous frame
     private Vector3 previousCamPos;
 
-    // Get the reference of the camera Transform
+    // Assign the components needed
     private void Awake()
     {
-        cam = Camera.main.transform;
-    }
-
-    //Initialize the variables
-    private void Start()
-    {
-        previousCamPos = cam.position;
-
-        // Assigning corresponding parallaxScales
-        parallaxScales = new float[backgrounds.Length];
-        for(int i = 0; i < backgrounds.Length; i++)
-            parallaxScales[i] = backgrounds[i].position.z * (-1);
+        AssignComponents();
     }
 
     private void Update()
     {
+        if (cam == null)
+            AssignComponents();
+
         // For each background calculate its parallax movement and apply it
         for(int i = 0; i < backgrounds.Length; i++)
         {
@@ -51,6 +42,26 @@ public class Parallaxing : MonoBehaviour {
 
         // Set the camera position in the actual frame to previousCamPos
         previousCamPos = cam.position;
+    }
+
+    private void AssignComponents()
+    {
+        cam = Camera.main.transform;
+
+        previousCamPos = cam.position;
+
+        // Search for all the backgrounds
+        GameObject[] backgroundsGO = GameObject.FindGameObjectsWithTag(Tags.background);
+        backgrounds = new Transform[backgroundsGO.Length];
+        for (int i = 0; i < backgroundsGO.Length; i++)
+        {
+            backgrounds[i] = backgroundsGO[i].transform;
+        }
+
+        // Assigning corresponding parallaxScales
+        parallaxScales = new float[backgrounds.Length];
+        for (int i = 0; i < backgrounds.Length; i++)
+            parallaxScales[i] = backgrounds[i].position.z * (-1);
     }
 
 }

@@ -8,7 +8,7 @@ public class Item : ScriptableObject {
 
 	new public string name = "New Item";
     public Sprite icon = null;
-    public bool isDefaultItem = false; // This will be deleted
+    public AudioClip sound;
 
     // Called when an item is used
     public virtual void Use() {}

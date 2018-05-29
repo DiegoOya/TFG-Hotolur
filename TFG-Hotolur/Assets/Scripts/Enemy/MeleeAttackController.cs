@@ -6,15 +6,11 @@
 /// </summary>
 public class MeleeAttackController : MonoBehaviour {
 
-    // Radius and damage of the attack
-    [SerializeField]
-    private float meleeRadius = 0.15f;
+    // Damage of the attack
     [SerializeField]
     private float meleeDamage = 25f;
 
-    // Reference of the player transform
-    private Transform player;
-
+    // Reference of PlayerHealth
     private PlayerHealth playerHealth;
 
     private IEnemyAttack enemyAttack;
@@ -22,23 +18,17 @@ public class MeleeAttackController : MonoBehaviour {
     // Initialize the variables
     private void Awake()
     {
-        player = GameObject.FindGameObjectWithTag(Tags.player).transform;
-        playerHealth = player.GetComponent<PlayerHealth>();
+        playerHealth = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<PlayerHealth>();
         enemyAttack = GetComponentInParent<IEnemyAttack>();
     }
 
-    private void Update()
+    private void OnTriggerEnter(Collider other)
     {
         // If the enemy is attacking then calculate if the player is touching the enemy hand
-        if(enemyAttack.IsAttacking())
+        if (enemyAttack.IsAttacking())
         {
-            // Calculate the distance between the player and the enemy hand
-            float distance = Mathf.Sqrt(
-                (player.position.x - transform.position.x) * (player.position.x - transform.position.x) +
-                (player.position.y - transform.position.y) * (player.position.y - transform.position.y));
-
-            // If the player is inside the enemy hand and then hurt the player
-            if (distance < meleeRadius)
+            // If other is the player, then hurt the player
+            if(other.CompareTag(Tags.player))
             {
                 playerHealth.TakeDamage(meleeDamage);
             }

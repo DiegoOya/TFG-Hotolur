@@ -100,7 +100,6 @@ public class ObjectPooler : MonoBehaviour {
         if (smallAttack != null)
         {
             smallAttack.SetPlayer(player);
-            smallAttack.SetEnemy(enemy);
             smallAttack.SetRange(range);
 
             Physics.IgnoreCollision(objectToSpawn.GetComponent<Collider>(), enemy.GetComponent<Collider>());

@@ -13,6 +13,7 @@ public class HashIDs : MonoBehaviour {
     public int deadBool;
     public int jumpBool;
     public int jumpState;
+    public int jumpDownState;
     public int isGroundedBool;
     public int locomotionState;
     public int speedFloat;
@@ -28,6 +29,7 @@ public class HashIDs : MonoBehaviour {
     public int pickUpBool;
     public int pickUpState;
     public int hitState;
+    public int specialAttackBool;
 
     // Initialize all variables
     private void Awake()
@@ -37,7 +39,8 @@ public class HashIDs : MonoBehaviour {
         dyingState = Animator.StringToHash("Base Layer.Dying");
         deadBool = Animator.StringToHash("Dead");
         jumpBool = Animator.StringToHash("Jump");
-        jumpState = Animator.StringToHash("Base Layer.Dying");
+        jumpDownState = Animator.StringToHash("Base Layer.Jump Down");
+        jumpState = Animator.StringToHash("Base Layer.Jump");
         isGroundedBool = Animator.StringToHash("IsGrounded");
         locomotionState = Animator.StringToHash("Base Layer.Locomotion");
         speedFloat = Animator.StringToHash("Speed");
@@ -53,5 +56,6 @@ public class HashIDs : MonoBehaviour {
         pickUpBool = Animator.StringToHash("PickUp");
         pickUpState = Animator.StringToHash("Actions Layer.Picking Up");
         hitState = Animator.StringToHash("Actions Layer.Hit Reaction");
+        specialAttackBool = Animator.StringToHash("Special Attack");
     }
 }
