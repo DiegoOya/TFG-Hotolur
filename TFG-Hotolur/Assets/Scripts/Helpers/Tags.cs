@@ -11,4 +11,5 @@ public class Tags : MonoBehaviour {
     public const string enemy = "Enemy";
     public const string healthBar = "HealthBar";
     public const string background = "Background";
+    public const string head = "Head";
 }

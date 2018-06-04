@@ -12,53 +12,58 @@ public class PlayerShoot : MonoBehaviour {
 
     // Variables to determine the damage of the gun and the next time the gun shoots
     private float damage = 0f;
-    private float timeNextShot = 0f;
+    private float timerNextShot = 0f;
 
     private AudioSource audioSource;
 
     private Animator anim;
 
-    // Initialize laserShot
+    private LineRenderer gunLine;
+
     private void Awake()
     {
         anim = GetComponentInParent<Animator>();
-
         audioSource = GetComponent<AudioSource>();
+        gunLine = GetComponent<LineRenderer>();
+        gunLine.enabled = false;
     }
 
     private void Update()
     {
+        timerNextShot += Time.deltaTime;
+
         // If Fire1 button is pressed and has passed timeNextShot, then shoot
-        if (Input.GetButton("Fire1") && Time.time >= timeNextShot &&
+        if (Input.GetButton("Fire1") && Time.time >= 1f / fireRate &&
             anim.GetNextAnimatorStateInfo(1).fullPathHash != HashIDs.instance.hitState &&
-            anim.GetNextAnimatorStateInfo(1).fullPathHash != HashIDs.instance.pickUpState)
+            anim.GetNextAnimatorStateInfo(1).fullPathHash != HashIDs.instance.pickUpState &&
+            anim.GetCurrentAnimatorStateInfo(0).fullPathHash != HashIDs.instance.jumpState)
         {
             // Update timeNextShot and shoot
-            timeNextShot = Time.time + 1f / fireRate;
+            timerNextShot = 0f;
             Shoot();
         }
 
-        // If Fire1 is unpressed, then set shoot in the animator to false
-        if(Input.GetButtonUp("Fire1"))
+        if (timerNextShot >= 0.2f / fireRate)
         {
-            anim.SetBool(HashIDs.instance.shootBool, false);
-
             // Stop the sound effect
             audioSource.Stop();
+
+            gunLine.enabled = false;
         }
     }
 
     private void Shoot()
     {
-        anim.SetBool(HashIDs.instance.shootBool, true);
-
         // If audioSource is not playing then play the sound effect 
         if(!audioSource.isPlaying)
             audioSource.Play();
+        
+        // Enable gunLine and set the initial position
+        gunLine.enabled = true;
+        gunLine.SetPosition(0, transform.position);
 
         // Apply a raycast and if it hit something, make sure it is the enemy and deal damage
         RaycastHit hit;
-
         if (Physics.Raycast(transform.position, transform.forward, out hit, range))
         {
             if (hit.transform.CompareTag(Tags.enemy))
@@ -68,6 +73,11 @@ public class PlayerShoot : MonoBehaviour {
                 Debug.Log("Enemy attacked: " + damage + " damage");
                 hit.transform.GetComponent<EnemyHealth>().TakeDamage(damage);
             }
+            gunLine.SetPosition(1, hit.point);
+        }
+        else
+        {
+            gunLine.SetPosition(1, transform.position + transform.forward * range);
         }
     }
     

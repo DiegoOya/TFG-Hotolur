@@ -40,9 +40,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         anim = GetComponent<Animator>();
-
         rb = GetComponent<Rigidbody>();
-
         groundLayer = LayerMask.GetMask("Ground");
     }
 
@@ -50,7 +48,6 @@ public class PlayerMovement : MonoBehaviour
     {
         // Input in Update so there is no problems with the controls
         mov = Input.GetAxis("Horizontal");
-
         jump = Input.GetButton("Jump");
 
         if (jump && isGrounded && anim.GetCurrentAnimatorStateInfo(0).fullPathHash == HashIDs.instance.locomotionState)

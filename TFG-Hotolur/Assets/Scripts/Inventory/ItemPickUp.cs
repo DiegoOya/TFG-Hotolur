@@ -38,8 +38,8 @@ public class ItemPickUp : Interactable {
     {
         // If the PickUp button is pressed the pick up the item
         base.Interact();
-        if (Input.GetButtonDown("PickUp") && anim.GetCurrentAnimatorStateInfo(0).fullPathHash != HashIDs.instance.hitState)
-            StartCoroutine(PickUpObject());
+
+        StartCoroutine(PickUpObject());
     }
 
     // Pick up the object and add it to the inventory or use it instantly

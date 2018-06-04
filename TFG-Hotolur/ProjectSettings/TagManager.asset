@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - HealthBar
   - Background
+  - Head
   layers:
   - Default
   - TransparentFX

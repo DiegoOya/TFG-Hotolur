@@ -51,7 +51,7 @@ public class BackgroundLoop : MonoBehaviour {
 
                     // If the position of the right side of the camera is near to the 
                     // right end of the background then move the another background
-                    if (posCameraSides[0] > posBGSides[0] - 5 && posCameraSides[0] < posBGSides[0] && camVelX > 0)
+                    if (posCameraSides[0] > posBGSides[0] - 10 && posCameraSides[0] < posBGSides[0] && camVelX > 0)
                     {
                         // Calculate the new position of the background
                         // ***The argument ([1 - j]) of background is only valid for 2 background
@@ -64,7 +64,7 @@ public class BackgroundLoop : MonoBehaviour {
 
                     // If the position of the left side of the camera is near to the 
                     // left end of the background then move the another background
-                    if (posCameraSides[1] > posBGSides[1] && posCameraSides[1] < posBGSides[1] + 5 && camVelX < 0)
+                    if (posCameraSides[1] > posBGSides[1] && posCameraSides[1] < posBGSides[1] + 10 && camVelX < 0)
                     {
                         // Calculate the new position of the background
                         // ***The argument ([1 - j]) of background is only valid for 2 background

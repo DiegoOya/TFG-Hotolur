@@ -3,21 +3,19 @@
 /// <summary>
 /// ScriptableObject to label the variables and functions needed by a watch
 /// </summary>
-[CreateAssetMenu(fileName = "New Time Item", menuName = "Inventory/Item/Potion")]
+[CreateAssetMenu(fileName = "New Watch", menuName = "Inventory/Item/Watch")]
 public class Watch : Item {
 
-    // Time extra that will be added to the time counter
-    public int timeExtra;
+    // Time to stop the head
+    public int stopTime;
 
-    // Add time to the time counter
+    // Stop the head stopTime seconds
     public override void Use()
     {
         base.Use();
 
-        // This will use the object and give the player the value of timeExtra of time
-        
-        // Get the time
-        // Add the time timeExtra seconds
+        // This will use the object and stop the head
+        GameObject.FindGameObjectWithTag(Tags.head).GetComponent<HeadController>().StopHead(stopTime);
     }
 
 }

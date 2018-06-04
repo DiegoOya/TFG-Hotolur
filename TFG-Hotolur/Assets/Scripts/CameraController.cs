@@ -8,8 +8,8 @@ public class CameraController : MonoBehaviour
     [HideInInspector]
     public float cameraVelX = 0f;
 
-    // Reference of the player
-    private GameObject player;
+    // Reference of the player Transform
+    private Transform player;
 
     // This will control the offset between the camera and the player
     private Vector3 offset;
@@ -19,7 +19,7 @@ public class CameraController : MonoBehaviour
     // Initialize the variables
     void Awake()
     {
-        player = GameObject.FindGameObjectWithTag(Tags.player);
+        player = GameObject.FindGameObjectWithTag(Tags.player).transform;
         rb = player.GetComponent<Rigidbody>();
         offset = transform.position - player.transform.position;
     }
@@ -27,7 +27,10 @@ public class CameraController : MonoBehaviour
     // It will be updated after the physics and update the camera position
     void LateUpdate()
     {
-        Vector3 newPos = new Vector3(player.transform.position.x + offset.x, transform.position.y, transform.position.z);
+        float posY = player.position.y < 5f ? 5f : player.position.y;
+        posY = Mathf.Lerp(transform.position.y, posY, 1.5f * Time.deltaTime);
+
+        Vector3 newPos = new Vector3(player.position.x + offset.x, posY, transform.position.z);
 
         transform.position = newPos;
 

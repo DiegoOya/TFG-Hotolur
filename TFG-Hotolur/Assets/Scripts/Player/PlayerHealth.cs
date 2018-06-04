@@ -67,6 +67,21 @@ public class PlayerHealth : MonoBehaviour {
         }   
     }
 
+    // Damage taken when the head is inside the camera plane
+    public void PenaltyDamage(float damage)
+    {
+        // Decrease health and show the result at the slider
+        health -= damage;
+
+        SliderValue();
+
+        // If the player health is less than 0, then the player dies
+        if (health <= 0f)
+        {
+            Die();
+        }
+    }
+
     // Activate hit reaction animation
     private IEnumerator HitReaction()
     {
@@ -106,17 +121,20 @@ public class PlayerHealth : MonoBehaviour {
     // The player dies and the Dead animation is called
     private void Die()
     {
-        // Animacion Die de prueba
-        anim.SetBool(HashIDs.instance.deadBool, true);
-        
-        StartCoroutine(DeactivateCollider());
+        if (!isDead)
+        {
+            // Animacion Die de prueba
+            anim.SetBool(HashIDs.instance.deadBool, true);
+
+            StartCoroutine(DeactivateCollider());
+        }
     }
 
     // When the player dies deactivate the colliders of the GameObject so it doesn't
     // collide with anything
     private IEnumerator DeactivateCollider()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
         
         anim.SetBool(HashIDs.instance.deadBool, false);
 
@@ -136,6 +154,11 @@ public class PlayerHealth : MonoBehaviour {
     {
         maxHealth = maxHP;
         SliderSize();
+    }
+
+    public float GetHealth()
+    {
+        return health;
     }
     
 }
