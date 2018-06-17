@@ -5,10 +5,7 @@ using UnityEngine;
 /// Script used to manage when the player takes an item
 /// </summary>
 public class ItemPickUp : Interactable {
-
-    // Variable used if the item will be used instantly *****PRIVATE(?)
-    public bool useItemInstantly = false;
-
+    
     // Pick up animation of the player
     // If you want to change the pickUpAnim, you have to delete [HideInInspector] temporally
     [HideInInspector]
@@ -16,6 +13,10 @@ public class ItemPickUp : Interactable {
 
     // Length of pickUpAnim
     private float timePickUpAnim;
+
+    // Variable used if the item will be used instantly 
+    //[SerializeField]
+    //private bool useItemInstantly = false;
 
     // This variable is the ScriptableObject of the item
     [SerializeField]
@@ -37,8 +38,6 @@ public class ItemPickUp : Interactable {
     public override void Interact()
     {
         // If the PickUp button is pressed the pick up the item
-        base.Interact();
-
         StartCoroutine(PickUpObject());
     }
 
@@ -50,23 +49,26 @@ public class ItemPickUp : Interactable {
         // Add to the inventory or use it instantly
         // This is for Debug, when we know we like one or the other we leave only one
         bool pickedUp = false;
-        if (useItemInstantly)
-        {
+        //if (useItemInstantly)
+        //{
             // What does the item do?
-            item.Use();
+        item.Use();
 
-            audioSource.clip = item.sound;
-            audioSource.Play();
-
-            Destroy(gameObject);
-        }
-        else
-        {
+        if(item is Weapon)
             pickedUp = Inventory.instance.Add(item);
 
-            audioSource.clip = item.sound;
-            audioSource.Play();
-        }
+        audioSource.clip = item.sound;
+        audioSource.Play();
+
+        Destroy(gameObject);
+        //}
+        //else
+        //{
+        //    pickedUp = Inventory.instance.Add(item);
+
+        //    audioSource.clip = item.sound;
+        //    audioSource.Play();
+        //}
 
         // If the object was picked up then destroy the object
         if(pickedUp)
@@ -95,4 +97,10 @@ public class ItemPickUp : Interactable {
             PickUp();
         }
     }
+
+    public Item GetItem()
+    {
+        return item;
+    }
+
 }

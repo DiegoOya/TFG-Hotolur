@@ -852,7 +852,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1482850148891082
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
@@ -1930,6 +1930,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1955756844439086
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4261533936629454}
+  - component: {fileID: 136112538626743170}
+  m_Layer: 0
+  m_Name: PlatformDetector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1956335814765326
 GameObject:
   m_ObjectHideFlags: 1
@@ -2369,12 +2385,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1328388434179338}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 1, y: 0.5, z: 0}
+  m_LocalPosition: {x: 1, y: 0.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4462942155341114}
   - {fileID: 4166635557090464}
-  - {fileID: 4568913954285204}
+  - {fileID: 4261533936629454}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
@@ -2601,6 +2617,19 @@ Transform:
   m_Father: {fileID: 4477648913937284}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4261533936629454
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1955756844439086}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0.944, z: 0.214}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4162245640925340}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4269253347505534
 Transform:
   m_ObjectHideFlags: 1
@@ -2658,6 +2687,7 @@ Transform:
   - {fileID: 4486794951270726}
   - {fileID: 4044750130725848}
   - {fileID: 4140381136931404}
+  - {fileID: 4568913954285204}
   m_Father: {fileID: 4444858648353966}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
@@ -3003,11 +3033,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1482850148891082}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.239, z: 0.82}
+  m_LocalPosition: {x: 0, y: 0.013, z: 0.028}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4162245640925340}
-  m_RootOrder: 2
+  m_Father: {fileID: 4288897979581126}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4582587633048074
 Transform:
@@ -4447,9 +4477,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d477cfb93600c8546a2546d245ac610b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDamage: 15
+  maxDamage: 10
   range: 8
-  fireRate: 5
+  fireRate: 4
 --- !u!114 &114919280624621584
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4478,6 +4508,7 @@ MonoBehaviour:
   speedDampTime: 0.1
   isWalking: 0
   isJumping: 0
+  stopMovingMidair: 0
   movForce: 5
   groundCheckRadius: 0.15
 --- !u!120 &120748775760015300
@@ -4494,7 +4525,7 @@ LineRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 51e3ec4b6c0c4514fb1cc255e67c7fe8, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4519,7 +4550,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 2
-    widthMultiplier: 0.05
+    widthMultiplier: 0.02
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -4568,6 +4599,19 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!136 &136112538626743170
+CapsuleCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1955756844439086}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.1
+  m_Height: 1.5
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136592117811000242
 CapsuleCollider:
   m_ObjectHideFlags: 1

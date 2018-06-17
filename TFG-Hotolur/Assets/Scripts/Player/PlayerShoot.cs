@@ -14,6 +14,8 @@ public class PlayerShoot : MonoBehaviour {
     private float damage = 0f;
     private float timerNextShot = 0f;
 
+    private Transform player;
+
     private AudioSource audioSource;
 
     private Animator anim;
@@ -22,21 +24,23 @@ public class PlayerShoot : MonoBehaviour {
 
     private void Awake()
     {
-        anim = GetComponentInParent<Animator>();
+        anim = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         gunLine = GetComponent<LineRenderer>();
         gunLine.enabled = false;
+
+        player = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Transform>();
     }
 
     private void Update()
     {
         timerNextShot += Time.deltaTime;
-
+        
         // If Fire1 button is pressed and has passed timeNextShot, then shoot
-        if (Input.GetButton("Fire1") && Time.time >= 1f / fireRate &&
-            anim.GetNextAnimatorStateInfo(1).fullPathHash != HashIDs.instance.hitState &&
-            anim.GetNextAnimatorStateInfo(1).fullPathHash != HashIDs.instance.pickUpState &&
-            anim.GetCurrentAnimatorStateInfo(0).fullPathHash != HashIDs.instance.jumpState)
+        if (!GameController.instance.doingSetup && (Input.GetButtonDown("Fire1") || Input.GetButtonDown("Fire2")) && Time.time >= 1f / fireRate &&
+            anim.GetCurrentAnimatorStateInfo(1).fullPathHash != HashIDs.instance.hitState &&
+            anim.GetCurrentAnimatorStateInfo(1).fullPathHash != HashIDs.instance.pickUpState &&
+            anim.GetCurrentAnimatorStateInfo(0).fullPathHash != HashIDs.instance.dyingState)
         {
             // Update timeNextShot and shoot
             timerNextShot = 0f;
@@ -64,7 +68,7 @@ public class PlayerShoot : MonoBehaviour {
 
         // Apply a raycast and if it hit something, make sure it is the enemy and deal damage
         RaycastHit hit;
-        if (Physics.Raycast(transform.position, transform.forward, out hit, range))
+        if (Physics.Raycast(transform.position, player.forward, out hit, range))
         {
             if (hit.transform.CompareTag(Tags.enemy))
             {
@@ -73,11 +77,12 @@ public class PlayerShoot : MonoBehaviour {
                 Debug.Log("Enemy attacked: " + damage + " damage");
                 hit.transform.GetComponent<EnemyHealth>().TakeDamage(damage);
             }
-            gunLine.SetPosition(1, hit.point);
+            if (!hit.transform.CompareTag(Tags.checkpoint))
+                gunLine.SetPosition(1, hit.point);
         }
         else
         {
-            gunLine.SetPosition(1, transform.position + transform.forward * range);
+            gunLine.SetPosition(1, transform.position + player.forward * range);
         }
     }
     

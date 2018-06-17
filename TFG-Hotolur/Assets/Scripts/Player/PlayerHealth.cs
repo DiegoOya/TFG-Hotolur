@@ -10,7 +10,7 @@ public class PlayerHealth : MonoBehaviour {
 
     // Health variables, maxHealth can be modified at the editor
     public float maxHealth = 100f;
-
+    
     private float health = 100;
 
     // Booleans to check if the player took damage or died
@@ -20,7 +20,9 @@ public class PlayerHealth : MonoBehaviour {
     public bool isDead = false;
 
     // Slider that will tell the player health
-    private Slider sliderHealth;
+    private Slider healthSlider;
+
+    private Image fillColor;
 
     private Animator anim;
 
@@ -29,7 +31,8 @@ public class PlayerHealth : MonoBehaviour {
     {
         health = maxHealth;
 
-        sliderHealth = GameObject.FindGameObjectWithTag(Tags.healthBar).GetComponent<Slider>();
+        healthSlider = GameObject.FindGameObjectWithTag(Tags.healthBar).GetComponent<Slider>();
+        fillColor = healthSlider.gameObject.GetComponentsInChildren<Image>()[1];
 
         health = maxHealth;
 
@@ -42,11 +45,41 @@ public class PlayerHealth : MonoBehaviour {
     
     private void Update()
     {
+        // If healthSlider is inside the range (50%, 100%] then fillColor is green
+        if (healthSlider.value <= maxHealth && healthSlider.value > 0.5f * maxHealth)
+        {
+            fillColor.color = Color.green;
+        }
+        else
+        {
+            // If healthSlider is inside the range (25%, 50%] then fillColor is orange
+            if (healthSlider.value <= 0.5f * maxHealth && healthSlider.value > 0.25f * maxHealth)
+            {
+                fillColor.color = new Color(255, 178, 0, 255);
+            }
+            else
+            {
+                // If healthSlider is inside the range (0%, 25%] then fillColor is red
+                if (healthSlider.value <= 0.25f * maxHealth && healthSlider.value > 0)
+                {
+                    fillColor.color = Color.red;
+                }
+                else
+                {
+                    // If healthSlider is zero then fillColor is transparent
+                    if (healthSlider.value <= 0)
+                    {
+                        fillColor.color = new Color(0, 0, 0, 0);
+                    }
+                }
+            }
+        }
+
         // When the player falls down, the player dies
         if (transform.position.y < -10f)
         {
             // And because the player is not seen then only restart the scene
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            GameController.instance.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
@@ -107,15 +140,15 @@ public class PlayerHealth : MonoBehaviour {
     // Adjust the slider size
     void SliderSize()
     {
-        RectTransform rectBar = sliderHealth.gameObject.GetComponent<RectTransform>();
+        RectTransform rectBar = healthSlider.gameObject.GetComponent<RectTransform>();
         rectBar.sizeDelta = new Vector2(maxHealth, rectBar.sizeDelta.y);
-        sliderHealth.maxValue = maxHealth;
+        healthSlider.maxValue = maxHealth;
     }
 
     // Modify the slider value
     private void SliderValue()
     {
-        sliderHealth.value = health;
+        healthSlider.value = health;
     }
 
     // The player dies and the Dead animation is called
@@ -139,14 +172,14 @@ public class PlayerHealth : MonoBehaviour {
         anim.SetBool(HashIDs.instance.deadBool, false);
 
         isDead = true;
-
+        
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<CapsuleCollider>().enabled = false;
 
         // Wait 5 seconds and restart the level
         yield return new WaitForSeconds(5.0f);
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        GameController.instance.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     // Called to set maxHealth from other scripts 

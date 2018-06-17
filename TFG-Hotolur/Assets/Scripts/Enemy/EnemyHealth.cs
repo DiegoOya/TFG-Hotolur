@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// Script used to manage the health of the enemies and when the enemy dies
@@ -52,6 +53,7 @@ public class EnemyHealth : MonoBehaviour {
 
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<CapsuleCollider>().enabled = false;
+        GetComponent<NavMeshAgent>().isStopped = true;
 
         yield return new WaitForSeconds(deactivateTime);
 

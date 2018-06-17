@@ -8,6 +8,10 @@ TagManager:
   - HealthBar
   - Background
   - Head
+  - CheckPoint
+  - CounterText
+  - Weapon
+  - Platform
   layers:
   - Default
   - TransparentFX

@@ -56,17 +56,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MovementManagement(mov, jump);
-
-        // Determines whether isGrounded is true or false by seeing if groundcheck overlaps with some object of the ground layer
-        isGrounded = Physics.CheckSphere(transform.position - new Vector3(0f, 0.5f, 0f), groundCheckRadius, groundLayer);
-
-        anim.SetBool(HashIDs.instance.isGroundedBool, isGrounded);
-        
-        // If it is not grounded then the player can move sideways midair
-        if (!isGrounded)
+        if (anim.GetCurrentAnimatorStateInfo(0).fullPathHash != HashIDs.instance.dyingState && !GameController.instance.doingSetup)
         {
-            rb.velocity = new Vector3(mov * movForce, rb.velocity.y, rb.velocity.z);
+            MovementManagement(mov, jump);
+
+            // Determines whether isGrounded is true or false by seeing if groundcheck overlaps with some object of the ground layer
+            isGrounded = Physics.CheckSphere(transform.position - new Vector3(0f, 0.5f, 0f), groundCheckRadius, groundLayer);
+
+            anim.SetBool(HashIDs.instance.isGroundedBool, isGrounded);
+
+            // If it is not grounded then the player can move sideways midair
+            if (!isGrounded)
+            {
+                rb.velocity = new Vector3(mov * movForce, rb.velocity.y, rb.velocity.z);
+            }
         }
     }
 

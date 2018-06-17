@@ -12,4 +12,8 @@ public class Tags : MonoBehaviour {
     public const string healthBar = "HealthBar";
     public const string background = "Background";
     public const string head = "Head";
+    public const string checkpoint = "CheckPoint";
+    public const string counterText = "CounterText";
+    public const string weapon = "Weapon";
+    public const string platform = "Platform";
 }

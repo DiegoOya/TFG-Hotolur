@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -16,13 +17,17 @@ public class HeadController : MonoBehaviour {
     private float penaltyRate = 2f;
     private float timeToNextPenalty;
 
+    private bool playerDied = false;
+
     private Rigidbody rb;
 
     private Transform player;
     private Transform cam;
 
     private PlayerHealth playerHealth;
-    
+
+    private TextMeshProUGUI timeText;
+
     // Initialize references
     private void Awake()
     {
@@ -36,18 +41,27 @@ public class HeadController : MonoBehaviour {
         sizeCamX = Camera.main.orthographicSize * 16 / 9;
 
         timeToNextPenalty = 1f / penaltyRate;
+        
+        timeText = GameObject.FindGameObjectsWithTag(Tags.counterText)[0].GetComponent<TextMeshProUGUI>();
     }
 
     private void Update()
     {
         // Look at what position is the player in the Y axis and move the head 
-        float posY = player.position.y < 5f ? 5f : player.position.y;
+        float posY = player.position.y < 5.5f ? 5.5f : player.position.y;
         posY = Mathf.Lerp(transform.position.y, posY, 1.5f * Time.deltaTime);
         transform.position = new Vector3(transform.position.x, posY, transform.position.z);
 
-        // Calculate the time needed until the head reaches the player
+        // Calculate the time needed until the head reaches the player and show it in the canvas
         float distance = Vector3.Magnitude(player.position - transform.position);
         time = distance / velocityX;
+        if(timeText != null)
+            if(playerDied)
+                timeText.text = "GOT YA!!";
+            else
+                timeText.text = string.Concat("La Criatura-Hotolur: ", (float)(Mathf.Floor(time * 10) / 10), " s");
+        else
+            timeText = GameObject.FindGameObjectsWithTag(Tags.counterText)[0].GetComponent<TextMeshProUGUI>();
 
         // Get the position of the left side of the camera and if the position of the head is
         // greater than the position of the left side the hurt the player
@@ -69,6 +83,7 @@ public class HeadController : MonoBehaviour {
         if(other.CompareTag(Tags.player) && playerHealth.GetHealth() > 0)
         {
             playerHealth.PenaltyDamage(playerHealth.maxHealth);
+            playerDied = true;
         }
     }
 

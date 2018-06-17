@@ -101,7 +101,7 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
         yield return new WaitForSeconds(timeThrowAnim / (4f * anim.GetNextAnimatorStateInfo(0).speed));
 
         // Instantiate the attack and deactivate the animation
-        objPooler.SpawnFromPool("Small Weapon", enemyHand.position, Quaternion.identity, player, enemy, range);
+        objPooler.SpawnFromPool("Medium Weapon", enemyHand.position, Quaternion.identity, player, enemy, range);
         anim.SetBool(HashIDs.instance.throwBool, false);
 
         audioSource.clip = audioThrow;

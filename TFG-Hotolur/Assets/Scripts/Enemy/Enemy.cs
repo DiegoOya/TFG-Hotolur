@@ -43,7 +43,7 @@ public class Enemy : Interactable {
     private void FixedUpdate()
     {
         // If the player is detected then the enemy starts to follow the player
-        if(playerDetected)
+        if(playerDetected && !agent.isStopped)
         {
             bool isAttacking = enemyAttack.IsAttacking();
 
@@ -89,15 +89,6 @@ public class Enemy : Interactable {
     // Detect player, approach and attack
     public override void Interact()
     {
-        base.Interact();
-
-        //// Temporal code to test enemy attack
-        //if (Input.GetKeyDown(KeyCode.L)) 
-        //{
-        //    // Attack the player
-        //    enemyAttack.Attack(player, transform, radius);
-        //}
-
         // If it is the first time the enemy detect the player then apply a random stopping distance the 20% of the attackRadius
         if(!playerDetected)
         {

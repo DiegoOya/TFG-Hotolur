@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -6,17 +8,39 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class MainMenu : MonoBehaviour {
 
-    // When pushed the Play button in the menu, access to the game
-	public void PlayGame()
+    // Text to show when there is no game saved
+    [HideInInspector]
+    public TextMeshProUGUI noGameSavedText;
+
+    // When pushed the New Game button in the menu, access to a new game
+	public void NewGame()
     {
-        //********* MAYBE DO A LITTLE MORE LIKE SELECT MULTIPLE SAVE GAMES
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        GameController.instance.doingSetup = true;
+        GameController.instance.NewGame(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+
+    // Load the last play saved
+    public void LoadGame()
+    {
+        if(!GameController.instance.LoadGame())
+        {
+            GameController.instance.doingSetup = true;
+            noGameSavedText.enabled = true;
+            StartCoroutine(DeactivateText());
+        }
     }
 
     // When pushed the Quit button in the menu, quit the game
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    private IEnumerator DeactivateText()
+    {
+        yield return new WaitForSeconds(2f);
+
+        noGameSavedText.enabled = false;
     }
 
 }

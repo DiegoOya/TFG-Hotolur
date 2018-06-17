@@ -27,7 +27,7 @@ public class CameraController : MonoBehaviour
     // It will be updated after the physics and update the camera position
     void LateUpdate()
     {
-        float posY = player.position.y < 5f ? 5f : player.position.y;
+        float posY = player.position.y < 5.5f ? 5.5f : player.position.y;
         posY = Mathf.Lerp(transform.position.y, posY, 1.5f * Time.deltaTime);
 
         Vector3 newPos = new Vector3(player.position.x + offset.x, posY, transform.position.z);

@@ -20,7 +20,9 @@ public class PauseMenu : MonoBehaviour {
             if (gameIsPaused)
                 Resume();
             else
+            {
                 Pause();
+            }
         }
     }
 
@@ -30,6 +32,7 @@ public class PauseMenu : MonoBehaviour {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         gameIsPaused = false;
+        GameController.instance.doingSetup = false;
     }
 
     // Pause the game
@@ -38,13 +41,14 @@ public class PauseMenu : MonoBehaviour {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         gameIsPaused = true;
+        GameController.instance.doingSetup = true;
     }
 
     // Load the main menu scene
     public void LoadMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(0);
+        GameController.instance.NewGame(0);
     } 
 
     // When the quit button is pushed then quit the game

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -28,23 +29,58 @@ public class Inventory : MonoBehaviour {
     // Space of the inventory
     public int space = 20;
 
-    // List of the items kept in the inventory
+    private int index = 0;
+
+    private TextMeshProUGUI weaponSelectedText;
+
+    // List of the weapon kept in the inventory
     [SerializeField]
-    private List<Item> items = new List<Item>();
+    private List<Weapon> weapons = new List<Weapon>();
+
+    private PlayerShoot playerShoot;
+
+    private void Start()
+    {
+        GameObject[] counterTexts = GameObject.FindGameObjectsWithTag(Tags.counterText);
+        if (counterTexts.Length != 0)
+            weaponSelectedText = counterTexts[2].GetComponent<TextMeshProUGUI>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Mouse1) || Input.GetButtonDown("ChangeWeapon"))
+        {
+            ChangeWeapon();
+        }
+
+        // If there is some weapon in the inventory and livesText isn't null then
+        // show in the screen the number of lives left, if not then search for it
+        if (weapons.Count > 0)
+        {
+            if (weaponSelectedText != null)
+                weaponSelectedText.text = string.Concat("Weapon selected: ", weapons[index].name);
+            else
+            {
+                GameObject[] counterTexts = GameObject.FindGameObjectsWithTag(Tags.counterText);
+                if (counterTexts.Length != 0)
+                    weaponSelectedText = counterTexts[2].GetComponent<TextMeshProUGUI>();
+            }
+        }
+    }
 
     // Called when an object is added to the inventory
-    public bool Add (Item item)
+    public bool Add (Item weapon)
     {
         // If there are no more space
-        if(items.Count >= space)
+        if(weapons.Count >= space)
         {
-            // It writes a message to the console and do not add the item
+            // It writes a message to the console and do not add the weapon
             Debug.Log("Not enough room");
             return false;
         }
 
         // Add the item to the list
-        items.Add(item);
+        weapons.Add((Weapon)weapon);
 
         if(OnItemChangedCallBack != null)
             OnItemChangedCallBack.Invoke();
@@ -53,13 +89,36 @@ public class Inventory : MonoBehaviour {
     }
 
     // Called when the item in the inventory is used or removed
-    public void Remove(Item item)
+    public void Remove(Item weapon)
     {
         // Remove the item in the list
-        items.Remove(item);
+        weapons.Remove((Weapon)weapon);
 
         if (OnItemChangedCallBack != null)
             OnItemChangedCallBack.Invoke();
+    }
+
+    public void ChangeWeapon()
+    {
+        if(playerShoot == null)
+            playerShoot = GameObject.FindGameObjectWithTag(Tags.player).GetComponentInChildren<PlayerShoot>();
+        int maxLength = weapons.Count;
+        index = index + 1 < maxLength ? index + 1 : 0;
+        playerShoot.maxDamage = weapons[index].maxDamage;
+        playerShoot.range = weapons[index].range;
+        playerShoot.fireRate = weapons[index].fireRate;
+    }
+
+    // Getter of the list of weapons
+    public List<Weapon> GetWeapons()
+    {
+        return weapons;
+    }
+
+    // Setter of the list of weapons
+    public void SetItems(List<Weapon> weaponList)
+    {
+        weapons = weaponList;
     }
 
 }

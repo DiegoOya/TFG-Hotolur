@@ -96,6 +96,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   interactionTransform: {fileID: 4782667418359950}
-  useItemInstantly: 1
   pickUpAnim: {fileID: 7400000, guid: 282171a6aa1003f439c852163998aa64, type: 3}
-  item: {fileID: 0}
+  useItemInstantly: 1
+  item: {fileID: 11400000, guid: e6b8daa869afcac458aff802e811b127, type: 2}
