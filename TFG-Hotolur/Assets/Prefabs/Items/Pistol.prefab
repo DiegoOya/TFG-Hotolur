@@ -97,5 +97,4 @@ MonoBehaviour:
   radius: 1
   interactionTransform: {fileID: 4782667418359950}
   pickUpAnim: {fileID: 7400000, guid: 282171a6aa1003f439c852163998aa64, type: 3}
-  useItemInstantly: 1
   item: {fileID: 11400000, guid: 131120479b64e4344bffb91c6f481010, type: 2}

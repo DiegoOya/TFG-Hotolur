@@ -6,7 +6,9 @@
 [CreateAssetMenu(fileName = "New Weapon", menuName = "Inventory/Weapon")]
 public class Weapon : Item {
 
-    // Max damage, fire rate and range that will be updated in PlayerShoot
+    // Weapon type, max damage, fire rate and range that will be updated in PlayerShoot
+    public PlayerShoot.WeaponTypes weaponType;
+
     public float maxDamage;
     public float fireRate;
     public float range;
@@ -24,9 +26,7 @@ public class Weapon : Item {
 
         // This will equip the weapon and return the weapon the player has equipped
         // If there is a model of the gun replace it with the actual weapon of the player
-        playerShoot.maxDamage = maxDamage;
-        playerShoot.fireRate = fireRate;
-        playerShoot.range = range;
+        playerShoot.EquipWeapon(maxDamage, range, fireRate, weaponType);
     }
 
 }

@@ -45,34 +45,32 @@ public class ItemPickUp : Interactable {
     void PickUp()
     {
         Debug.Log("Picking up " + item.name);
-
-        // Add to the inventory or use it instantly
-        // This is for Debug, when we know we like one or the other we leave only one
-        bool pickedUp = false;
-        //if (useItemInstantly)
-        //{
-            // What does the item do?
+        
+        // Use the item
         item.Use();
 
-        if(item is Weapon)
-            pickedUp = Inventory.instance.Add(item);
+        // If it is the weapon it is treated differently
+        if (item is Weapon)
+        {
+            bool pickedUp = Inventory.instance.Add(item);
 
+            audioSource.clip = item.sound;
+            audioSource.Play();
+
+            // If the weapon was picked up then deactivate it
+            if (pickedUp)
+            {
+                gameObject.SetActive(false);
+            }
+
+            return;
+        }
+
+        // If it is another item then play the sound and destroy it
         audioSource.clip = item.sound;
         audioSource.Play();
 
         Destroy(gameObject);
-        //}
-        //else
-        //{
-        //    pickedUp = Inventory.instance.Add(item);
-
-        //    audioSource.clip = item.sound;
-        //    audioSource.Play();
-        //}
-
-        // If the object was picked up then destroy the object
-        if(pickedUp)
-            Destroy(gameObject);
     }
 
     // Activate the pick up animation

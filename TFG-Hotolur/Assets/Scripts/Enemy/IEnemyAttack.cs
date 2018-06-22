@@ -9,5 +9,6 @@ public interface IEnemyAttack {
     void Attack(Transform player, Transform enemy, float range);
 
     // Used to get if the enemy is in the middle of an attack animation
-    bool IsAttacking();
+    bool GetIsAttacking();
+    bool GetTryingToAttack(); // Used to know if the enemy is trying to attack
 }

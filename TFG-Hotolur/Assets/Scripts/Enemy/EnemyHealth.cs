@@ -47,17 +47,24 @@ public class EnemyHealth : MonoBehaviour {
     private IEnumerator DeactivateEnemy()
     {
         yield return new WaitForSeconds(0.1f);
-
-        // Deactivate the Dead animation, the gravity and the collider of the enemy
-        anim.SetBool(HashIDs.instance.deadBool, false);
-
-        GetComponent<Rigidbody>().useGravity = false;
-        GetComponent<CapsuleCollider>().enabled = false;
+        
+        // When the enemy dies get it out of the player's way moving it in the Z axis
+        // As the camera is ortographic the effect of getting the enemy closer to the camera is undetectable
+        transform.position = new Vector3(transform.position.x, transform.position.y, -10f);
         GetComponent<NavMeshAgent>().isStopped = true;
 
+        // Deactivate the Dead animation, the gravity and the collider of the enemy
+        //anim.SetBool(HashIDs.instance.deadBool, false);
+        
         yield return new WaitForSeconds(deactivateTime);
 
         // Deactivate the GameObject
         gameObject.SetActive(false);
     }
+
+    public float GetHealth()
+    {
+        return health;
+    }
+
 }

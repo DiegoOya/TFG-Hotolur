@@ -50,7 +50,7 @@ public class PlayerMovement : MonoBehaviour
         mov = Input.GetAxis("Horizontal");
         jump = Input.GetButton("Jump");
 
-        if (jump && isGrounded && anim.GetCurrentAnimatorStateInfo(0).fullPathHash == HashIDs.instance.locomotionState)
+        if (jump && isGrounded)
             isJumping = true;
     }
 
@@ -68,7 +68,24 @@ public class PlayerMovement : MonoBehaviour
             // If it is not grounded then the player can move sideways midair
             if (!isGrounded)
             {
-                rb.velocity = new Vector3(mov * movForce, rb.velocity.y, rb.velocity.z);
+                rb.velocity = new Vector3(mov * movForce, rb.velocity.y, 0f);
+
+                // Get the velocity
+                Vector3 horizontalMove = rb.velocity;
+                // Don't use the vertical velocity
+                horizontalMove.y = 0;
+                // Calculate the approximate distance that will be traversed
+                float distance = horizontalMove.magnitude * Time.fixedDeltaTime;
+                // Normalize horizontalMove since it should be used to indicate direction
+                horizontalMove.Normalize();
+                RaycastHit hit;
+
+                // Check if the body's current velocity will result in a collision
+                if (rb.SweepTest(horizontalMove, out hit, distance))
+                {
+                    // If so, stop the movement
+                    rb.velocity = new Vector3(0, rb.velocity.y, 0);
+                }
             }
         }
     }

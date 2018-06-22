@@ -14,6 +14,7 @@ public class SmallEnemyAttack : MonoBehaviour, IEnemyAttack {
     public AnimationClip throwAnim;
 
     private bool isAttacking = false;
+    private bool tryingToAttack = false;
 
     private ObjectPooler objPooler;
 
@@ -46,8 +47,10 @@ public class SmallEnemyAttack : MonoBehaviour, IEnemyAttack {
     // Here is the AI of the attack and the attack per se
     public void Attack(Transform player, Transform enemy, float range)
     {
-        if(attackCoolDown <= 0f && !anim.GetBool(HashIDs.instance.throwBool))
+        if(attackCoolDown <= 0f && (!anim.GetBool(HashIDs.instance.throwBool) || 
+            (anim.GetCurrentAnimatorStateInfo(0).fullPathHash != HashIDs.instance.dyingState)))
         {
+            tryingToAttack = true;
             StartCoroutine(DoAttack(player, enemy, range));
 
             // Reset attackCoolDown
@@ -61,6 +64,7 @@ public class SmallEnemyAttack : MonoBehaviour, IEnemyAttack {
         // Activate anim
         anim.SetBool(HashIDs.instance.throwBool, true);
         isAttacking = true;
+        tryingToAttack = false;
         
         yield return new WaitForSeconds(0.001f);
 
@@ -74,9 +78,14 @@ public class SmallEnemyAttack : MonoBehaviour, IEnemyAttack {
         audioSource.Play();
     }
 
-    public bool IsAttacking()
+    public bool GetIsAttacking()
     {
         return isAttacking;
+    }
+
+    public bool GetTryingToAttack()
+    {
+        return tryingToAttack;
     }
 
 }

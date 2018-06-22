@@ -53,8 +53,8 @@ public class Inventory : MonoBehaviour {
             ChangeWeapon();
         }
 
-        // If there is some weapon in the inventory and livesText isn't null then
-        // show in the screen the number of lives left, if not then search for it
+        // If there is some weapon in the inventory and weaponSelectedText isn't null then
+        // show in the screen the weapon selected, if not then search for it
         if (weapons.Count > 0)
         {
             if (weaponSelectedText != null)
@@ -82,6 +82,8 @@ public class Inventory : MonoBehaviour {
         // Add the item to the list
         weapons.Add((Weapon)weapon);
 
+        ChangeWeapon();
+
         if(OnItemChangedCallBack != null)
             OnItemChangedCallBack.Invoke();
 
@@ -104,9 +106,7 @@ public class Inventory : MonoBehaviour {
             playerShoot = GameObject.FindGameObjectWithTag(Tags.player).GetComponentInChildren<PlayerShoot>();
         int maxLength = weapons.Count;
         index = index + 1 < maxLength ? index + 1 : 0;
-        playerShoot.maxDamage = weapons[index].maxDamage;
-        playerShoot.range = weapons[index].range;
-        playerShoot.fireRate = weapons[index].fireRate;
+        playerShoot.EquipWeapon(weapons[index].maxDamage, weapons[index].range, weapons[index].fireRate, weapons[index].weaponType);
     }
 
     // Getter of the list of weapons

@@ -25,7 +25,7 @@ public class MeleeAttackController : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         // If the enemy is attacking then calculate if the player is touching the enemy hand
-        if (enemyAttack.IsAttacking())
+        if (enemyAttack.GetIsAttacking())
         {
             // If other is the player, then hurt the player
             if(other.CompareTag(Tags.player))

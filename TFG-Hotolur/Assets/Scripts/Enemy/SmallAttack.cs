@@ -12,6 +12,8 @@ public class SmallAttack : MonoBehaviour, IPooledObject {
 
     private Transform player;
 
+    [SerializeField]
+    private float probStraightThrow = 0.5f;
     private float range;
     private float distance;
 
@@ -41,12 +43,22 @@ public class SmallAttack : MonoBehaviour, IPooledObject {
     {
         // Calculate the distance vector
         Vector3 dist = player.position - transform.position;
+        float distMagnitude = Mathf.Sqrt(dist.x * dist.x + dist.y * dist.y);
 
         // Time to reach the player, proportional to the distance between the attack and the player divided by the range 
-        float t = (Mathf.Abs(dist.x) / range) * timeToTarget;
+        float t = (distMagnitude / range) * timeToTarget;
 
         // Calculate the velocity of x, y and z axis
-        float v0y = (dist.y + 1f) / t + 0.5f * Physics.gravity.magnitude * t;
+        float v0y = 0f;
+        if (Random.value > probStraightThrow)
+        {
+            v0y = 0;
+            rb.useGravity = false;
+        }
+        else
+        {
+            v0y = (dist.y + 1f) / t + 0.5f * Physics.gravity.magnitude * t;
+        }
         float v0x = dist.x / t;
         float v0z = dist.z / t;
 
@@ -86,13 +98,6 @@ public class SmallAttack : MonoBehaviour, IPooledObject {
 
             gameObject.SetActive(false);
         }
-
-        // // If it touches the ground
-        // if(other.gameObject.layer == 8)
-        // {
-        //     // Changes the collider to trigger
-        //     IsCollision(false);
-        // }
     }
 
     // Set the player to pj and its animator

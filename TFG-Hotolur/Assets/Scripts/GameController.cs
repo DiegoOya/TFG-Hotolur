@@ -98,7 +98,7 @@ public class GameController : MonoBehaviour {
     private void SaveGame()
     {
         GameData gameData = CreateSaveData();
-
+        
         BinaryFormatter bf = new BinaryFormatter();
         FileStream file = File.Create(Application.persistentDataPath + "/gameData.htlr");
         bf.Serialize(file, gameData);
@@ -110,8 +110,6 @@ public class GameController : MonoBehaviour {
     // Store the variables needed to save the game
     private GameData CreateSaveData()
     {
-        AddWeapons();
-
         headPosition = GameObject.FindGameObjectWithTag(Tags.head).transform.position;
         int sceneIndex = SceneManager.GetActiveScene().buildIndex;
         List<Weapon> weaponList = Inventory.instance.GetWeapons();
@@ -120,7 +118,11 @@ public class GameController : MonoBehaviour {
         {
             for(int j = 0; j < weapons.Count; j++)
             {
-                if(weapons[j].name.Equals(weaponList[i].name))
+                // As there isn't any weapon with the same values look if the player 
+                // has the weapon equipped comparing their values
+                if (weapons[j].maxDamage == weaponList[i].maxDamage && 
+                    weapons[j].range == weaponList[i].range &&
+                    weapons[j].fireRate == weaponList[i].fireRate)
                 {
                     weaponsIndex.Add(j);
                     break;
@@ -240,13 +242,12 @@ public class GameController : MonoBehaviour {
         AddCheckpoints();
         AddWeapons();
 
+        Inventory.instance.SetItems(new List<Weapon>());
         Inventory.instance.Add(weapons[0]);
 
         PlayerShoot playerShoot = GameObject.FindGameObjectWithTag(Tags.player).GetComponentInChildren<PlayerShoot>();
         int maxLength = weapons.Count;
-        playerShoot.maxDamage = weapons[0].maxDamage;
-        playerShoot.range = weapons[0].range;
-        playerShoot.fireRate = weapons[0].fireRate;
+        playerShoot.EquipWeapon(weapons[0].maxDamage, weapons[0].range, weapons[0].fireRate, weapons[0].weaponType);
 
         lastCheckpoint = checkpoints.Count - 1;
         headPosition = GameObject.FindGameObjectWithTag(Tags.head).transform.position;
@@ -259,8 +260,7 @@ public class GameController : MonoBehaviour {
         yield return new WaitForSeconds(1f);
 
         AddCheckpoints();
-        AddWeapons();
-
+        
         Checkpoint CP = checkpoints[lastCheckpoint].GetComponent<Checkpoint>();
         if (CP != null)
             CP.SetHasEntered(true);
@@ -269,6 +269,7 @@ public class GameController : MonoBehaviour {
         {
             headPosition = GameObject.FindGameObjectWithTag(Tags.head).transform.position;
 
+            AddWeapons();
             List<Weapon> initialWeapon = new List<Weapon>();
             initialWeapon.Add(weapons[0]);
             Inventory.instance.SetItems(initialWeapon);

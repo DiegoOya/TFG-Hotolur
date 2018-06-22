@@ -11,7 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff9127e0d96246458e192326d05dcd7, type: 3}
   m_Name: Watch 5s
   m_EditorClassIdentifier: 
-  name: New Item
+  name: Watch
   icon: {fileID: 0}
   sound: {fileID: 8300000, guid: 6b95369d7a319124285b56d97e605725, type: 3}
   stopTime: 5

@@ -15,11 +15,14 @@ public class JumpController : StateMachineBehaviour {
     
     private Rigidbody rb;
 
+    private PlayerHealth playerHealth;
+
     private AudioSource playerAudioSource;
 
     private void Awake()
     {
         rb = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Rigidbody>();
+        playerHealth = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<PlayerHealth>();
 
         playerAudioSource = GameObject.FindGameObjectWithTag(Tags.player).GetComponents<AudioSource>()[1];
     }
@@ -42,29 +45,38 @@ public class JumpController : StateMachineBehaviour {
     // and if it is not, then stops the Jump animation
     public override void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {        
-        // If the Jump button is being kept holding down
-        if ((Input.GetButton("Jump")) && !stoppedJumping)
+        // If the player died then he cannot continue jumping
+        float health = playerHealth.GetHealth();
+        if (health > 0f)
         {
-            // And jumpTimeCounter hasn't reached zero
-            if (jumpTimeCounter > 0)
+            // If the Jump button is being kept holding down
+            if ((Input.GetButton("Jump")) && !stoppedJumping)
             {
-                // Keep jumping and decrease jumpTimeCounter
-                rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
-                jumpTimeCounter -= Time.deltaTime;
+                // And jumpTimeCounter hasn't reached zero
+                if (jumpTimeCounter > 0)
+                {
+                    // Keep jumping and decrease jumpTimeCounter
+                    rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+                    jumpTimeCounter -= Time.deltaTime;
+                }
+                else
+                {
+                    stoppedJumping = true;
+                }
             }
-            else
+
+            // If the Jump Button has stopped being holding down
+            if (Input.GetButtonUp("Jump"))
             {
+                // Stop jumping and set your counter to zero
+                // The timer will reset once we touch the ground again in the update function.
+                jumpTimeCounter = 0;
                 stoppedJumping = true;
             }
         }
-
-        // If the Jump Button has stopped being holding down
-        if (Input.GetButtonUp("Jump"))
+        else
         {
-            // Stop jumping and set your counter to zero
-            // The timer will reset once we touch the ground again in the update function.
-            jumpTimeCounter = 0;
-            stoppedJumping = true;
+            animator.SetBool(HashIDs.instance.deadBool, true);
         }
     }
 }

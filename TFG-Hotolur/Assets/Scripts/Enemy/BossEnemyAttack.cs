@@ -23,6 +23,7 @@ public class BossEnemyAttack : MonoBehaviour, IEnemyAttack
     public AnimationClip specialAttackAnim;
 
     private bool isAttacking = false;
+    private bool tryingToAttack = false;
 
     private ObjectPooler objPooler;
 
@@ -170,9 +171,14 @@ public class BossEnemyAttack : MonoBehaviour, IEnemyAttack
     }
 
     // A getter of isAttacking
-    public bool IsAttacking()
+    public bool GetIsAttacking()
     {
         return isAttacking;
+    }
+
+    public bool GetTryingToAttack()
+    {
+        return tryingToAttack;
     }
 
 }

@@ -14,6 +14,7 @@ MonoBehaviour:
   name: Pistol
   icon: {fileID: 0}
   sound: {fileID: 8300000, guid: b6312a7dfce166249a6f70c02da86971, type: 3}
+  weaponType: 0
   maxDamage: 25
   fireRate: 5
   range: 8

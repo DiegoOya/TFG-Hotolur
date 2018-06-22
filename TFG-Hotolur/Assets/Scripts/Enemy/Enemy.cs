@@ -15,10 +15,13 @@ public class Enemy : Interactable {
     private Vector3 destination;
 
     private bool playerDetected = false;
+    private bool playerDead = false;
 
     private IEnemyAttack enemyAttack;
 
     private Rigidbody rb;
+
+    private PlayerHealth playerHealth;
 
     private NavMeshAgent agent;
 
@@ -30,6 +33,7 @@ public class Enemy : Interactable {
         enemyAttack = GetComponent<IEnemyAttack>();
 
         rb = GetComponent<Rigidbody>();
+        playerHealth = player.GetComponent<PlayerHealth>();
 
         // Set the reference of NavMeshAgent
         agent = GetComponent<NavMeshAgent>();
@@ -45,7 +49,7 @@ public class Enemy : Interactable {
         // If the player is detected then the enemy starts to follow the player
         if(playerDetected && !agent.isStopped)
         {
-            bool isAttacking = enemyAttack.IsAttacking();
+            bool isAttacking = enemyAttack.GetIsAttacking();
 
             // If the player is outside the stoppingDistance then make the enemy follow the player
             if (distance > attackRadius)
@@ -61,7 +65,8 @@ public class Enemy : Interactable {
             }
             else
             {
-                if (!isAttacking)
+                bool tryingToAttack = enemyAttack.GetTryingToAttack();
+                if (!isAttacking && !tryingToAttack)
                 {
                     agent.SetDestination(transform.position);
 
@@ -81,7 +86,18 @@ public class Enemy : Interactable {
 
                 rb.MoveRotation(newRotation);
 
-                character.Move(Vector3.zero, false);
+                if (tryingToAttack)
+                {
+                    // Make the eneny follow the player
+                    destination = player.position;
+                    agent.SetDestination(destination);
+                    agent.stoppingDistance = 1.5f;
+                    character.Move(agent.desiredVelocity, false);
+                }
+                else
+                {
+                    character.Move(Vector3.zero, false);
+                }
             }
         }
     }
@@ -96,6 +112,14 @@ public class Enemy : Interactable {
             attackRadius = agent.stoppingDistance;
 
             playerDetected = true;
+        }
+        else
+        {
+            if (playerHealth.GetHealth() <= 0)
+            {
+                character.Move(Vector3.zero, false);
+                agent.isStopped = true;
+            }
         }
     }
 

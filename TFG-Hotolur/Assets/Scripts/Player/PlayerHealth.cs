@@ -172,9 +172,8 @@ public class PlayerHealth : MonoBehaviour {
         anim.SetBool(HashIDs.instance.deadBool, false);
 
         isDead = true;
-        
-        GetComponent<Rigidbody>().useGravity = false;
-        GetComponent<CapsuleCollider>().enabled = false;
+
+        anim.applyRootMotion = false;
 
         // Wait 5 seconds and restart the level
         yield return new WaitForSeconds(5.0f);

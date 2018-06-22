@@ -25,11 +25,14 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
     public AudioClip audioMelee;
 
     private bool isAttacking = false;
+    private bool tryingToAttack = false;
 
     private ObjectPooler objPooler;
 
     [SerializeField]
     private float shortRangeRadius = 1.5f;
+    [SerializeField]
+    private float probShortRange = 0.5f;
 
     private float attackCoolDown = 0f;
     private float timeThrowAnim;
@@ -42,6 +45,8 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
     // Initialize variables
     private void Start()
     {
+        probShortRange = Mathf.Clamp(probShortRange, 0.0f, 1.0f);
+
         objPooler = ObjectPooler.instance;
 
         anim = GetComponent<Animator>();
@@ -63,27 +68,42 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
     // Here is the AI of the attack and the attack per se
     public void Attack(Transform player, Transform enemy, float range)
     {
-        if (attackCoolDown <= 0f && (!anim.GetBool(HashIDs.instance.throwBool) || !anim.GetBool(HashIDs.instance.meleeBool)))
+        if (attackCoolDown <= 0f && (!anim.GetBool(HashIDs.instance.throwBool) || !anim.GetBool(HashIDs.instance.meleeBool) || 
+            (anim.GetCurrentAnimatorStateInfo(0).fullPathHash != HashIDs.instance.dyingState)))
         {
-            // Calculate the distance between the player and the enemy
-            float distance = Mathf.Sqrt(
-                (player.position.x - transform.position.x) * (player.position.x - transform.position.x) +
-                (player.position.y - transform.position.y) * (player.position.y - transform.position.y));
-
-            // If the player is inside shortRangeRadius then the attack will be the short range attack
-            if(distance < shortRangeRadius)
+            if (!tryingToAttack)
             {
-                StartCoroutine(DoShortRangeAttack(player));
+                if (Random.value > 0.5f)
+                {
+                    tryingToAttack = true;
+ 
+                    StartCoroutine(DoShortRangeAttack(player));
+                }
+                else
+                {
+                    tryingToAttack = true;
 
-                // Reset attackCoolDown
-                attackCoolDown = timeMeleeAnim / anim.GetCurrentAnimatorStateInfo(0).speed;
-            }
-            else
-            {
-                StartCoroutine(DoLongRangeAttack(player, enemy, range));
+                    // Calculate the distance between the player and the enemy
+                    float distance = Mathf.Sqrt(
+                        (player.position.x - transform.position.x) * (player.position.x - transform.position.x) +
+                        (player.position.y - transform.position.y) * (player.position.y - transform.position.y));
 
-                // Reset attackCoolDown
-                attackCoolDown = timeThrowAnim / anim.GetCurrentAnimatorStateInfo(0).speed;
+                    // If the player is inside shortRangeRadius then the attack will be the short range attack
+                    if (distance < shortRangeRadius)
+                    {
+                        StartCoroutine(DoShortRangeAttack(player));
+
+                        // Reset attackCoolDown
+                        attackCoolDown = timeMeleeAnim / anim.GetCurrentAnimatorStateInfo(0).speed;
+                    }
+                    else
+                    {
+                        StartCoroutine(DoLongRangeAttack(player, enemy, range));
+
+                        // Reset attackCoolDown
+                        attackCoolDown = timeThrowAnim / anim.GetCurrentAnimatorStateInfo(0).speed;
+                    }
+                }
             }
         }
     }
@@ -94,6 +114,7 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
         // Activate anim
         anim.SetBool(HashIDs.instance.throwBool, true);
         isAttacking = true;
+        tryingToAttack = false;
 
         yield return new WaitForSeconds(0.001f);
 
@@ -111,25 +132,51 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
     // Coroutine of the enemy short range attack
     private IEnumerator DoShortRangeAttack(Transform player)
     {
-        // Activate anim
-        anim.SetBool(HashIDs.instance.meleeBool, true);
-        isAttacking = true;
+        bool hasAttacked = false;
+        while (!hasAttacked)
+        {
+            yield return new WaitForSeconds(0.3f);
 
-        audioSource.clip = audioMelee;
-        audioSource.Play();
+            // Calculate the distance between the player and the enemy
+            float distance = Mathf.Sqrt(
+                (player.position.x - transform.position.x) * (player.position.x - transform.position.x) +
+                (player.position.y - transform.position.y) * (player.position.y - transform.position.y));
 
-        yield return new WaitForSeconds(0.001f);
+            // If the player is inside shortRangeRadius then the attack will be the short range attack
+            if (distance < shortRangeRadius)
+            {
+                // Activate anim
+                anim.SetBool(HashIDs.instance.meleeBool, true);
+                isAttacking = true;
+                tryingToAttack = false;
+                hasAttacked = true;
 
-        // Wait the time needed to throw the attack in the optimal gesture of the animation
-        yield return new WaitForSeconds(timeMeleeAnim / (4f * anim.GetNextAnimatorStateInfo(0).speed));
-        
-        anim.SetBool(HashIDs.instance.meleeBool, false);
+                // Reset attackCoolDown
+                attackCoolDown = timeMeleeAnim / anim.GetCurrentAnimatorStateInfo(0).speed;
+
+                audioSource.clip = audioMelee;
+                audioSource.Play();
+
+                yield return new WaitForSeconds(0.001f);
+
+                // Wait the time needed to throw the attack in the optimal gesture of the animation
+                yield return new WaitForSeconds(timeMeleeAnim / (4f * anim.GetNextAnimatorStateInfo(0).speed));
+
+                anim.SetBool(HashIDs.instance.meleeBool, false);
+            }
+        }
     }
 
     // A getter of isAttacking
-    public bool IsAttacking()
+    public bool GetIsAttacking()
     {
         return isAttacking;
+    }
+
+    // Getter of tryingToAttack
+    public bool GetTryingToAttack()
+    {
+        return tryingToAttack;
     }
 
 }
