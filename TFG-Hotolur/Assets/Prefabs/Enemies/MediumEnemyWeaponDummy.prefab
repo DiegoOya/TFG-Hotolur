@@ -111,8 +111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c591d3281dc59a42a2d3238fc167389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDamage: 40
-  timeToTarget: 1.3
+  maxDamage: 30
+  timeToTarget: 1
   probStraightThrow: 0.5
 --- !u!135 &135715035558999476
 SphereCollider:

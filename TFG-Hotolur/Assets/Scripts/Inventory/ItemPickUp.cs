@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -6,29 +7,18 @@ using UnityEngine;
 /// </summary>
 public class ItemPickUp : Interactable {
     
-    // Pick up animation of the player
-    // If you want to change the pickUpAnim, you have to delete [HideInInspector] temporally
-    [HideInInspector]
-    public AnimationClip pickUpAnim;
-
-    // Length of pickUpAnim
-    private float timePickUpAnim;
-
-    // Variable used if the item will be used instantly 
-    //[SerializeField]
-    //private bool useItemInstantly = false;
-
     // This variable is the ScriptableObject of the item
     [SerializeField]
     private Item item;
 
     private Animator anim;
 
+    private TextMeshProUGUI gotItemText;
+
     private AudioSource audioSource;
 
     private void Start()
     {
-        timePickUpAnim = pickUpAnim.length;
         anim = player.GetComponent<Animator>();
 
         audioSource = player.GetComponents<AudioSource>()[2];
@@ -63,7 +53,40 @@ public class ItemPickUp : Interactable {
                 gameObject.SetActive(false);
             }
 
+            // If gotItemTextGO isn't null then show in the screen the object gotten, if not then search for it
+            GameObject gotItemTextGO = GameObject.FindGameObjectWithTag(Tags.addPointsText);
+            if (gotItemTextGO != null)
+            {
+                gotItemText = gotItemTextGO.GetComponent<TextMeshProUGUI>();
+                gotItemText.text = string.Concat(item.name.ToString());
+            }
+
             return;
+        }
+        else
+        {
+            if (item is Potion)
+            {
+                // If gotItemTextGO isn't null then show in the screen the object gotten, if not then search for it
+                GameObject gotItemTextGO = GameObject.FindGameObjectWithTag(Tags.addPointsText);
+                if (gotItemTextGO != null)
+                {
+                    gotItemText = gotItemTextGO.GetComponent<TextMeshProUGUI>();
+                    Potion potion = (Potion)item;
+                    gotItemText.text = string.Concat("+", potion.percentageHealthToHeal.ToString(), " HP");
+                }
+            }
+            else
+            {
+                // If gotItemTextGO isn't null then show in the screen the object gotten, if not then search for it
+                GameObject gotItemTextGO = GameObject.FindGameObjectWithTag(Tags.addPointsText);
+                if (gotItemTextGO != null)
+                {
+                    gotItemText = gotItemTextGO.GetComponent<TextMeshProUGUI>();
+                    Watch watch = (Watch)item;
+                    gotItemText.text = string.Concat("+", watch.stopTime.ToString(), " s");
+                }
+            }
         }
 
         // If it is another item then play the sound and destroy it
@@ -84,16 +107,7 @@ public class ItemPickUp : Interactable {
         // Deactivate the pick up animation, because it has exit time it will wait until the animation ends
         anim.SetBool(HashIDs.instance.pickUpBool, false);
 
-        // Wait until the player picks the object in the animation
-        yield return new WaitForSeconds(timePickUpAnim / (2f * anim.GetNextAnimatorStateInfo(1).speed));
-
-        // If the player is not in the pick up state, then interrupt the pick up action,
-        // i.e., the player does not pick the object
-        // But if it is still in the same animation, then pick up the object
-        if (anim.GetNextAnimatorStateInfo(1).fullPathHash == HashIDs.instance.pickUpState)
-        {
-            PickUp();
-        }
+        PickUp();
     }
 
     public Item GetItem()

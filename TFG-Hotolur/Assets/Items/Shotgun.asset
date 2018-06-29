@@ -15,6 +15,6 @@ MonoBehaviour:
   icon: {fileID: 0}
   sound: {fileID: 8300000, guid: b6312a7dfce166249a6f70c02da86971, type: 3}
   weaponType: 1
-  maxDamage: 45
+  maxDamage: 60
   fireRate: 2
   range: 4

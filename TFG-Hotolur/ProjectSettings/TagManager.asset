@@ -9,9 +9,17 @@ TagManager:
   - Background
   - Head
   - CheckPoint
-  - CounterText
   - Weapon
   - Platform
+  - LifeCounterText
+  - TimeCounterText
+  - WeaponText
+  - PointsToWinText
+  - PointsText
+  - RankingText
+  - EndPanel
+  - AddPointsText
+  - GotItemText
   layers:
   - Default
   - TransparentFX
@@ -23,8 +31,8 @@ TagManager:
   - 
   - Ground
   - EnemyWeapon
-  - 
-  - 
+  - Bullet
+  - Enemy
   - 
   - 
   - 

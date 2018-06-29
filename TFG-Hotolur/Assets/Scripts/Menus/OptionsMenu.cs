@@ -43,6 +43,7 @@ public class OptionsMenu : MonoBehaviour {
         resolutionDropdown.AddOptions(options);
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
+        SetResolution(currentResolutionIndex);
     }
 
     // When dragged the volume slider this function is called

@@ -39,13 +39,6 @@ public class Inventory : MonoBehaviour {
 
     private PlayerShoot playerShoot;
 
-    private void Start()
-    {
-        GameObject[] counterTexts = GameObject.FindGameObjectsWithTag(Tags.counterText);
-        if (counterTexts.Length != 0)
-            weaponSelectedText = counterTexts[2].GetComponent<TextMeshProUGUI>();
-    }
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse1) || Input.GetButtonDown("ChangeWeapon"))
@@ -57,13 +50,11 @@ public class Inventory : MonoBehaviour {
         // show in the screen the weapon selected, if not then search for it
         if (weapons.Count > 0)
         {
-            if (weaponSelectedText != null)
-                weaponSelectedText.text = string.Concat("Weapon selected: ", weapons[index].name);
-            else
+            GameObject weaponSelectedTextGO = GameObject.FindGameObjectWithTag(Tags.weaponText);
+            if (weaponSelectedTextGO != null)
             {
-                GameObject[] counterTexts = GameObject.FindGameObjectsWithTag(Tags.counterText);
-                if (counterTexts.Length != 0)
-                    weaponSelectedText = counterTexts[2].GetComponent<TextMeshProUGUI>();
+                weaponSelectedText = weaponSelectedTextGO.GetComponent<TextMeshProUGUI>();
+                weaponSelectedText.text = string.Concat("Weapon selected: ", weapons[index].name);
             }
         }
     }
@@ -79,8 +70,20 @@ public class Inventory : MonoBehaviour {
             return false;
         }
 
-        // Add the item to the list
-        weapons.Add((Weapon)weapon);
+        bool pickup = true;
+        for(int i = 0; i < weapons.Count; i++)
+        {
+            if(weapon.name == weapons[i].name)
+            {
+                pickup = false;
+                break;
+            }
+        }
+        if (pickup)
+        {
+            // Add the item to the list
+            weapons.Add((Weapon)weapon);
+        }
 
         ChangeWeapon();
 
@@ -106,6 +109,13 @@ public class Inventory : MonoBehaviour {
             playerShoot = GameObject.FindGameObjectWithTag(Tags.player).GetComponentInChildren<PlayerShoot>();
         int maxLength = weapons.Count;
         index = index + 1 < maxLength ? index + 1 : 0;
+        playerShoot.EquipWeapon(weapons[index].maxDamage, weapons[index].range, weapons[index].fireRate, weapons[index].weaponType);
+    }
+
+    public void EquipActualWeapon()
+    {
+        if (playerShoot == null)
+            playerShoot = GameObject.FindGameObjectWithTag(Tags.player).GetComponentInChildren<PlayerShoot>();
         playerShoot.EquipWeapon(weapons[index].maxDamage, weapons[index].range, weapons[index].fireRate, weapons[index].weaponType);
     }
 

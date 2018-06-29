@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1241344951546452}
+  m_IsPrefabParent: 1
+--- !u!1 &1241344951546452
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4306950306928972}
+  - component: {fileID: 114965277413501654}
+  m_Layer: 0
+  m_Name: ObjectPooler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4306950306928972
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1241344951546452}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.585636, y: 2.8207395, z: -0.01171875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114965277413501654
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1241344951546452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d457df8a439082a44a6c923aaddc6f5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - tag: Small Weapon
+    prefab: {fileID: 1657592003404454, guid: a9b4d061599515e4c882837e9eec084a, type: 2}
+    size: 20
+  - tag: Medium Weapon
+    prefab: {fileID: 1782271270131036, guid: dc8c8045b7931424e90f7db84a1956c9, type: 2}
+    size: 20
+  - tag: Shot Received
+    prefab: {fileID: 1751722940203552, guid: 33c6667974b36e84d9b6a7b9d847338a, type: 2}
+    size: 20
+  - tag: Bullet
+    prefab: {fileID: 1830957737827604, guid: 03f6f7b993b119242978ed145e82f9ba, type: 2}
+    size: 50
+  - tag: FirstAid20%
+    prefab: {fileID: 100000, guid: 52cf2a42de425c04dbad2326efa3be14, type: 2}
+    size: 10
+  - tag: FirstAid50%
+    prefab: {fileID: 100000, guid: af9c3cb65122d9b4b8403739e9fe0120, type: 2}
+    size: 10
+  - tag: Watch 1s
+    prefab: {fileID: 1205147651384360, guid: 9332e81c855e66748b3d7ee802f59bfc, type: 2}
+    size: 10
+  - tag: Watch 3s
+    prefab: {fileID: 1205147651384360, guid: 1da20c40a140d6a4db3daecfa4c4d033, type: 2}
+    size: 10
+  - tag: FirstAid100%
+    prefab: {fileID: 100000, guid: 25e39207fda20bd49a2f6ae8539203c8, type: 2}
+    size: 10
+  - tag: Watch 5s
+    prefab: {fileID: 1205147651384360, guid: ec4b60d88a920cb40ad203eaf822d664, type: 2}
+    size: 10

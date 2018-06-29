@@ -13,7 +13,9 @@ public class BulletController : MonoBehaviour {
     private float range;
     private float timeUntilShot = 0f;
     private float timeToDeactivate;
-    
+
+    private Vector3 posIni;
+
     private Rigidbody rb;
 
     private ObjectPooler objPooler;
@@ -43,6 +45,9 @@ public class BulletController : MonoBehaviour {
     // This method is called whenever this object spawns 
     public void OnObjectSpawn()
     {
+        timeUntilShot = 0f;
+        posIni = transform.position;
+
         rb.velocity = player.forward * shotSpeed;
 
         timeToDeactivate = range / shotSpeed;
@@ -54,8 +59,11 @@ public class BulletController : MonoBehaviour {
         // If it touches the player
         if (other.gameObject.CompareTag(Tags.enemy))
         {
+            float distSqr = (transform.position.x - posIni.x) * (transform.position.x - posIni.x) +
+            (transform.position.y - posIni.y) * (transform.position.y - posIni.y);
+
             // The damage is maximum as the target is farther
-            float damage = maxDamage * shotSpeed * timeUntilShot / range;
+            float damage = (1 - Mathf.Sqrt(distSqr) / range) * maxDamage;
 
             // The player takes the damage
             EnemyHealth enemy = other.gameObject.GetComponent<EnemyHealth>();

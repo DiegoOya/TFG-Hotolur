@@ -15,13 +15,14 @@ public class Enemy : Interactable {
     private Vector3 destination;
 
     private bool playerDetected = false;
-    private bool playerDead = false;
 
     private IEnemyAttack enemyAttack;
 
     private Rigidbody rb;
 
     private PlayerHealth playerHealth;
+
+    private EnemyHealth enemyHealth;
 
     private NavMeshAgent agent;
 
@@ -34,6 +35,8 @@ public class Enemy : Interactable {
 
         rb = GetComponent<Rigidbody>();
         playerHealth = player.GetComponent<PlayerHealth>();
+
+        enemyHealth = GetComponent<EnemyHealth>();
 
         // Set the reference of NavMeshAgent
         agent = GetComponent<NavMeshAgent>();
@@ -74,17 +77,7 @@ public class Enemy : Interactable {
                     enemyAttack.Attack(player, transform, attackRadius);
                 }
 
-                // Check if the player is at the enemy's back
-                float distEnemyPlayer = transform.position.x - player.position.x;
-
-                // If the player is at its back then make it turn around
-                Quaternion newRotation = new Quaternion();
-                if (distEnemyPlayer >= 0)
-                    newRotation = Quaternion.Lerp(rb.rotation, Quaternion.Euler(0f, -90f, 0f), turnSmoothing * Time.deltaTime);
-                else if (distEnemyPlayer < 0)
-                    newRotation = Quaternion.Lerp(rb.rotation, Quaternion.Euler(0f, 90f, 0f), turnSmoothing * Time.deltaTime);
-
-                rb.MoveRotation(newRotation);
+                
 
                 if (tryingToAttack)
                 {
@@ -99,6 +92,18 @@ public class Enemy : Interactable {
                     character.Move(Vector3.zero, false);
                 }
             }
+
+            // Check if the player is at the enemy's back
+            float distEnemyPlayer = transform.position.x - player.position.x;
+
+            // If the player is at its back then make it turn around
+            Quaternion newRotation = new Quaternion();
+            if (distEnemyPlayer >= 0)
+                newRotation = Quaternion.Lerp(rb.rotation, Quaternion.Euler(0f, -90f, 0f), turnSmoothing * Time.deltaTime);
+            else if (distEnemyPlayer < 0)
+                newRotation = Quaternion.Lerp(rb.rotation, Quaternion.Euler(0f, 90f, 0f), turnSmoothing * Time.deltaTime);
+
+            rb.MoveRotation(newRotation);
         }
     }
 
@@ -115,12 +120,18 @@ public class Enemy : Interactable {
         }
         else
         {
-            if (playerHealth.GetHealth() <= 0)
+            if (playerHealth.GetHealth() <= 0 || enemyHealth.GetHealth() <= 0)
             {
                 character.Move(Vector3.zero, false);
                 agent.isStopped = true;
             }
         }
+    }
+
+    // Getter of playerDetected
+    public bool GetPlayerDetected()
+    {
+        return playerDetected;
     }
 
 }

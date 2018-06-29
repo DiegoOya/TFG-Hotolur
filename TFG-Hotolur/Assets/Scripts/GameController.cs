@@ -11,6 +11,23 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class GameController : MonoBehaviour {
 
+    public class Ranking
+    {
+        public string playerName;
+        public float points;
+
+        // Method to sort the Ranking list
+        public static int SortAscending(Ranking r1, Ranking r2)
+        {
+            if (r1.points < r2.points)
+                return 1;
+            if (r1.points > r2.points)
+                return -1;
+            else
+                return 0;
+        }
+    }
+
     #region Singleton
     public static GameController instance;
 
@@ -39,13 +56,24 @@ public class GameController : MonoBehaviour {
     
     [HideInInspector]
     public int lastCheckpoint;
+    [HideInInspector]
+    public int points = 0;
+
+    public float pointsToWin = 500f;
     
     [HideInInspector]
     public bool doingSetup;
+    [HideInInspector]
+    public bool gameBeated = false;
     
     private Vector3 headPosition;
 
     private TextMeshProUGUI livesText;
+    private TextMeshProUGUI pointsText;
+    private TextMeshProUGUI pointsToWinText;
+    private TextMeshProUGUI rankingText;
+    private TextMeshProUGUI addPointsText;
+    private TextMeshProUGUI gotItemText;
 
     private AudioSource audioSource;
 
@@ -53,16 +81,35 @@ public class GameController : MonoBehaviour {
 
     private List<Weapon> weapons = new List<Weapon>();
 
+    private List<Ranking> ranking = new List<Ranking>();
+
     void Start ()
     {
         // Ignore the collisions between enemy weapons and the ground
         Physics.IgnoreLayerCollision(8, 9);
+        Physics.IgnoreLayerCollision(9, 10);
+        Physics.IgnoreLayerCollision(9, 11);
 
-        GameObject[] counterTexts = GameObject.FindGameObjectsWithTag(Tags.counterText);
-        if (counterTexts.Length != 0)
-            livesText = counterTexts[1].GetComponent<TextMeshProUGUI>();
-        
         audioSource = GetComponent<AudioSource>();
+        
+        // If it exists a save data file then load it
+        if (File.Exists(Application.persistentDataPath + "/gameData.htlr"))
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/gameData.htlr", FileMode.Open);
+            GameData gameData = (GameData)bf.Deserialize(file);
+            file.Close();
+            
+            // Load the ranking saved
+            for(int i = 0; i < gameData.rankingPlayerNames.Count; i++)
+            {
+                ranking.Add(new Ranking());
+                ranking[i].playerName = gameData.rankingPlayerNames[i];
+                ranking[i].points = gameData.rankingPoints[i];
+            }
+        }
+
+        UpdateRanking();
     }
 
     private void Update()
@@ -72,9 +119,71 @@ public class GameController : MonoBehaviour {
             livesText.text = lives.ToString();
         else
         {
-            GameObject[] counterTexts = GameObject.FindGameObjectsWithTag(Tags.counterText);
-            if(counterTexts.Length != 0)
-                livesText = counterTexts[1].GetComponent<TextMeshProUGUI>();
+            GameObject livesTextGO = GameObject.FindGameObjectWithTag(Tags.lifeCounterText);
+            if (livesTextGO != null)
+            {
+                livesText = livesTextGO.GetComponent<TextMeshProUGUI>();
+                livesText.text = lives.ToString();
+            }
+        }
+    }
+
+    // Updates the points and the text of the number of points
+    public void UpdatePoints(int numPoints)
+    {
+        points += numPoints;
+
+        // If addPointsTextGO isn't null then show in the screen the number of points gotten, if not then search for it
+        GameObject addPointsTextGO = GameObject.FindGameObjectWithTag(Tags.addPointsText);
+        if (addPointsTextGO != null)
+        {
+            addPointsText = addPointsTextGO.GetComponent<TextMeshProUGUI>();
+            addPointsText.text = string.Concat("+", numPoints.ToString());
+        }
+
+        // If pointsTextGO isn't null then show in the screen the number of points, if not then search for it
+        GameObject pointsTextGO = GameObject.FindGameObjectWithTag(Tags.pointsText);
+        if (pointsTextGO != null)
+        {
+            pointsText = pointsTextGO.GetComponent<TextMeshProUGUI>();
+            pointsText.text = string.Concat("Number of points: ", points.ToString());
+
+            if(points > pointsToWin)
+            {
+                pointsText.color = Color.green;
+            }
+            else
+            {
+                pointsText.color = Color.red;
+            }
+        }
+
+        // If pointsTextGO isn't null then show in the screen the number of points to win, if not then search for it
+        GameObject pointsToWinTextGO = GameObject.FindGameObjectWithTag(Tags.pointsToWinText);
+        if (pointsToWinTextGO != null)
+        {
+            pointsToWinText = pointsToWinTextGO.GetComponent<TextMeshProUGUI>();
+            pointsToWinText.text = string.Concat("Points to win: ", pointsToWin.ToString());
+        }
+    }
+
+    // Updates the ranking
+    public void UpdateRanking()
+    {
+        GameObject rankinTextGO = GameObject.FindGameObjectWithTag(Tags.rankingText);
+        if(rankinTextGO != null)
+        {
+            rankingText = rankinTextGO.GetComponent<TextMeshProUGUI>();
+            rankingText.text = "";
+            if(ranking.Count <= 0)
+            {
+                rankingText.text = "TODAVÍA NO HAS PUNTUADO";
+            }
+            else
+            {
+                for(int i = 0; i < ranking.Count; i++)
+                rankingText.text = string.Concat(rankingText.text, (i + 1).ToString(), "º: ", ranking[i].playerName, "   ", ranking[i].points, "\n");
+            }
         }
     }
 
@@ -95,7 +204,7 @@ public class GameController : MonoBehaviour {
     }
 
     // Save the game so it can be possible to play again later
-    private void SaveGame()
+    public void SaveGame()
     {
         GameData gameData = CreateSaveData();
         
@@ -130,7 +239,15 @@ public class GameController : MonoBehaviour {
             }
         }
 
-        return new GameData(lastCheckpoint, headPosition, lives, sceneIndex, weaponsIndex);
+        List<float> listPoints = new List<float>();
+        List<string> listPlayerNames = new List<string>();
+        for (int i = 0; i < ranking.Count; i++)
+        {
+            listPoints.Add(ranking[i].points);
+            listPlayerNames.Add(ranking[i].playerName);
+        }
+
+        return new GameData(lastCheckpoint, headPosition, points, gameBeated, lives, sceneIndex, weaponsIndex, listPoints, listPlayerNames);
     }
 
     // Load the game data so it can be possible to resume from the last play
@@ -143,17 +260,21 @@ public class GameController : MonoBehaviour {
             FileStream file = File.Open(Application.persistentDataPath + "/gameData.htlr", FileMode.Open);
             GameData gameData = (GameData)bf.Deserialize(file);
             file.Close();
+            
+            gameBeated = gameData.gameBeated;
+            if (gameBeated)
+                return false;
 
             // Load the scene where the game was saved
             int buildIndex = gameData.scene;
             SceneManager.LoadScene(buildIndex);
 
             lives = gameData.lives;
-            
+
             Vector3 headPos = new Vector3(gameData.headPositionX, gameData.headPositionY, gameData.headPositionZ);
-            
-            StartCoroutine(NewSceneLoaded(gameData.lives, headPos, gameData.checkPoint, gameData.weaponsIndex));
-          
+
+            StartCoroutine(NewSceneLoaded(gameData.lives, headPos, gameData.points, gameData.checkPoint, gameData.weaponsIndex));
+
             return true;
         }
         else
@@ -167,31 +288,36 @@ public class GameController : MonoBehaviour {
     {
         int livesAux = lives - 1;
 
-        if(livesAux >= 0)
+        if (buildIndex != 0)
         {
-            SceneManager.LoadScene(buildIndex);
+            if (livesAux >= 0)
+            {
+                SceneManager.LoadScene(buildIndex);
 
-            StartCoroutine(NewSceneLoadedByDeath(livesAux));
-            
-            //lastCheckpoint.GetComponent<Checkpoint>().SetHasEntered(true);  **** This doesn't make sense if the player gets to win the level 
+                StartCoroutine(NewSceneLoadedByDeath(livesAux));
+            }
+            else
+            {
+                SceneManager.LoadScene(buildIndex);
 
-            // If it is needed some actions between scenes here is the place to write it
+                lastCheckpoint = checkpoints.Count - 1;
+
+                livesAux = 3;
+
+                StartCoroutine(NewSceneLoadedByDeath(livesAux));
+            }
         }
         else
         {
             SceneManager.LoadScene(buildIndex);
-            
-            lastCheckpoint = checkpoints.Count - 1;
-
-            livesAux = 3;
-
-            StartCoroutine(NewSceneLoadedByDeath(livesAux));
         }
     }
 
     public void NewGame(int buildIndex)
     {
         SceneManager.LoadScene(buildIndex);
+
+        gameBeated = false;
 
         StartCoroutine(NewSceneLoadedByNewGame());
     }
@@ -233,6 +359,34 @@ public class GameController : MonoBehaviour {
         }
     }
 
+    // Adds a new player in the ranking
+    public void AddInRanking(string playerName)
+    {
+        // If the ranking has 10 points then insert this new one if it is greater
+        // If it has has less then add a new one in its corresponding place
+        if (ranking.Count < 10)
+        {
+            ranking.Add(new Ranking());
+            ranking[ranking.Count - 1].points = points;
+            ranking[ranking.Count - 1].playerName = playerName;
+        }
+        else
+        {
+            // As the ranking is sorted if the last points is less than the actual points
+            // then remove the last item and add the new one
+            if(ranking[9].points < points)
+            {
+                ranking.RemoveAt(9);
+                ranking.Add(new Ranking());
+                ranking[ranking.Count - 1].points = points;
+                ranking[ranking.Count - 1].playerName = playerName;
+            }
+        }
+
+        // And finally sort the ranking
+        ranking.Sort(Ranking.SortAscending);
+    }
+
     private IEnumerator NewSceneLoadedByNewGame()
     {
         yield return new WaitForSeconds(1f);
@@ -243,14 +397,23 @@ public class GameController : MonoBehaviour {
         AddWeapons();
 
         Inventory.instance.SetItems(new List<Weapon>());
-        Inventory.instance.Add(weapons[0]);
-
-        PlayerShoot playerShoot = GameObject.FindGameObjectWithTag(Tags.player).GetComponentInChildren<PlayerShoot>();
+        for (int i = 0; i < weapons.Count; i++)
+        {
+            if (weapons[i].name == "Pistol")
+            {
+                Inventory.instance.Add(weapons[i]);
+                break;
+            }
+        }
+        
         int maxLength = weapons.Count;
-        playerShoot.EquipWeapon(weapons[0].maxDamage, weapons[0].range, weapons[0].fireRate, weapons[0].weaponType);
+        Inventory.instance.ChangeWeapon();
 
         lastCheckpoint = checkpoints.Count - 1;
         headPosition = GameObject.FindGameObjectWithTag(Tags.head).transform.position;
+
+        points = 0;
+        UpdatePoints(0);
 
         doingSetup = false;
     }
@@ -269,9 +432,19 @@ public class GameController : MonoBehaviour {
         {
             headPosition = GameObject.FindGameObjectWithTag(Tags.head).transform.position;
 
+            points = 0;
+            UpdatePoints(0);
+
             AddWeapons();
             List<Weapon> initialWeapon = new List<Weapon>();
-            initialWeapon.Add(weapons[0]);
+            for (int i = 0; i < weapons.Count; i++)
+            {
+                if (weapons[i].name == "Pistol")
+                {
+                    initialWeapon.Add(weapons[i]);
+                    break;
+                }
+            }
             Inventory.instance.SetItems(initialWeapon);
 
             Inventory.instance.ChangeWeapon();
@@ -283,10 +456,14 @@ public class GameController : MonoBehaviour {
 
         lives = livesAux;
 
+        Inventory.instance.EquipActualWeapon();
+
+        UpdatePoints(0);
+
         doingSetup = false;
     }
 
-    private IEnumerator NewSceneLoaded(int livesAux, Vector3 headPos, int checkpointIndex, List<int> weaponsIndex)
+    private IEnumerator NewSceneLoaded(int livesAux, Vector3 headPos, int numPoints, int checkpointIndex, List<int> weaponsIndex)
     {
         yield return new WaitForSeconds(1f);
 
@@ -299,7 +476,10 @@ public class GameController : MonoBehaviour {
             CP.SetHasEntered(true);
         
         headPosition = headPos;
-        
+
+        points = numPoints;
+        UpdatePoints(0);
+
         List<Weapon> weaponList = new List<Weapon>();
         for (int i = 0; i < weaponsIndex.Count; i++)
         {

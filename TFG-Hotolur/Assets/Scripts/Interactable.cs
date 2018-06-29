@@ -27,7 +27,7 @@ public class Interactable : MonoBehaviour {
         // Calculate the distance between the player and the interactable
         distance = Mathf.Sqrt(
             (player.position.x - interactionTransform.position.x) * (player.position.x - interactionTransform.position.x) +
-            (player.position.y - interactionTransform.position.y) * (player.position.y - interactionTransform.position.y));
+            (player.position.y + 0.5f - interactionTransform.position.y) * (player.position.y + 0.5f - interactionTransform.position.y));
 
         // If it is inside the radious interact
         if (distance <= radius)

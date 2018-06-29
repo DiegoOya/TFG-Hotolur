@@ -12,8 +12,13 @@ public class MainMenu : MonoBehaviour {
     [HideInInspector]
     public TextMeshProUGUI noGameSavedText;
 
+    private void Start()
+    {
+        GameController.instance.UpdateRanking();
+    }
+
     // When pushed the New Game button in the menu, access to a new game
-	public void NewGame()
+    public void NewGame()
     {
         GameController.instance.doingSetup = true;
         GameController.instance.NewGame(SceneManager.GetActiveScene().buildIndex + 1);

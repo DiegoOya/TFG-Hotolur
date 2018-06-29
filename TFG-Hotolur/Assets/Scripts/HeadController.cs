@@ -18,6 +18,7 @@ public class HeadController : MonoBehaviour {
     private float timeToNextPenalty;
 
     private bool playerDied = false;
+    private bool headStopped = false;
 
     private Rigidbody rb;
 
@@ -41,27 +42,31 @@ public class HeadController : MonoBehaviour {
         sizeCamX = Camera.main.orthographicSize * 16 / 9;
 
         timeToNextPenalty = 1f / penaltyRate;
-        
-        timeText = GameObject.FindGameObjectsWithTag(Tags.counterText)[0].GetComponent<TextMeshProUGUI>();
     }
 
     private void Update()
     {
         // Look at what position is the player in the Y axis and move the head 
-        float posY = player.position.y < 5.5f ? 5.5f : player.position.y;
-        posY = Mathf.Lerp(transform.position.y, posY, 1.5f * Time.deltaTime);
-        transform.position = new Vector3(transform.position.x, posY, transform.position.z);
+        if (!headStopped)
+        {
+            float posY = player.position.y < 5.5f ? 5.5f : player.position.y;
+            posY = Mathf.Lerp(transform.position.y, posY, 1.5f * Time.deltaTime);
+            transform.position = new Vector3(transform.position.x, posY, transform.position.z);
+        }
 
         // Calculate the time needed until the head reaches the player and show it in the canvas
         float distance = Vector3.Magnitude(player.position - transform.position);
         time = distance / velocityX;
-        if(timeText != null)
-            if(playerDied)
+
+        GameObject timeTextGO = GameObject.FindGameObjectWithTag(Tags.timeCounterText);
+        if (timeTextGO != null)
+        {
+            timeText = timeTextGO.GetComponent<TextMeshProUGUI>();
+            if (playerDied)
                 timeText.text = "GOT YA!!";
             else
                 timeText.text = string.Concat("La Criatura-Hotolur: ", (float)(Mathf.Floor(time * 10) / 10), " s");
-        else
-            timeText = GameObject.FindGameObjectsWithTag(Tags.counterText)[0].GetComponent<TextMeshProUGUI>();
+        }
 
         // Get the position of the left side of the camera and if the position of the head is
         // greater than the position of the left side the hurt the player
@@ -91,6 +96,7 @@ public class HeadController : MonoBehaviour {
     public void StopHead(float stopTime)
     {
         rb.velocity = Vector3.zero;
+        headStopped = true;
         StartCoroutine(ReactivateHead(stopTime));
     }
 
@@ -100,6 +106,7 @@ public class HeadController : MonoBehaviour {
         yield return new WaitForSeconds(stopTime);
 
         rb.velocity = new Vector3(velocityX, 0f, 0f);
+        headStopped = false;
     }
 
 }

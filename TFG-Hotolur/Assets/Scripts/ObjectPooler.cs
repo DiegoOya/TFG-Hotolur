@@ -95,7 +95,7 @@ public class ObjectPooler : MonoBehaviour {
         objectToSpawn.transform.rotation = rotation;
 
         // Search for SmallAttack in the objectToSpawn and if it exists then the variables player, enemy and range are passed to smallAttack
-        SmallAttack smallAttack = objectToSpawn.GetComponent<SmallAttack>();
+        LongRangeAttack smallAttack = objectToSpawn.GetComponent<LongRangeAttack>();
 
         if (smallAttack != null)
         {

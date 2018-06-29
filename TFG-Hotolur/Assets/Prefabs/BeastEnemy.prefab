@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4067542192540402}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightHandThumb2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,7 +34,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4864048812986910}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49,7 +49,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4080006042016262}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:LeftToe_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4583783471633118}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:LeftLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -79,7 +79,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4355725303233758}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightHandIndex2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4752576760206864}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:LeftShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 4130219366343888}
   - component: {fileID: 135032945323362430}
   - component: {fileID: 114881554295327496}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: WeaponHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,10 +132,10 @@ GameObject:
   - component: {fileID: 82743808908725456}
   - component: {fileID: 136850076603192344}
   - component: {fileID: 114464142730378104}
+  - component: {fileID: 114852799240309552}
   - component: {fileID: 114411678775740228}
   - component: {fileID: 114574127115631626}
-  - component: {fileID: 114852799240309552}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: BeastEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -150,7 +150,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4876396713355418}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:LeftArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,7 +165,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4351397579626194}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightHandPinky1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4641173702954964}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:LeftFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -195,7 +195,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4214411904214968}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightToe_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -211,7 +211,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4169781127325772}
   - component: {fileID: 137423823913749156}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: MutantMesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,7 +226,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4195462070676828}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightHandPinky4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -241,7 +241,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4836555898500172}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightFoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -256,7 +256,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4937713006774440}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:LeftToeBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -271,7 +271,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4343978289686112}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightToeBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -286,7 +286,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4122025386421362}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:LeftHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,7 +301,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4682539461283660}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightHandIndex4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -316,7 +316,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4003271355384868}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightShoulder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -331,7 +331,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4688154444002070}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightHandThumb3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,7 +346,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4577760366389332}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightHandIndex3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -361,7 +361,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4258519471113104}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightHandPinky2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -376,7 +376,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4123791692662660}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -391,7 +391,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4550713523493632}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightHandIndex1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -406,7 +406,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4344415077576844}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:Spine2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -421,7 +421,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4946950312589126}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:Spine1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -436,7 +436,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4528521911895708}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:LeftUpLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -451,7 +451,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4917750481580352}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightHandThumb4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -466,7 +466,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4830626687530154}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:LeftForeArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -481,7 +481,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4724241563603644}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightForeArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -496,7 +496,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4124189140881482}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:HeadTop_End
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -511,7 +511,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4320810638433798}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightHand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -526,7 +526,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4002981285142034}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightUpLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -541,7 +541,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4247797442048042}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightHandThumb1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -556,7 +556,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4006954662304834}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:Neck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -571,7 +571,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4573684054951892}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightHandPinky3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -586,7 +586,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4074024728093428}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:Spine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -601,7 +601,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4067689918613146}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:Hips
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -616,7 +616,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4483626456376782}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Mutant:RightLeg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -730,15 +730,15 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1165895502503112}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -4.145088, y: 2.4709866, z: 0}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: 38.9, y: 0.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4067689918613146}
   - {fileID: 4169781127325772}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
 --- !u!4 &4122025386421362
 Transform:
   m_ObjectHideFlags: 1
@@ -1327,7 +1327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7591c7431704f04a99ac3b494f9f795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 10
+  radius: 50
   interactionTransform: {fileID: 4089764846550546}
   attackRadius: 5
   turnSmoothing: 5
@@ -1360,8 +1360,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d29e9246bf1512a4984548969d0153b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 70
+  points: 30
+  maxHealth: 55
   deactivateTime: 4
+  probabilityDropItem: 0.4
+  factorPoints: 10
+  probabilityItemsList:
+  - nameItem: FirstAid20%
+    probabilityDrop: 0.25
+  - nameItem: FirstAid50%
+    probabilityDrop: 0.2
+  - nameItem: FirstAid100%
+    probabilityDrop: 0.05
+  - nameItem: Watch 1s
+    probabilityDrop: 0.25
+  - nameItem: Watch 3s
+    probabilityDrop: 0.2
+  - nameItem: Watch 5s
+    probabilityDrop: 0.05
 --- !u!114 &114881554295327496
 MonoBehaviour:
   m_ObjectHideFlags: 1
