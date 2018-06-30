@@ -1233,9 +1233,9 @@ MonoBehaviour:
   meleeAnim: {fileID: 7400000, guid: deb15763415db5d47b6a4b661263c3ba, type: 3}
   audioThrow: {fileID: 8300000, guid: b1c669d0586669a4b8a93262c37be692, type: 3}
   audioMelee: {fileID: 8300000, guid: 4082532080b91034f98b4a72ca44afca, type: 3}
-  volumeSounds: 0.6
+  volumeSounds: 0.4
   shortRangeRadius: 1.5
-  probShortRange: 0.5
+  probShortRange: 0.4
 --- !u!114 &114464142730378104
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1247,7 +1247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7591c7431704f04a99ac3b494f9f795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 50
+  radius: 10
   interactionTransform: {fileID: 4089764846550546}
   attackRadius: 5
   turnSmoothing: 5
@@ -1283,7 +1283,7 @@ MonoBehaviour:
   points: 30
   maxHealth: 55
   deactivateTime: 4
-  volumeSounds: 0.7
+  volumeSounds: 0.4
   audioDeath: {fileID: 8300000, guid: 6100673cc3637674081b3cae45ab993a, type: 3}
   probabilityDropItem: 0.4
   factorPoints: 10
@@ -1333,7 +1333,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.2
+  m_Radius: 0.3
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}

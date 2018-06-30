@@ -4452,7 +4452,7 @@ MonoBehaviour:
   shotgunBulletsToOverload: 8
   rifleBulletsToOverload: 30
   timeCoolDown: 5
-  volumeSounds: 0.7
+  volumeSounds: 0.5
 --- !u!114 &114432284850915298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4469,7 +4469,7 @@ MonoBehaviour:
   audioDeath: {fileID: 8300000, guid: 5e3d53453ac5ae34ea626a54f24b7ffb, type: 3}
   isHurt: 0
   isDead: 0
-  volumeSounds: 0.7
+  volumeSounds: 0.5
 --- !u!114 &114919280624621584
 MonoBehaviour:
   m_ObjectHideFlags: 1

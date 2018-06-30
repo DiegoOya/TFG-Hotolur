@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.4964127, b: 0.57481724, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -2064,10 +2064,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4189452435197866, guid: 9fc14c37536c5b942ab5d3d5584571c7, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 180
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9fc14c37536c5b942ab5d3d5584571c7, type: 2}
   m_IsPrefabParent: 0
@@ -3768,7 +3764,16 @@ Prefab:
     - target: {fileID: 224603436663144816, guid: 15b160da518a55b49b6c3da9f550cc08,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -907.1429
+      value: -5.845276
+      objectReference: {fileID: 0}
+    - target: {fileID: 224603436663144816, guid: 15b160da518a55b49b6c3da9f550cc08,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -265.18695
+      objectReference: {fileID: 0}
+    - target: {fileID: 1733029493699212, guid: 15b160da518a55b49b6c3da9f550cc08, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 15b160da518a55b49b6c3da9f550cc08, type: 2}
@@ -4267,6 +4272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioCheckpoint: {fileID: 8300000, guid: d4ffb9ef7f493134d9e03a5eb762720f, type: 3}
+  volumeSounds: 0.5
 --- !u!23 &933009200
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4482,6 +4488,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 23882013392511166, guid: bd950a2fec35d2f438ce07560563ab96,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e108fca3cf21e4e4e9c6f4e99f4a7de4, type: 2}
+    - target: {fileID: 23943357226675650, guid: bd950a2fec35d2f438ce07560563ab96,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e108fca3cf21e4e4e9c6f4e99f4a7de4, type: 2}
+    - target: {fileID: 23928747579047760, guid: bd950a2fec35d2f438ce07560563ab96,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: e108fca3cf21e4e4e9c6f4e99f4a7de4, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bd950a2fec35d2f438ce07560563ab96, type: 2}
   m_IsPrefabParent: 0
@@ -5152,6 +5173,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioCheckpoint: {fileID: 8300000, guid: d4ffb9ef7f493134d9e03a5eb762720f, type: 3}
+  volumeSounds: 0.5
 --- !u!1001 &1130788919
 Prefab:
   m_ObjectHideFlags: 0

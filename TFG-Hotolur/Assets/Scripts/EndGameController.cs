@@ -45,11 +45,12 @@ public class EndGameController : MonoBehaviour {
 
             endPanel.SetActive(true);
             GameController.instance.doingSetup = true;
-            headController.StopHead(20f);
+            headController.StopHead(3600f);
 
             if (GameController.instance.points >= GameController.instance.pointsToWin)
             {
                 AudioSource.PlayClipAtPoint(audioWin, transform.position, volumeSounds);
+                GameController.instance.audioSource.Stop();
                 winText.text = string.Concat("¡Has ganado! \nLos puntos obtenidos han sido: ", GameController.instance.points.ToString(), 
                     "\nCon un tiempo: ", headController.time.ToString(), "\n\n  Escribe tu nombre (máx. 3 caracteres): ");
                 nameIF.enabled = true;
@@ -57,6 +58,7 @@ public class EndGameController : MonoBehaviour {
             else
             {
                 AudioSource.PlayClipAtPoint(audioLose, transform.position, volumeSounds);
+                GameController.instance.audioSource.Stop();
                 winText.text = string.Concat("¡Oooh! No has coseguido los puntos necesarios \nLos puntos obtenidos han sido: ", GameController.instance.points.ToString(),
                    "\nCon un tiempo: ", headController.time.ToString(), "\n\n  Suerte en el próximo intento");
 
@@ -68,8 +70,7 @@ public class EndGameController : MonoBehaviour {
     private IEnumerator LoadMenu()
     {
         yield return new WaitForSeconds(5f);
-
-        Time.timeScale = 1f;
+        
         GameController.instance.NewGame(0);
     }
 

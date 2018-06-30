@@ -116,6 +116,7 @@ MonoBehaviour:
   audioDiesByHim: {fileID: 8300000, guid: 66df0523dca4f4c438aa11ec3e21b6fe, type: 3}
   velocityX: 3.3
   penaltyRate: 2
+  volumeSounds: 0.5
 --- !u!135 &135561797323636560
 SphereCollider:
   m_ObjectHideFlags: 1

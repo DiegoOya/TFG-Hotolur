@@ -97,6 +97,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioWin: {fileID: 8300000, guid: f63a578c752215849979fc6ec18d4687, type: 3}
   audioLose: {fileID: 8300000, guid: 31368746864a2974dba578ccb4deae7b, type: 3}
+  volumeSounds: 0.7
   factorPoints: 10
 --- !u!136 &136597842100455792
 CapsuleCollider:

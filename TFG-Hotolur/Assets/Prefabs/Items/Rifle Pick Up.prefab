@@ -36,7 +36,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1702556466081570}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 10.015115, y: -1.6649418, z: -3.6932356}
+  m_LocalPosition: {x: 248.9, y: 5.5, z: -3.6932356}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children: []
   m_Father: {fileID: 0}
@@ -96,5 +96,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   interactionTransform: {fileID: 4162786113594594}
-  pickUpAnim: {fileID: 7400000, guid: 282171a6aa1003f439c852163998aa64, type: 3}
   item: {fileID: 11400000, guid: 725308e1bb7d29c448ebd1a15d30af12, type: 2}
+  volumeSounds: 0.4

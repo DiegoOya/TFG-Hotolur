@@ -189,16 +189,17 @@ public class PlayerShoot : MonoBehaviour {
         GameObject shot;
         BulletController bulletController;
 
-        Vector3 pos = new Vector3(transform.position.x, transform.position.y, 0f);
+        Vector3 pos;
 
         switch (weaponType)
         {
             case WeaponTypes.Pistol:
                 // Play the shot sound
-                AudioSource.PlayClipAtPoint(audioPistol, transform.position, volumeSounds);
+                AudioSource.PlayClipAtPoint(audioPistol, transform.position, volumeSounds + 0.2f);
 
                 // Spawn a bullet in the pool, assign its values and initialize it
-                shot = objPooler.SpawnFromPool("Bullet", endGunPistol.position, Quaternion.Euler(player.transform.forward));
+                pos = new Vector3(endGunPistol.position.x, endGunPistol.position.y, 0f);
+                shot = objPooler.SpawnFromPool("Bullet", pos, Quaternion.Euler(player.transform.forward));
                 bulletController = shot.GetComponent<BulletController>();
                 bulletController.SetMaxDamage(maxDamage);
                 bulletController.SetRange(range);
@@ -213,7 +214,8 @@ public class PlayerShoot : MonoBehaviour {
                     AudioSource.PlayClipAtPoint(audioShotgun, transform.position, volumeSounds);
 
                     // Spawn a bullet in the pool, assign its values and initialize it
-                    shot = objPooler.SpawnFromPool("Bullet", endGunShotgun.position, Quaternion.Euler(player.transform.forward));
+                    pos = new Vector3(endGunShotgun.position.x, endGunShotgun.position.y, 0f);
+                    shot = objPooler.SpawnFromPool("Bullet", pos, Quaternion.Euler(player.transform.forward));
                     bulletController = shot.GetComponent<BulletController>();
                     bulletController.SetMaxDamage(maxDamage);
                     bulletController.SetRange(range);
@@ -228,10 +230,11 @@ public class PlayerShoot : MonoBehaviour {
                 if (rifleBulletsUsed < rifleBulletsToOverload)
                 {
                     // Play the shot sound
-                    AudioSource.PlayClipAtPoint(audioRifle, transform.position, volumeSounds);
+                    AudioSource.PlayClipAtPoint(audioRifle, transform.position, volumeSounds - 0.1f);
 
                     // Spawn a bullet in the pool, assign its values and initialize it
-                    shot = objPooler.SpawnFromPool("Bullet", endGunRifle.position, Quaternion.Euler(player.transform.forward));
+                    pos = new Vector3(endGunRifle.position.x, endGunRifle.position.y, 0f);
+                    shot = objPooler.SpawnFromPool("Bullet", pos, Quaternion.Euler(player.transform.forward));
                     bulletController = shot.GetComponent<BulletController>();
                     bulletController.SetMaxDamage(maxDamage);
                     bulletController.SetRange(range);

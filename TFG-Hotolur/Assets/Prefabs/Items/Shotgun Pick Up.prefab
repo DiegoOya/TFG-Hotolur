@@ -84,8 +84,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1940963334510518}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: -0.7071068, w: 0}
-  m_LocalPosition: {x: 0.24, y: -0.032, z: 0.009}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
+  m_LocalPosition: {x: 51.8, y: 1.4, z: 0.009}
   m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
   m_Children:
   - {fileID: 4695978475724580}
@@ -93,7 +93,7 @@ Transform:
   - {fileID: 4996271711843250}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 270, y: 0, z: 180}
+  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 180}
 --- !u!4 &4489450868542936
 Transform:
   m_ObjectHideFlags: 1
@@ -269,5 +269,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   interactionTransform: {fileID: 4189452435197866}
-  pickUpAnim: {fileID: 7400000, guid: 282171a6aa1003f439c852163998aa64, type: 3}
   item: {fileID: 11400000, guid: 9ccdf4ae1965fbd49b7badf16f6c8053, type: 2}
+  volumeSounds: 0.4

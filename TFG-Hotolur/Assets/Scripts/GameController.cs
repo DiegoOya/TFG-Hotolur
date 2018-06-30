@@ -53,7 +53,10 @@ public class GameController : MonoBehaviour {
     public AudioClip menuAudio;
     //[HideInInspector]
     public AudioClip gameAudio;
-    
+
+    [HideInInspector]
+    public AudioSource audioSource;
+
     [HideInInspector]
     public int lastCheckpoint;
     [HideInInspector]
@@ -73,9 +76,7 @@ public class GameController : MonoBehaviour {
     private TextMeshProUGUI pointsToWinText;
     private TextMeshProUGUI rankingText;
     private TextMeshProUGUI addPointsText;
-
-    private AudioSource audioSource;
-
+    
     private List<Transform> checkpoints = new List<Transform>();
 
     private List<Weapon> weapons = new List<Weapon>();
@@ -318,9 +319,13 @@ public class GameController : MonoBehaviour {
     {
         SceneManager.LoadScene(buildIndex);
 
+        if(!audioSource.isPlaying)
+            audioSource.Play();
+
         gameBeated = false;
 
-        StartCoroutine(NewSceneLoadedByNewGame());
+        if(buildIndex != 0)
+            StartCoroutine(NewSceneLoadedByNewGame());
     }
 
     public void AudioManagement()
@@ -418,7 +423,7 @@ public class GameController : MonoBehaviour {
 
         points = 0;
         UpdatePoints(0);
-
+        
         doingSetup = false;
     }
 

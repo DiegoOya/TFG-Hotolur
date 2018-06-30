@@ -88,6 +88,15 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+        else
+        {
+            if(GameController.instance.doingSetup)
+            {
+                anim.SetFloat(HashIDs.instance.speedFloat, 0f);
+
+                isWalking = false;
+            }
+        }
     }
 
     private void MovementManagement(float horizontal, bool jump)

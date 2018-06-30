@@ -97,4 +97,4 @@ MonoBehaviour:
   radius: 1
   interactionTransform: {fileID: 400000}
   item: {fileID: 11400000, guid: 8d905e819251d1a468f41a8bce2ba955, type: 2}
-  volumeSounds: 0.6
+  volumeSounds: 0.5

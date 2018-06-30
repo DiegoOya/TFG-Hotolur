@@ -83,6 +83,7 @@ MonoBehaviour:
   audioJump: {fileID: 8300000, guid: 5a46ddb29139b0f4cb9bdf3e55a04796, type: 3}
   jumpForce: 6
   jumpTime: 0.3
+  volumeSounds: 0.5
 --- !u!206 &206476927538841260
 BlendTree:
   m_ObjectHideFlags: 1

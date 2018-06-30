@@ -47,8 +47,7 @@ public class SmallEnemyAttack : MonoBehaviour, IEnemyAttack {
     // Here is the AI of the attack and the attack per se
     public void Attack(Transform player, Transform enemy, float range)
     {
-        if(attackCoolDown <= 0f && (!anim.GetBool(HashIDs.instance.throwBool) || 
-            (anim.GetCurrentAnimatorStateInfo(0).fullPathHash != HashIDs.instance.dyingState)))
+        if(attackCoolDown <= 0f && !anim.GetBool(HashIDs.instance.throwBool))
         {
             tryingToAttack = true;
             StartCoroutine(DoAttack(player, enemy, range));

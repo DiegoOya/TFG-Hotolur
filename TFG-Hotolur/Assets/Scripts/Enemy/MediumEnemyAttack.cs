@@ -42,7 +42,7 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
 
     private Animator anim;
 
-    //private AudioSource audioSource;
+    private EnemyHealth enemyHealth;
 
     // Initialize variables
     private void Start()
@@ -55,7 +55,7 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
         timeThrowAnim = throwAnim.length;
         timeMeleeAnim = meleeAnim.length;
 
-        //audioSource = GetComponent<AudioSource>();
+        enemyHealth = GetComponent<EnemyHealth>();
     }
 
     private void Update()
@@ -65,13 +65,17 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
 
         if (attackCoolDown <= 0f && (!anim.GetBool(HashIDs.instance.throwBool) || !anim.GetBool(HashIDs.instance.meleeBool)))
             isAttacking = false;
+
+        if (enemyHealth.GetHealth() <= 0f)
+        {
+            isAttacking = false;
+        }
     }
 
     // Here is the AI of the attack and the attack per se
     public void Attack(Transform player, Transform enemy, float range)
     {
-        if (attackCoolDown <= 0f && (!anim.GetBool(HashIDs.instance.throwBool) || !anim.GetBool(HashIDs.instance.meleeBool) || 
-            (anim.GetCurrentAnimatorStateInfo(0).fullPathHash != HashIDs.instance.dyingState)))
+        if (attackCoolDown <= 0f && (!anim.GetBool(HashIDs.instance.throwBool) || !anim.GetBool(HashIDs.instance.meleeBool)))
         {
             if (!tryingToAttack)
             {
@@ -126,9 +130,7 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
         // Instantiate the attack and deactivate the animation
         objPooler.SpawnFromPool("Medium Weapon", enemyHand.position, Quaternion.identity, player, enemy, range);
         anim.SetBool(HashIDs.instance.throwBool, false);
-
-        //audioSource.clip = audioThrow;
-        //audioSource.Play();
+        
         AudioSource.PlayClipAtPoint(audioThrow, transform.position, volumeSounds);
     }
 
@@ -140,33 +142,38 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
         {
             yield return new WaitForSeconds(0.3f);
 
-            // Calculate the distance between the player and the enemy
-            float distance = Mathf.Sqrt(
-                (player.position.x - transform.position.x) * (player.position.x - transform.position.x) +
-                (player.position.y - transform.position.y) * (player.position.y - transform.position.y));
-
-            // If the player is inside shortRangeRadius then the attack will be the short range attack
-            if (distance < shortRangeRadius)
+            if (enemyHealth.GetHealth() > 0f)
             {
-                // Activate anim
-                anim.SetBool(HashIDs.instance.meleeBool, true);
-                isAttacking = true;
-                tryingToAttack = false;
+                // Calculate the distance between the player and the enemy
+                float distance = Mathf.Sqrt(
+                    (player.position.x - transform.position.x) * (player.position.x - transform.position.x) +
+                    (player.position.y - transform.position.y) * (player.position.y - transform.position.y));
+
+                // If the player is inside shortRangeRadius then the attack will be the short range attack
+                if (distance < shortRangeRadius)
+                {
+                    // Activate anim
+                    anim.SetBool(HashIDs.instance.meleeBool, true);
+                    isAttacking = true;
+                    tryingToAttack = false;
+                    hasAttacked = true;
+
+                    // Reset attackCoolDown
+                    attackCoolDown = timeMeleeAnim / anim.GetCurrentAnimatorStateInfo(0).speed;
+
+                    AudioSource.PlayClipAtPoint(audioMelee, transform.position, volumeSounds);
+
+                    yield return new WaitForSeconds(0.001f);
+
+                    // Wait the time needed to throw the attack in the optimal gesture of the animation
+                    yield return new WaitForSeconds(timeMeleeAnim / (4f * anim.GetNextAnimatorStateInfo(0).speed));
+
+                    anim.SetBool(HashIDs.instance.meleeBool, false);
+                }
+            }
+            else
+            {
                 hasAttacked = true;
-
-                // Reset attackCoolDown
-                attackCoolDown = timeMeleeAnim / anim.GetCurrentAnimatorStateInfo(0).speed;
-
-                //audioSource.clip = audioMelee;
-                //audioSource.Play();
-                AudioSource.PlayClipAtPoint(audioMelee, transform.position, volumeSounds);
-
-                yield return new WaitForSeconds(0.001f);
-
-                // Wait the time needed to throw the attack in the optimal gesture of the animation
-                yield return new WaitForSeconds(timeMeleeAnim / (4f * anim.GetNextAnimatorStateInfo(0).speed));
-
-                anim.SetBool(HashIDs.instance.meleeBool, false);
             }
         }
     }
