@@ -21,6 +21,11 @@ public class EnemyHealth : MonoBehaviour {
     // Maximum health of the character and the time the enemy lasts to deactivate
     public float maxHealth = 100f;
     public float deactivateTime = 3f;
+    [SerializeField]
+    private float volumeSounds = 0.7f;
+
+    // Audio when the enemy dies
+    public AudioClip audioDeath;
 
     private float health;
     [SerializeField]
@@ -84,6 +89,8 @@ public class EnemyHealth : MonoBehaviour {
         factor = factor <= 0.5f ? 0.5f : factor;
         points = points * factor;
         GameController.instance.UpdatePoints(Mathf.FloorToInt(points));
+
+        AudioSource.PlayClipAtPoint(audioDeath, transform.position, volumeSounds);
 
         StartCoroutine(DeactivateEnemy());
     }

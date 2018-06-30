@@ -13,5 +13,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Potion 50%
   icon: {fileID: 0}
-  sound: {fileID: 8300000, guid: 6c2b8ab2014467f4cabd90856720758c, type: 3}
+  sound: {fileID: 8300000, guid: cc4c97ddc41c1b94e9315930b3d9096a, type: 3}
   percentageHealthToHeal: 50

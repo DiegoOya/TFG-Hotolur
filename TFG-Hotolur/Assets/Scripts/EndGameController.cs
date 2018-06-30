@@ -7,6 +7,12 @@ using UnityEngine;
 /// </summary>
 public class EndGameController : MonoBehaviour {
 
+    // Sounds when the player wins or loses
+    public AudioClip audioWin;
+    public AudioClip audioLose;
+
+    [SerializeField]
+    private float volumeSounds = 0.7f;
     [SerializeField]
     private float factorPoints = 10f;
 
@@ -43,12 +49,14 @@ public class EndGameController : MonoBehaviour {
 
             if (GameController.instance.points >= GameController.instance.pointsToWin)
             {
+                AudioSource.PlayClipAtPoint(audioWin, transform.position, volumeSounds);
                 winText.text = string.Concat("¡Has ganado! \nLos puntos obtenidos han sido: ", GameController.instance.points.ToString(), 
                     "\nCon un tiempo: ", headController.time.ToString(), "\n\n  Escribe tu nombre (máx. 3 caracteres): ");
                 nameIF.enabled = true;
             }
             else
             {
+                AudioSource.PlayClipAtPoint(audioLose, transform.position, volumeSounds);
                 winText.text = string.Concat("¡Oooh! No has coseguido los puntos necesarios \nLos puntos obtenidos han sido: ", GameController.instance.points.ToString(),
                    "\nCon un tiempo: ", headController.time.ToString(), "\n\n  Suerte en el próximo intento");
 

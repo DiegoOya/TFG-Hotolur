@@ -49,9 +49,9 @@ public class GameController : MonoBehaviour {
     // Number of lives the player will have, when it reaches zero the player has to start from the start
     public int lives = 3;
 
-    [HideInInspector]
+    //[HideInInspector]
     public AudioClip menuAudio;
-    [HideInInspector]
+    //[HideInInspector]
     public AudioClip gameAudio;
     
     [HideInInspector]
@@ -73,7 +73,6 @@ public class GameController : MonoBehaviour {
     private TextMeshProUGUI pointsToWinText;
     private TextMeshProUGUI rankingText;
     private TextMeshProUGUI addPointsText;
-    private TextMeshProUGUI gotItemText;
 
     private AudioSource audioSource;
 
@@ -133,12 +132,14 @@ public class GameController : MonoBehaviour {
     {
         points += numPoints;
 
-        // If addPointsTextGO isn't null then show in the screen the number of points gotten, if not then search for it
+        // If addPointsTextGO isn't null then show in the screen the number of points obtained, if not then search for it
         GameObject addPointsTextGO = GameObject.FindGameObjectWithTag(Tags.addPointsText);
-        if (addPointsTextGO != null)
+        if (addPointsTextGO != null && numPoints != 0)
         {
             addPointsText = addPointsTextGO.GetComponent<TextMeshProUGUI>();
             addPointsText.text = string.Concat("+", numPoints.ToString());
+            addPointsText.color = new Color(0, 1, 0, 1);
+            StartCoroutine(DeactivateText(addPointsText));
         }
 
         // If pointsTextGO isn't null then show in the screen the number of points, if not then search for it
@@ -338,7 +339,7 @@ public class GameController : MonoBehaviour {
     }
 
     // Search for all the weapons in the scene and add them to a list
-    private void AddWeapons()
+    private GameObject[] AddWeapons()
     {
         GameObject[] weaponList = GameObject.FindGameObjectsWithTag(Tags.weapon);
         weapons.Clear(); // Clear the list in case it was already used
@@ -346,6 +347,9 @@ public class GameController : MonoBehaviour {
         {
             weapons.Add((Weapon)weaponList[i].GetComponent<ItemPickUp>().GetItem());
         }
+
+        // Return the list of GameObjects of the weapons if it is needed
+        return weaponList;
     }
 
     // Search for all the checkpoints in the scene and add them to a list
@@ -423,7 +427,9 @@ public class GameController : MonoBehaviour {
         yield return new WaitForSeconds(1f);
 
         AddCheckpoints();
-        
+        GameObject[] weaponsGO = AddWeapons();
+
+
         Checkpoint CP = checkpoints[lastCheckpoint].GetComponent<Checkpoint>();
         if (CP != null)
             CP.SetHasEntered(true);
@@ -434,8 +440,7 @@ public class GameController : MonoBehaviour {
 
             points = 0;
             UpdatePoints(0);
-
-            AddWeapons();
+            
             List<Weapon> initialWeapon = new List<Weapon>();
             for (int i = 0; i < weapons.Count; i++)
             {
@@ -458,6 +463,20 @@ public class GameController : MonoBehaviour {
 
         Inventory.instance.EquipActualWeapon();
 
+        // Look if there is any weapon equipped visible in the game, if there is any move it where it is not visible
+        List<Weapon> weaponListInv = Inventory.instance.GetWeapons();
+        for (int i = 0; i < weapons.Count; i++)
+        {
+            for (int j = 0; j < weaponListInv.Count; j++)
+            {
+                if (weapons[i].name == weaponListInv[j].name)
+                {
+                    weaponsGO[i].transform.position = new Vector3(-50f, 0f, 0f);
+                    break;
+                }
+            }
+        }
+
         UpdatePoints(0);
 
         doingSetup = false;
@@ -468,7 +487,7 @@ public class GameController : MonoBehaviour {
         yield return new WaitForSeconds(1f);
 
         AddCheckpoints();
-        AddWeapons();
+        GameObject[] weaponsGO = AddWeapons();
 
         lastCheckpoint = checkpointIndex;
         Checkpoint CP = checkpoints[lastCheckpoint].GetComponent<Checkpoint>();
@@ -484,6 +503,7 @@ public class GameController : MonoBehaviour {
         for (int i = 0; i < weaponsIndex.Count; i++)
         {
             weaponList.Add(weapons[weaponsIndex[i]]);
+            weaponsGO[weaponsIndex[i]].transform.position = new Vector3(-50f, 0f, 0f);
         }
 
         GameObject.FindGameObjectWithTag(Tags.player).transform.position = checkpoints[lastCheckpoint].position;
@@ -495,6 +515,14 @@ public class GameController : MonoBehaviour {
         AudioManagement();
 
         doingSetup = false;
+    }
+
+    // "Deactivate" the addPointsText by making it transparent modifying the alpha component
+    private IEnumerator DeactivateText(TextMeshProUGUI text)
+    {
+        yield return new WaitForSeconds(2f);
+        
+        text.color = new Color(0, 0, 0, 0);
     }
 
 }

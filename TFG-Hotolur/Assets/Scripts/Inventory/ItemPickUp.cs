@@ -11,17 +11,18 @@ public class ItemPickUp : Interactable {
     [SerializeField]
     private Item item;
 
+    private bool itemPickedUp = false;
+
+    [SerializeField]
+    private float volumeSounds = 0.7f;
+
     private Animator anim;
 
     private TextMeshProUGUI gotItemText;
-
-    private AudioSource audioSource;
-
+    
     private void Start()
     {
         anim = player.GetComponent<Animator>();
-
-        audioSource = player.GetComponents<AudioSource>()[2];
     }
 
     // Called when the player can interact with the item
@@ -44,23 +45,26 @@ public class ItemPickUp : Interactable {
         {
             bool pickedUp = Inventory.instance.Add(item);
 
-            audioSource.clip = item.sound;
-            audioSource.Play();
+            AudioSource.PlayClipAtPoint(item.sound, transform.position, volumeSounds);
 
             // If the weapon was picked up then deactivate it
             if (pickedUp)
             {
-                gameObject.SetActive(false);
-            }
+                transform.position = new Vector3(-50f, 0f, 0f);
 
-            // If gotItemTextGO isn't null then show in the screen the object gotten, if not then search for it
-            GameObject gotItemTextGO = GameObject.FindGameObjectWithTag(Tags.addPointsText);
-            if (gotItemTextGO != null)
-            {
-                gotItemText = gotItemTextGO.GetComponent<TextMeshProUGUI>();
-                gotItemText.text = string.Concat(item.name.ToString());
-            }
+                // If gotItemTextGO isn't null then show in the screen the object gotten, if not then search for it
+                GameObject gotItemTextGO = GameObject.FindGameObjectWithTag(Tags.GotItemText);
+                if (gotItemTextGO != null)
+                {
+                    gotItemText = gotItemTextGO.GetComponent<TextMeshProUGUI>();
+                    gotItemText.text = string.Concat(item.name.ToString());
+                    gotItemText.color = new Color(0, 1, 0, 1);
+                    StartCoroutine(DeactivateText(gotItemText));
+                }
 
+                itemPickedUp = true;
+            }
+            
             return;
         }
         else
@@ -68,32 +72,37 @@ public class ItemPickUp : Interactable {
             if (item is Potion)
             {
                 // If gotItemTextGO isn't null then show in the screen the object gotten, if not then search for it
-                GameObject gotItemTextGO = GameObject.FindGameObjectWithTag(Tags.addPointsText);
+                GameObject gotItemTextGO = GameObject.FindGameObjectWithTag(Tags.GotItemText);
                 if (gotItemTextGO != null)
                 {
                     gotItemText = gotItemTextGO.GetComponent<TextMeshProUGUI>();
                     Potion potion = (Potion)item;
-                    gotItemText.text = string.Concat("+", potion.percentageHealthToHeal.ToString(), " HP");
+                    gotItemText.text = string.Concat("+", potion.percentageHealthToHeal.ToString(), "% HP");
+                    gotItemText.color = new Color(0, 1, 0, 1);
+                    StartCoroutine(DeactivateText(gotItemText));
                 }
             }
             else
             {
                 // If gotItemTextGO isn't null then show in the screen the object gotten, if not then search for it
-                GameObject gotItemTextGO = GameObject.FindGameObjectWithTag(Tags.addPointsText);
+                GameObject gotItemTextGO = GameObject.FindGameObjectWithTag(Tags.GotItemText);
                 if (gotItemTextGO != null)
                 {
                     gotItemText = gotItemTextGO.GetComponent<TextMeshProUGUI>();
                     Watch watch = (Watch)item;
                     gotItemText.text = string.Concat("+", watch.stopTime.ToString(), " s");
+                    gotItemText.color = new Color(0, 1, 0, 1);
+                    StartCoroutine(DeactivateText(gotItemText));
                 }
             }
         }
 
-        // If it is another item then play the sound and destroy it
-        audioSource.clip = item.sound;
-        audioSource.Play();
+        // Play the clip attached to the item
+        AudioSource.PlayClipAtPoint(item.sound, transform.position, volumeSounds);
 
-        Destroy(gameObject);
+        itemPickedUp = true;
+        transform.position = new Vector3(-50f, 0f, 0f);
+        Destroy(gameObject, item.sound.length);
     }
 
     // Activate the pick up animation
@@ -107,7 +116,18 @@ public class ItemPickUp : Interactable {
         // Deactivate the pick up animation, because it has exit time it will wait until the animation ends
         anim.SetBool(HashIDs.instance.pickUpBool, false);
 
-        PickUp();
+        if (!itemPickedUp)
+        {
+            PickUp();
+        }
+    }
+
+    // "Deactivate" the addPointsText by making it transparent modifying the alpha component
+    private IEnumerator DeactivateText(TextMeshProUGUI text)
+    {
+        yield return new WaitForSeconds(item.sound.length * 0.8f);
+
+        text.color = new Color(0, 0, 0, 0);
     }
 
     public Item GetItem()

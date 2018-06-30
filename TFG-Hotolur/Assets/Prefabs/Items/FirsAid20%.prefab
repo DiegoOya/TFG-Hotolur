@@ -96,5 +96,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 1
   interactionTransform: {fileID: 400000}
-  pickUpAnim: {fileID: 7400000, guid: 282171a6aa1003f439c852163998aa64, type: 3}
   item: {fileID: 11400000, guid: b7c7616b332114549bd0e99110076047, type: 2}
+  volumeSounds: 0.6

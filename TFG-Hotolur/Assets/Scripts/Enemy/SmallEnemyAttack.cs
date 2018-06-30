@@ -13,17 +13,19 @@ public class SmallEnemyAttack : MonoBehaviour, IEnemyAttack {
     [HideInInspector]
     public AnimationClip throwAnim;
 
+    public AudioClip audioThrow;
+
     private bool isAttacking = false;
     private bool tryingToAttack = false;
 
     private ObjectPooler objPooler;
 
+    [SerializeField]
+    private float volumeSounds = 0.7f;
     private float attackCoolDown = 0f;
     private float timeThrowAnim;
 
     private Animator anim;
-
-    private AudioSource audioSource;
 
     // Initialize variables
     private void Start()
@@ -31,8 +33,6 @@ public class SmallEnemyAttack : MonoBehaviour, IEnemyAttack {
         objPooler = ObjectPooler.instance;
         anim = GetComponent<Animator>();
         timeThrowAnim = throwAnim.length;
-
-        audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -74,8 +74,8 @@ public class SmallEnemyAttack : MonoBehaviour, IEnemyAttack {
         // Instantiate the attack and deactivate the animation
         objPooler.SpawnFromPool("Small Weapon", enemyHand.position, Quaternion.identity, player, enemy, range);
         anim.SetBool(HashIDs.instance.throwBool, false);
-
-        audioSource.Play();
+        
+        AudioSource.PlayClipAtPoint(audioThrow, transform.position, volumeSounds);
     }
 
     public bool GetIsAttacking()

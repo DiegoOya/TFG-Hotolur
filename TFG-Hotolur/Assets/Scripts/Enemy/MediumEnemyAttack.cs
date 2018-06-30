@@ -19,9 +19,9 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
     public AnimationClip meleeAnim;
 
     // References of the attack sounds
-    [HideInInspector]
+    //[HideInInspector]
     public AudioClip audioThrow;
-    [HideInInspector]
+    //[HideInInspector]
     public AudioClip audioMelee;
 
     private bool isAttacking = false;
@@ -29,6 +29,8 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
 
     private ObjectPooler objPooler;
 
+    [SerializeField]
+    private float volumeSounds = 0.7f;
     [SerializeField]
     private float shortRangeRadius = 1.5f;
     [SerializeField]
@@ -40,7 +42,7 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
 
     private Animator anim;
 
-    private AudioSource audioSource;
+    //private AudioSource audioSource;
 
     // Initialize variables
     private void Start()
@@ -53,7 +55,7 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
         timeThrowAnim = throwAnim.length;
         timeMeleeAnim = meleeAnim.length;
 
-        audioSource = GetComponent<AudioSource>();
+        //audioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -125,8 +127,9 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
         objPooler.SpawnFromPool("Medium Weapon", enemyHand.position, Quaternion.identity, player, enemy, range);
         anim.SetBool(HashIDs.instance.throwBool, false);
 
-        audioSource.clip = audioThrow;
-        audioSource.Play();
+        //audioSource.clip = audioThrow;
+        //audioSource.Play();
+        AudioSource.PlayClipAtPoint(audioThrow, transform.position, volumeSounds);
     }
 
     // Coroutine of the enemy short range attack
@@ -154,8 +157,9 @@ public class MediumEnemyAttack : MonoBehaviour, IEnemyAttack
                 // Reset attackCoolDown
                 attackCoolDown = timeMeleeAnim / anim.GetCurrentAnimatorStateInfo(0).speed;
 
-                audioSource.clip = audioMelee;
-                audioSource.Play();
+                //audioSource.clip = audioMelee;
+                //audioSource.Play();
+                AudioSource.PlayClipAtPoint(audioMelee, transform.position, volumeSounds);
 
                 yield return new WaitForSeconds(0.001f);
 

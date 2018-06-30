@@ -953,7 +953,6 @@ GameObject:
   - component: {fileID: 95014305362920118}
   - component: {fileID: 195269347470696182}
   - component: {fileID: 54871003013319268}
-  - component: {fileID: 82492265622717032}
   - component: {fileID: 136452810050596972}
   - component: {fileID: 114724839675337908}
   - component: {fileID: 114506230811426572}
@@ -2030,86 +2029,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
---- !u!82 &82492265622717032
-AudioSource:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1934140309463028}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: b1c669d0586669a4b8a93262c37be692, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!95 &95014305362920118
 Animator:
   serializedVersion: 3
@@ -2159,6 +2078,8 @@ MonoBehaviour:
   points: 15
   maxHealth: 30
   deactivateTime: 4
+  volumeSounds: 0.5
+  audioDeath: {fileID: 8300000, guid: 1d9409c8d7cc4484c9cdb2e56bfa44b4, type: 3}
   probabilityDropItem: 0.2
   factorPoints: 10
   probabilityItemsList:
@@ -2202,6 +2123,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyHand: {fileID: 4415255021220652}
   throwAnim: {fileID: 7400000, guid: ef43c2f65b5c4c64a8474960ff37e4c3, type: 3}
+  audioThrow: {fileID: 8300000, guid: 5177fdbbc9b6df146a47e2876d6948f6, type: 3}
+  volumeSounds: 0.7
 --- !u!136 &136452810050596972
 CapsuleCollider:
   m_ObjectHideFlags: 1

@@ -79,13 +79,15 @@ public class Inventory : MonoBehaviour {
                 break;
             }
         }
+
         if (pickup)
         {
             // Add the item to the list
             weapons.Add((Weapon)weapon);
         }
 
-        ChangeWeapon();
+        index = weapons.Count - 1;
+        EquipActualWeapon();
 
         if(OnItemChangedCallBack != null)
             OnItemChangedCallBack.Invoke();
@@ -108,8 +110,11 @@ public class Inventory : MonoBehaviour {
         if(playerShoot == null)
             playerShoot = GameObject.FindGameObjectWithTag(Tags.player).GetComponentInChildren<PlayerShoot>();
         int maxLength = weapons.Count;
-        index = index + 1 < maxLength ? index + 1 : 0;
-        playerShoot.EquipWeapon(weapons[index].maxDamage, weapons[index].range, weapons[index].fireRate, weapons[index].weaponType);
+        if (maxLength != 0)
+        {
+            index = index + 1 < maxLength ? index + 1 : 0;
+            playerShoot.EquipWeapon(weapons[index].maxDamage, weapons[index].range, weapons[index].fireRate, weapons[index].weaponType);
+        }
     }
 
     public void EquipActualWeapon()

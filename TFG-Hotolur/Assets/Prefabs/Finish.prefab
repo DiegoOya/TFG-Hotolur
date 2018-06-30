@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33798872839900508}
   - component: {fileID: 136597842100455792}
   - component: {fileID: 23320235694755830}
+  - component: {fileID: 114840870007635544}
   m_Layer: 0
   m_Name: Finish
   m_TagString: Untagged
@@ -36,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1103369551153466}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.69, y: 1.5, z: 0}
+  m_LocalPosition: {x: 384.61, y: 8.44, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -83,6 +84,20 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1103369551153466}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &114840870007635544
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1103369551153466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17134a2869b22564990684e5a292ed32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioWin: {fileID: 8300000, guid: f63a578c752215849979fc6ec18d4687, type: 3}
+  audioLose: {fileID: 8300000, guid: 31368746864a2974dba578ccb4deae7b, type: 3}
+  factorPoints: 10
 --- !u!136 &136597842100455792
 CapsuleCollider:
   m_ObjectHideFlags: 1

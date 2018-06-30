@@ -9,6 +9,10 @@ public class HeadController : MonoBehaviour {
 
     [HideInInspector]
     public float time;
+
+    // Sounds of the head when the player dies next to him or by him
+    public AudioClip audioNextToHim;
+    public AudioClip audioDiesByHim;
     
     private float sizeCamX;
     [SerializeField]
@@ -16,9 +20,12 @@ public class HeadController : MonoBehaviour {
     [SerializeField]
     private float penaltyRate = 2f;
     private float timeToNextPenalty;
+    [SerializeField]
+    private float volumeSounds = 0.7f;
 
     private bool playerDied = false;
     private bool headStopped = false;
+    private bool headLaughed = false;
 
     private Rigidbody rb;
 
@@ -62,8 +69,12 @@ public class HeadController : MonoBehaviour {
         if (timeTextGO != null)
         {
             timeText = timeTextGO.GetComponent<TextMeshProUGUI>();
-            if (playerDied)
+            if (playerDied && !headLaughed)
+            {
+                AudioSource.PlayClipAtPoint(audioDiesByHim, transform.position, volumeSounds);
                 timeText.text = "GOT YA!!";
+                headLaughed = true;
+            }
             else
                 timeText.text = string.Concat("La Criatura-Hotolur: ", (float)(Mathf.Floor(time * 10) / 10), " s");
         }
@@ -71,15 +82,22 @@ public class HeadController : MonoBehaviour {
         // Get the position of the left side of the camera and if the position of the head is
         // greater than the position of the left side the hurt the player
         float posCameraSide = cam.position.x - sizeCamX; 
-        if (transform.position.x + 5f > posCameraSide && timeToNextPenalty < 0 && playerHealth.GetHealth() > 0)
+        if (transform.position.x + 5f > posCameraSide)
         {
-            playerHealth.PenaltyDamage(2f);
-            timeToNextPenalty = 1f / penaltyRate;
+            if (timeToNextPenalty < 0 && playerHealth.GetHealth() > 0)
+            {
+                playerHealth.PenaltyDamage(2f);
+                timeToNextPenalty = 1f / penaltyRate;
+            }
+
+            if (playerHealth.GetHealth() <= 0 && !headLaughed)
+            {
+                AudioSource.PlayClipAtPoint(audioNextToHim, transform.position, volumeSounds);
+                headLaughed = true;
+            }
         }
-        else
-        {
-            timeToNextPenalty -= Time.deltaTime;
-        }
+
+        timeToNextPenalty -= Time.deltaTime;
     }
 
     private void OnTriggerEnter(Collider other)

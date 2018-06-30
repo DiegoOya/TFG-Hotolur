@@ -13,7 +13,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Pistol
   icon: {fileID: 0}
-  sound: {fileID: 8300000, guid: b6312a7dfce166249a6f70c02da86971, type: 3}
+  sound: {fileID: 8300000, guid: db9e7238551dc914f96f5fe29bbff8e6, type: 3}
+  weaponType: 0
   maxDamage: 25
-  fireRate: 5
+  fireRate: 4
   range: 8

@@ -80,6 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c3ba59f300ff204bb3fe147d1b0cef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioJump: {fileID: 8300000, guid: 5a46ddb29139b0f4cb9bdf3e55a04796, type: 3}
   jumpForce: 6
   jumpTime: 0.3
 --- !u!206 &206476927538841260

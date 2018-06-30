@@ -10,6 +10,10 @@ public class PlayerHealth : MonoBehaviour {
 
     // Health variables, maxHealth can be modified at the editor
     public float maxHealth = 100f;
+
+    // Sound of the hitReaction and death of the player
+    public AudioClip audioHitReaction;
+    public AudioClip audioDeath;
     
     private float health = 100;
 
@@ -18,6 +22,9 @@ public class PlayerHealth : MonoBehaviour {
     public bool isHurt = false;
     [HideInInspector]
     public bool isDead = false;
+
+    [SerializeField]
+    private float volumeSounds = 0.7f;
 
     // Slider that will tell the player health
     private Slider healthSlider;
@@ -91,6 +98,8 @@ public class PlayerHealth : MonoBehaviour {
         health -= damage;
 
         SliderValue();
+
+        AudioSource.PlayClipAtPoint(audioHitReaction, transform.position, volumeSounds);
         StartCoroutine(HitReaction());
         
         // If the player health is less than 0, then the player dies
@@ -158,6 +167,8 @@ public class PlayerHealth : MonoBehaviour {
         {
             // Animacion Die de prueba
             anim.SetBool(HashIDs.instance.deadBool, true);
+
+            AudioSource.PlayClipAtPoint(audioDeath, transform.position, volumeSounds);
 
             StartCoroutine(DeactivateCollider());
         }

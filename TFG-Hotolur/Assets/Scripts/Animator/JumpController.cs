@@ -4,11 +4,17 @@
 /// Script used to manage the Jump animation of the player
 /// </summary>
 public class JumpController : StateMachineBehaviour {
+
+    // Sound of the jump
+    public AudioClip audioJump;
+
     // Force used to jump, the max time of the jump to be allowed to happen,
     // and a counter to track how long it has been jumping
     [SerializeField] private float jumpForce;
     [SerializeField] private float jumpTime;
     private float jumpTimeCounter;
+    [SerializeField]
+    private float volumeSounds = 0.7f;
 
     // The stoppedJumping bool lets us track when the player stops jumping.
     private bool stoppedJumping;
@@ -17,14 +23,13 @@ public class JumpController : StateMachineBehaviour {
 
     private PlayerHealth playerHealth;
 
-    private AudioSource playerAudioSource;
+    //private AudioSource playerAudioSource;
+
 
     private void Awake()
     {
         rb = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Rigidbody>();
         playerHealth = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<PlayerHealth>();
-
-        playerAudioSource = GameObject.FindGameObjectWithTag(Tags.player).GetComponents<AudioSource>()[1];
     }
 
     // Called when the animation starts
@@ -37,7 +42,7 @@ public class JumpController : StateMachineBehaviour {
         rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
         stoppedJumping = false;
 
-        playerAudioSource.Play();
+        AudioSource.PlayClipAtPoint(audioJump, playerHealth.transform.position, volumeSounds);
     }
 
     // OnStateMove is called right after Animator.OnAnimatorMove()

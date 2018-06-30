@@ -30,6 +30,18 @@ public class PlayerShoot : MonoBehaviour {
     //[HideInInspector]
     public Material matRifle;
 
+    public GameObject pistol;
+    public GameObject shotgun;
+    public GameObject rifle;
+
+    public Transform endGunPistol;
+    public Transform endGunShotgun;
+    public Transform endGunRifle;
+
+    public MeshRenderer rendPistol;
+    public MeshRenderer rendShotgun;
+    public MeshRenderer rendRifle;
+
     // Number of bullets the enemy is going to have until the weapon overloads
     [SerializeField]
     private int shotgunBulletsToOverload = 8;
@@ -39,17 +51,18 @@ public class PlayerShoot : MonoBehaviour {
     private int rifleBulletsUsed = 0;
 
 
-    // Variables to determine the damage of the gun and the next time the gun shoots
-    private float damage = 0f;
+    // Variables to determine when the next shot is going to be and the cool down of the weapons
     private float timerNextShot = 0f;
     [SerializeField]
     private float timeCoolDown = 5f;
     private float shotgunCoolDown = 0f;
     private float rifleCoolDown = 0f;
+    [SerializeField]
+    private float volumeSounds = 0.7f;
+
+    private GameObject actualWeapon;
 
     private Transform player;
-
-    private AudioSource audioSource;
 
     private Animator anim;
 
@@ -57,14 +70,13 @@ public class PlayerShoot : MonoBehaviour {
     private Color colorShotgun;
     private Color colorRifle;
     
-    private MeshRenderer renderer;
+    //private MeshRenderer renderer;
 
     private ObjectPooler objPooler;
 
     private void Start()
     {
         anim = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
 
         player = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<Transform>();
         
@@ -72,7 +84,9 @@ public class PlayerShoot : MonoBehaviour {
         colorShotgun = matShotgun.color;
         colorRifle = matRifle.color;
 
-        renderer = transform.parent.GetComponentInChildren<MeshRenderer>();
+        //renderer = transform.parent.GetComponentInChildren<MeshRenderer>();
+
+        actualWeapon = pistol;
 
         objPooler = ObjectPooler.instance;
     }
@@ -92,43 +106,55 @@ public class PlayerShoot : MonoBehaviour {
             Shoot();
         }
 
-        if (timerNextShot >= 0.2f / fireRate)
-        {
-            // Stop the sound effect
-            audioSource.Stop();
-        }
-
         if(weaponType == WeaponTypes.Pistol)
         {
-            if(renderer == null)
+            //if(renderer == null)
+            //{
+            //    renderer = transform.parent.GetComponentInChildren<MeshRenderer>();
+            //}
+            if (actualWeapon != pistol)
             {
-                renderer = transform.parent.GetComponentInChildren<MeshRenderer>();
+                actualWeapon.SetActive(false);
+                pistol.SetActive(true);
+                actualWeapon = pistol;
             }
-            renderer.material.color = colorPistol;
+            rendPistol.material.color = colorPistol;
         }
         else
         {
-            if (renderer == null)
-            {
-                renderer = transform.parent.GetComponentInChildren<MeshRenderer>();
-            }
+            //if (renderer == null)
+            //{
+            //    renderer = transform.parent.GetComponentInChildren<MeshRenderer>();
+            //}
             if (weaponType == WeaponTypes.Shotgun)
             {
+                if(actualWeapon != shotgun)
+                {
+                    actualWeapon.SetActive(false);
+                    shotgun.SetActive(true);
+                    actualWeapon = shotgun;
+                }
                 if (shotgunBulletsUsed >= shotgunBulletsToOverload)
-                    renderer.material.color = Color.red;
+                    rendShotgun.material.color = Color.red;
                 else
-                    renderer.material.color = colorPistol;
+                    rendShotgun.material.color = colorShotgun;
             }
             else
             {
-                if (renderer == null)
+                //if (renderer == null)
+                //{
+                //    renderer = transform.parent.GetComponentInChildren<MeshRenderer>();
+                //}
+                if (actualWeapon != rifle)
                 {
-                    renderer = transform.parent.GetComponentInChildren<MeshRenderer>();
+                    actualWeapon.SetActive(false);
+                    rifle.SetActive(true);
+                    actualWeapon = rifle;
                 }
                 if (rifleBulletsUsed >= rifleBulletsToOverload)
-                    renderer.material.color = Color.red;
+                    rendRifle.material.color = Color.red;
                 else
-                    renderer.material.color = colorPistol;
+                    rendRifle.material.color = colorRifle;
             }
         }
 
@@ -168,15 +194,11 @@ public class PlayerShoot : MonoBehaviour {
         switch (weaponType)
         {
             case WeaponTypes.Pistol:
-                // If audioSource is not playing then play the sound effect 
-                if (!audioSource.isPlaying)
-                {
-                    audioSource.clip = audioPistol;
-                    audioSource.Play();
-                }
+                // Play the shot sound
+                AudioSource.PlayClipAtPoint(audioPistol, transform.position, volumeSounds);
 
                 // Spawn a bullet in the pool, assign its values and initialize it
-                shot = objPooler.SpawnFromPool("Bullet", pos, Quaternion.Euler(player.transform.forward));
+                shot = objPooler.SpawnFromPool("Bullet", endGunPistol.position, Quaternion.Euler(player.transform.forward));
                 bulletController = shot.GetComponent<BulletController>();
                 bulletController.SetMaxDamage(maxDamage);
                 bulletController.SetRange(range);
@@ -187,15 +209,11 @@ public class PlayerShoot : MonoBehaviour {
             case WeaponTypes.Shotgun:
                 if (shotgunBulletsUsed < shotgunBulletsToOverload)
                 {
-                    // If audioSource is not playing then play the sound effect 
-                    if (!audioSource.isPlaying)
-                    {
-                        audioSource.clip = audioShotgun;
-                        audioSource.Play();
-                    }
+                    // Play the shot sound
+                    AudioSource.PlayClipAtPoint(audioShotgun, transform.position, volumeSounds);
 
                     // Spawn a bullet in the pool, assign its values and initialize it
-                    shot = objPooler.SpawnFromPool("Bullet", pos, Quaternion.Euler(player.transform.forward));
+                    shot = objPooler.SpawnFromPool("Bullet", endGunShotgun.position, Quaternion.Euler(player.transform.forward));
                     bulletController = shot.GetComponent<BulletController>();
                     bulletController.SetMaxDamage(maxDamage);
                     bulletController.SetRange(range);
@@ -209,15 +227,11 @@ public class PlayerShoot : MonoBehaviour {
             case WeaponTypes.Rifle:
                 if (rifleBulletsUsed < rifleBulletsToOverload)
                 {
-                    // If audioSource is not playing then play the sound effect 
-                    if (!audioSource.isPlaying)
-                    {
-                        audioSource.clip = audioRifle;
-                        audioSource.Play();
-                    }
+                    // Play the shot sound
+                    AudioSource.PlayClipAtPoint(audioRifle, transform.position, volumeSounds);
 
                     // Spawn a bullet in the pool, assign its values and initialize it
-                    shot = objPooler.SpawnFromPool("Bullet", pos, Quaternion.Euler(player.transform.forward));
+                    shot = objPooler.SpawnFromPool("Bullet", endGunRifle.position, Quaternion.Euler(player.transform.forward));
                     bulletController = shot.GetComponent<BulletController>();
                     bulletController.SetMaxDamage(maxDamage);
                     bulletController.SetRange(range);

@@ -54,7 +54,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 00c2608a9ef7f7948911718e7796cf04, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 631a4fd6f55dfed4eae83255e3e8720b, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -192,11 +192,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lives: 3
-  menuAudio: {fileID: 8300000, guid: 00c2608a9ef7f7948911718e7796cf04, type: 3}
-  gameAudio: {fileID: 8300000, guid: 8fe85ea90daeb394699982540794c7c4, type: 3}
+  menuAudio: {fileID: 8300000, guid: 631a4fd6f55dfed4eae83255e3e8720b, type: 3}
+  gameAudio: {fileID: 8300000, guid: 44595b472e9d57f4386dfbedbf07a390, type: 3}
   lastCheckpoint: 6
-  headPosition: {x: 0, y: 0, z: 0}
+  points: 0
+  pointsToWin: 500
   doingSetup: 0
+  gameBeated: 0
 --- !u!114 &114990245197388824
 MonoBehaviour:
   m_ObjectHideFlags: 1

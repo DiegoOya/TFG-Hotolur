@@ -112,6 +112,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   time: 0
+  audioNextToHim: {fileID: 8300000, guid: 3d00c07e37ccd224a98a23070d6bcdc7, type: 3}
+  audioDiesByHim: {fileID: 8300000, guid: 66df0523dca4f4c438aa11ec3e21b6fe, type: 3}
   velocityX: 3.3
   penaltyRate: 2
 --- !u!135 &135561797323636560

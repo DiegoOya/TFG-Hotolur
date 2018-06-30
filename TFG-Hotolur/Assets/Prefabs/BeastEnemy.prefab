@@ -129,7 +129,6 @@ GameObject:
   - component: {fileID: 95255521729496530}
   - component: {fileID: 195814084000825816}
   - component: {fileID: 54501106623299270}
-  - component: {fileID: 82743808908725456}
   - component: {fileID: 136850076603192344}
   - component: {fileID: 114464142730378104}
   - component: {fileID: 114852799240309552}
@@ -1201,86 +1200,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 120
   m_CollisionDetection: 0
---- !u!82 &82743808908725456
-AudioSource:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1165895502503112}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - serializedVersion: 2
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 2
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!95 &95255521729496530
 Animator:
   serializedVersion: 3
@@ -1313,7 +1232,8 @@ MonoBehaviour:
   throwAnim: {fileID: 7400000, guid: 8aab811e09f1f0e44b55df9f6b7e873d, type: 3}
   meleeAnim: {fileID: 7400000, guid: deb15763415db5d47b6a4b661263c3ba, type: 3}
   audioThrow: {fileID: 8300000, guid: b1c669d0586669a4b8a93262c37be692, type: 3}
-  audioMelee: {fileID: 8300000, guid: bbfb839001c871d4abc981c5616ab9b7, type: 3}
+  audioMelee: {fileID: 8300000, guid: 4082532080b91034f98b4a72ca44afca, type: 3}
+  volumeSounds: 0.6
   shortRangeRadius: 1.5
   probShortRange: 0.5
 --- !u!114 &114464142730378104
@@ -1363,6 +1283,8 @@ MonoBehaviour:
   points: 30
   maxHealth: 55
   deactivateTime: 4
+  volumeSounds: 0.7
+  audioDeath: {fileID: 8300000, guid: 6100673cc3637674081b3cae45ab993a, type: 3}
   probabilityDropItem: 0.4
   factorPoints: 10
   probabilityItemsList:

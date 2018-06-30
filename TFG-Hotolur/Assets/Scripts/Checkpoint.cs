@@ -5,6 +5,12 @@
 /// </summary>
 public class Checkpoint : MonoBehaviour {
 
+    // Audio when the player enters the checkpoint
+    public AudioClip audioCheckpoint;
+
+    [SerializeField]
+    private float volumeSounds = 0.7f;
+
     private bool hasEntered = false;
 
     private void OnTriggerEnter(Collider other)
@@ -14,6 +20,7 @@ public class Checkpoint : MonoBehaviour {
         {
             GameController.instance.CheckpointEntered(transform.position);
             GameObject.FindGameObjectWithTag(Tags.player).GetComponent<PlayerHealth>().HealPlayer(100);
+            AudioSource.PlayClipAtPoint(audioCheckpoint, transform.position, volumeSounds);
             hasEntered = true;
         }
     }

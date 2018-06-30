@@ -113,10 +113,13 @@ public class Enemy : Interactable {
         // If it is the first time the enemy detect the player then apply a random stopping distance the 20% of the attackRadius
         if(!playerDetected)
         {
-            agent.stoppingDistance = Random.Range(attackRadius * 0.8f, attackRadius * 1.2f);
-            attackRadius = agent.stoppingDistance;
+            if (!GameController.instance.doingSetup)
+            {
+                agent.stoppingDistance = Random.Range(attackRadius * 0.8f, attackRadius * 1.2f);
+                attackRadius = agent.stoppingDistance;
 
-            playerDetected = true;
+                playerDetected = true;
+            }
         }
         else
         {
